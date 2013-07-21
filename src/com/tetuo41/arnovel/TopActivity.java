@@ -19,6 +19,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
     
     /*
      * クリック時の処理
+     * Test
      * 
      * */
     
