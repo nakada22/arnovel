@@ -17,4 +17,10 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <!-- Top theme. -->
+    <style name="app_theme" parent="android:Theme">
+        <item name="android:windowBackground">@drawable/top_background</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
 </resources>

@@ -8,9 +8,45 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".TopActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+    <!-- ロケノベルタイトル -->
+	<ImageView  
+	  android:id="@+id/loca_novel"  
+	  android:layout_width="wrap_content"   
+	  android:layout_height="wrap_content" 
+	  android:layout_centerHorizontal="true"
+	  android:layout_alignParentTop="true"
+	  android:layout_marginTop="30dp"
+	  android:src="@drawable/loca_novel" >  
+	</ImageView>
 
+	<!-- ピンマーク -->
+	<ImageView  
+	  android:id="@+id/pin_mark"  
+	  android:layout_width="wrap_content"   
+	  android:layout_height="wrap_content" 
+	  android:layout_centerHorizontal="true"
+	  android:layout_marginTop="85dp"
+	  android:src="@drawable/pin_mark" >  
+	</ImageView>
+	
+	<!-- START -->
+	<ImageView  
+	  android:id="@+id/start"  
+	  android:layout_width="wrap_content"   
+	  android:layout_height="wrap_content" 
+	  android:layout_centerHorizontal="true"
+	  android:layout_marginTop="295dp"
+	  android:src="@drawable/start" >  
+	</ImageView>
+
+	<!-- RECORD -->
+	<ImageView  
+	  android:id="@+id/record"  
+	  android:layout_width="wrap_content"   
+	  android:layout_height="wrap_content" 
+	  android:layout_centerHorizontal="true"
+	  android:layout_marginTop="365dp"
+	  android:src="@drawable/record" >  
+	</ImageView>
+	
 </RelativeLayout>
