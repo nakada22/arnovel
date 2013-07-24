@@ -8,7 +8,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
- 
+
+/**
+* トップ画面を表示するクラスです。
+* @author　HackathonG
+* @version 1.0
+*/
 public class TopActivity extends Activity implements View.OnClickListener{
 	
 	/** カレントパッケージ */
@@ -30,9 +35,6 @@ public class TopActivity extends Activity implements View.OnClickListener{
     
     /** 
      * コンストラクタ
-     *
-     * @param なし
-     * @return なし
      */
     public TopActivity() {
     	// 処理なし
@@ -40,11 +42,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
     
     /** 
      * ボタンクリック時の処理を記述する。
-     *
      * @param View ボタンオブジェクト
-     * @return なし
-     * @see なし
-     * @exception なし
      */
     public void onClick(View v) {
     	
@@ -68,9 +66,6 @@ public class TopActivity extends Activity implements View.OnClickListener{
     
     /** 
      * STARTボタンクリック時の処理を記述する。
-     *
-     * @param なし
-     * @return なし
      * @throws RuntimeException
      */
     private void StartClick() throws RuntimeException {
@@ -104,9 +99,6 @@ public class TopActivity extends Activity implements View.OnClickListener{
     
     /** 
      * RECORDボタンクリック時の処理を記述する。
-     *
-     * @param なし
-     * @return なし
      * @throws RuntimeException
      */
     private void RecordClick() throws RuntimeException {
@@ -120,7 +112,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
     	} catch (RuntimeException e) {
     		// スタンプログ画面へ遷移できなかった場合
     		Log.d("ERROR", e.toString());
-    		
+  
     		// アラートダイアログで警告を表示
     		AlertDialog.Builder adb = new AlertDialog.Builder(this);
     		adb.setTitle("警告");

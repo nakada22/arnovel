@@ -37,13 +37,15 @@
         <activity
             android:name=".StampLogActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/app_theme" android:restoreAnyVersion="true"
+            android:theme="@android:style/Theme.Light"
+            android:restoreAnyVersion="true"
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
         <activity
             android:name=".StageSelectActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/app_theme" android:restoreAnyVersion="true"
+            android:theme="@android:style/Theme.Light"
+            android:restoreAnyVersion="true"
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
         
