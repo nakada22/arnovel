@@ -8,35 +8,39 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".StageSelectActivity" >
 
-    <!-- ステージセレクト画像 -->
-	<ImageView  
-	  android:id="@+id/stage_select"  
-	  android:layout_width="wrap_content"   
-	  android:layout_height="wrap_content" 
-	  android:layout_centerHorizontal="true"
-	  android:layout_marginTop="30dp"
-	  android:layout_marginBottom="50dp"
-	  android:src="@drawable/stage_select" >  
-	</ImageView>
+	<TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="#FFFFFF">
+        
+	    <!-- ステージセレクト画像 -->
+		<ImageView
+		  android:id="@+id/stage_select"
+		  android:scaleType="fitCenter"
+		  android:layout_width="wrap_content"   
+		  android:layout_height="wrap_content" 
+		  android:src="@drawable/stage_select" >  
+		</ImageView>
 
-	<!--
-	<TextView
-		android:id="@+id/textView_line"
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content"
-		android:textColor="#000000"
-	/>
-	-->
-	  
-	<ImageView  
-	  android:id="@+id/stage_top_back"  
-	  android:layout_width="fill_parent"
-	  android:layout_height="wrap_content"
-	  android:orientation="horizontal"
-	  android:layout_centerHorizontal="true"
-	  android:layout_marginTop="80dp"
-	  android:scaleType="fitXY"
-	  android:src="@drawable/stage_top_back" >  
-	</ImageView>
-	    
+		<!-- 
+		<ImageView  
+		  android:id="@+id/stage_top_back"  
+		  android:layout_width="fill_parent"
+		  android:layout_height="wrap_content"
+		  android:orientation="horizontal"
+		  android:scaleType="fitXY"
+		  android:src="@drawable/stage_top_back" >  
+		</ImageView>
+		 -->
+		
+	</TableRow>
+
+	<ListView
+	    android:layout_marginTop="50dp"
+		android:id="@+id/stagelist"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+	</ListView>
+    
 </RelativeLayout>
