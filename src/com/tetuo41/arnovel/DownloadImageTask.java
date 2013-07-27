@@ -11,7 +11,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 /**
- * Web上の画像を読込タスク
+ * Web上の画像を読込タスク 
  * @author HackathonG
  */
 class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
