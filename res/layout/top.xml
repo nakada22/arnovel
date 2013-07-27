@@ -11,6 +11,7 @@
     <!-- ロケノベルタイトル -->
 	<ImageView  
 	  android:id="@+id/loca_novel"  
+	  android:scaleType="fitCenter"
 	  android:layout_width="wrap_content"   
 	  android:layout_height="wrap_content" 
 	  android:layout_centerHorizontal="true"
@@ -21,31 +22,34 @@
 
 	<!-- ピンマーク -->
 	<ImageView  
-	  android:id="@+id/pin_mark"  
+	  android:id="@+id/pin_mark" 
+	  android:scaleType="fitCenter"
 	  android:layout_width="wrap_content"   
 	  android:layout_height="wrap_content" 
 	  android:layout_centerHorizontal="true"
-	  android:layout_marginTop="85dp"
+	  android:layout_marginTop="100dp"
 	  android:src="@drawable/pin_mark" >  
 	</ImageView>
 	
 	<!-- START -->
 	<ImageView  
-	  android:id="@+id/start"  
+	  android:id="@+id/start" 
+	  android:scaleType="fitCenter"
 	  android:layout_width="wrap_content"   
 	  android:layout_height="wrap_content" 
 	  android:layout_centerHorizontal="true"
-	  android:layout_marginTop="295dp"
+	  android:layout_marginTop="370dp"
 	  android:src="@drawable/start" >  
 	</ImageView>
 
 	<!-- RECORD -->
-	<ImageView  
-	  android:id="@+id/record"  
+	<ImageView
+	  android:id="@+id/record"
+	  android:scaleType="fitCenter"
 	  android:layout_width="wrap_content"   
 	  android:layout_height="wrap_content" 
 	  android:layout_centerHorizontal="true"
-	  android:layout_marginTop="365dp"
+	  android:layout_marginTop="450dp"
 	  android:src="@drawable/record" >  
 	</ImageView>
 	

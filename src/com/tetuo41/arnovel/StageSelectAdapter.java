@@ -1,14 +1,12 @@
 package com.tetuo41.arnovel;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.NetworkOnMainThreadException;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +23,19 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
 	private ArrayList<StageSelectState> list;
     private LayoutInflater inflater;
     private ViewHolder     holder;
-
+    private Context context;
+    
     /** 
      * コンストラクタ
      *
      * @param Context
      * @param textViewResourceId
-     * @param ArrayList<StageSelectState>
+     * @param ArrayList
      */
 	public StageSelectAdapter(Context context, int textViewResourceId, ArrayList<StageSelectState> _list) {
 		super(context, textViewResourceId, _list);
 
+		this.context = context;
         this.list = _list;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -66,27 +66,24 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
         if (item != null) {
             if (holder.photo != null) {
             	
-            	try {
-            		// 画像のURLをセット
-                	// 例： http://tetuo41.com/image/locanovel/stage1.png
-                	String image_url = item.getPhotoUrl().toString();  
-                	InputStream is = (InputStream) new URL(image_url).getContent();
-                	Drawable d = Drawable.createFromStream(is, "");
-                	is.close();
-                	holder.photo.setImageDrawable(d);
-                	
-            	} catch (NetworkOnMainThreadException e) {
+            	// 画像のURLをセット
+            	String image_url = item.getPhotoUrl().toString();
+            	try{
+            		// 非同期で画像読込を実行
+                    DownloadImageTask task = 
+                    		new DownloadImageTask(holder.photo, context);
+                    task.execute(image_url);
+                } catch (NetworkOnMainThreadException e) {
             		// 3.0以降「StrictMode」がデフォルトで有効になっており
             		// メインスレッドでネットワーク処理を行うと例外がスローされる
+            		Log.d("DEBUG", position + "の画像読み込みに失敗。NetworkOnMainThreadException");
             		
-            	} catch (MalformedURLException e) {
-            		
-            	} catch (IOException e) {
-            		
+            	} catch (Exception e) {
+            		Log.d("DEBUG", position + "の画像読み込みに失敗。Exception");
             	}
             	
-
             }
+            
             if (holder.stage_title != null) {
             	// ステージタイトルがあれば
             	holder.stage_title.setText(item.getStageTitle());

@@ -37,12 +37,12 @@ public class StageSelectActivity extends Activity {
     	final ArrayList<StageSelectState> dataOfStage = new ArrayList<StageSelectState>();
     	
     	// ノベルデータをセット
-    	for (int i = 1; i <= 5; i++) {
+    	for (int i = 1; i <= 3; i++) {
     		StageSelectState sss = new StageSelectState();
-    		sss.setPhotoUrl("http://tetuo41.com/image/locanovel/stage1.png");
-    		sss.setAddress("東京都新宿区左門町17");
-    		sss.setOutLine("あらすじあらすじあらすじあらすじ");
+    		sss.setPhotoUrl("http://sashihara.web.fc2.com/image/locanovel/stage" + i +".png");
     		sss.setStageTitle("ステージタイトル");
+    		sss.setOutLine("あらすじあらすじあらすじあらすじ");
+    		sss.setAddress("東京都新宿区左門町17");
     		dataOfStage.add(sss);
     	}
     	
