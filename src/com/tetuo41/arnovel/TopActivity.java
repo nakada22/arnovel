@@ -78,7 +78,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
     		
     	} catch (RuntimeException e) {
     		// ステージセレクト画面へ遷移できなかった場合
-    		Log.d("ERROR", e.toString());
+    		Log.e("ERROR", e.toString());
     		
     		// アラートダイアログで警告を表示
     		AlertDialog.Builder adb = new AlertDialog.Builder(this);
@@ -111,7 +111,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
     		
     	} catch (RuntimeException e) {
     		// スタンプログ画面へ遷移できなかった場合
-    		Log.d("ERROR", e.toString());
+    		Log.e("ERROR", e.toString());
   
     		// アラートダイアログで警告を表示
     		AlertDialog.Builder adb = new AlertDialog.Builder(this);

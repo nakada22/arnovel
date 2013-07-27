@@ -1,7 +1,5 @@
 package com.tetuo41.arnovel;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -13,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * ステージセレクト画面へデータを渡すためのアダプター
@@ -25,6 +24,8 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
     private ViewHolder     holder;
     private Context context;
     
+
+    
     /** 
      * コンストラクタ
      *
@@ -32,14 +33,24 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
      * @param textViewResourceId
      * @param ArrayList
      */
-	public StageSelectAdapter(Context context, int textViewResourceId, ArrayList<StageSelectState> _list) {
+	public StageSelectAdapter(Context context, int textViewResourceId, 
+			ArrayList<StageSelectState> _list) {
 		super(context, textViewResourceId, _list);
-
+		
 		this.context = context;
         this.list = _list;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-
+	
+	
+	/** 
+     * ListViewで表示される分だけデータをロードする
+     *
+     * @param position
+     * @param convertView
+     * @param ViewGroup
+     * @return View ビューオブジェクト
+     */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -73,13 +84,22 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
                     DownloadImageTask task = 
                     		new DownloadImageTask(holder.photo, context);
                     task.execute(image_url);
+                    
                 } catch (NetworkOnMainThreadException e) {
-            		// 3.0以降「StrictMode」がデフォルトで有効になっており
+                	// 3.0以降「StrictMode」がデフォルトで有効になっており
             		// メインスレッドでネットワーク処理を行うと例外がスローされる
-            		Log.d("DEBUG", position + "の画像読み込みに失敗。NetworkOnMainThreadException");
+            		
+                	// 画像の読込が失敗した場合
+            		Log.e(this.getClass().getName(),"NetworkOnMainThreadException");
+            		Toast.makeText(context, "画像の読込が失敗しました。", 
+            				Toast.LENGTH_LONG).show();
             		
             	} catch (Exception e) {
-            		Log.d("DEBUG", position + "の画像読み込みに失敗。Exception");
+            		// 画像の読込が失敗した場合
+            		Log.w("WARN", e.toString());
+            		Toast.makeText(context, "画像の読込が失敗しました。", 
+            				Toast.LENGTH_LONG).show();
+            		
             	}
             	
             }

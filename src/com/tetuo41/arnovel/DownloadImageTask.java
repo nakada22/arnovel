@@ -29,9 +29,14 @@ class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
         this.context = context;
     }
 
-    // execute時のタスク本体。画像をビットマップとして読み込んで返す
+    /** 
+     * タスク本体。画像をビットマップとして読み込んで返す
+     *
+     * @param params
+     * @return Bitmap 画像
+     */
     @Override
-    protected Bitmap doInBackground(String... params) {
+    protected synchronized Bitmap doInBackground(String... params) {
         synchronized (context){
             try {
             	String str_url = params[0];
@@ -45,7 +50,7 @@ class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
 
                 return bm;
             } catch (Exception e) {
-                Log.d("DEBUG", "画像読み込みタスクで例外発生：" 
+                Log.w("WARN", "画像読み込みタスクで例外発生：" 
                     + e.toString());
                 return null;
             }

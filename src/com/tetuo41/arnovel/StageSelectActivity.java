@@ -4,16 +4,25 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 /**
  * ステージ選択画面
  * @author HackathonG
+ * @version 1.0
  */
-public class StageSelectActivity extends Activity {
+public class StageSelectActivity extends Activity{
+	
+	/** スクロール中かどうかフラグ */
+	// boolean mBusy;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,11 +30,8 @@ public class StageSelectActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.stage_select);
 		
+		// ステージリスト表示メソッド
 		StageSelectView();
-		// TextViewに線をセット
-		//TextView textView_line = (TextView) findViewById(R.id.textView_line);
-		//textView_line.setBackgroundResource(R.layout.line);
-		
     }
     
     /** 
@@ -33,10 +39,10 @@ public class StageSelectActivity extends Activity {
      * 
      */
     private void StageSelectView() {
-    	
+		
     	final ArrayList<StageSelectState> dataOfStage = new ArrayList<StageSelectState>();
     	
-    	// ノベルデータをセット
+    	// TODO ノベルデータをDBから取得・セット
     	for (int i = 1; i <= 3; i++) {
     		StageSelectState sss = new StageSelectState();
     		sss.setPhotoUrl("http://sashihara.web.fc2.com/image/locanovel/stage" + i +".png");
@@ -48,7 +54,7 @@ public class StageSelectActivity extends Activity {
     	
     	StageSelectAdapter ssa = new StageSelectAdapter(getApplicationContext(),
 				android.R.layout.simple_list_item_1, dataOfStage);
-		ListView lv = (ListView) findViewById(R.id.stagelist);
+		final ListView lv = (ListView) findViewById(R.id.stagelist);
 		lv.setAdapter(ssa);
 		
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,7 +68,9 @@ public class StageSelectActivity extends Activity {
 				//startActivity(i);
 			}
 		});
+		
+		//TODO? 最初の段階で画像データ10件読み込み、スクロール時、10件ずつ読み込めるようにしたい
+		// http://sakplus.jp/2011/05/21/stretchlist/
+		
     }
-    
-    
 }

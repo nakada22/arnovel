@@ -21,8 +21,6 @@ public class StampLogActivity extends Activity {
     /** 
      * コンストラクタ
      *
-     * @param なし
-     * @return なし
      */
     public StampLogActivity() {
     	// 処理なし
