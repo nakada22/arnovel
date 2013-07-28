@@ -66,9 +66,8 @@ public class TopActivity extends Activity implements View.OnClickListener{
     
     /** 
      * STARTボタンクリック時の処理を記述する。
-     * @throws RuntimeException
      */
-    private void StartClick() throws RuntimeException {
+    private void StartClick() {
     	
     	try {
     		// STARTボタンクリック時、スタンプログ画面へ遷移
@@ -99,9 +98,8 @@ public class TopActivity extends Activity implements View.OnClickListener{
     
     /** 
      * RECORDボタンクリック時の処理を記述する。
-     * @throws RuntimeException
      */
-    private void RecordClick() throws RuntimeException {
+    private void RecordClick() {
     	
     	try {
     		// RECORDボタンクリック時、スタンプログ画面へ遷移
