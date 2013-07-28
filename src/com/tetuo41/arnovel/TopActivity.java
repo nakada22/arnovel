@@ -16,7 +16,7 @@ import android.view.Window;
 */
 public class TopActivity extends Activity implements View.OnClickListener{
 	
-	/** カレントパッケージ */
+	/** カレントパッケージ名 */
 	private static final String CURRENT_PACKAGE = 
 			TopActivity.class.getPackage().getName();
 	
@@ -82,7 +82,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
     		
     		// アラートダイアログで警告を表示
     		AlertDialog.Builder adb = new AlertDialog.Builder(this);
-    		adb.setTitle("警告");
+    		adb.setTitle("エラー");
     		adb.setMessage("ステージセレクト画面へ遷移できませんでした");
     		adb.setPositiveButton("OK",
     	            new DialogInterface.OnClickListener() {
@@ -115,7 +115,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
   
     		// アラートダイアログで警告を表示
     		AlertDialog.Builder adb = new AlertDialog.Builder(this);
-    		adb.setTitle("警告");
+    		adb.setTitle("エラー");
     		adb.setMessage("スタンプログ画面へ遷移できませんでした");
     		adb.setPositiveButton("OK",
     	            new DialogInterface.OnClickListener() {

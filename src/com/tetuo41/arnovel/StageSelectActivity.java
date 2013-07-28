@@ -63,13 +63,14 @@ public class StageSelectActivity extends Activity{
 				StageSelectState sss = dataOfStage.get(position);
 				
 				// TODO カメラプレビュー起動、ノベルデータ保持？
+				// 参考URL http://techbooster.jpn.org/andriod/device/9632/ 
 				//Intent i = new Intent(StageSelectActivity.this, DailyActivity.class);
 				//i.putExtra("DailyState", ds);
 				//startActivity(i);
 			}
 		});
 		
-		//TODO? 最初の段階で画像データ10件読み込み、スクロール時、10件ずつ読み込めるようにしたい
+		// TODO? 最初の段階で画像データ10件読み込み、スクロール時、10件ずつ読み込めるようにしたい
 		// http://sakplus.jp/2011/05/21/stretchlist/
 		
     }

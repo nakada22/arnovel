@@ -90,7 +90,7 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
             		// メインスレッドでネットワーク処理を行うと例外がスローされる
             		
                 	// 画像の読込が失敗した場合
-            		Log.e(this.getClass().getName(),"NetworkOnMainThreadException");
+            		Log.e("WARN","NetworkOnMainThreadException");
             		Toast.makeText(context, "画像の読込が失敗しました。", 
             				Toast.LENGTH_LONG).show();
             		
