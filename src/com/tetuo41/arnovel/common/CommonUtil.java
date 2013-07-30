@@ -8,7 +8,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -45,30 +47,48 @@ public class CommonUtil {
 	 * @param u URL
 	 * @param Context コンテキスト
 	 * @throws IOException,MalformedURLException,RuntimeException
+	 * @return Map<String, List<String>> データ
 	 */
-	public Map<String, String> doNet(String u, Context context) 
-			throws IOException,MalformedURLException,RuntimeException {
+	public Map<String, List<String>> ReadCsvFile(String u, Context context) 
+			throws IOException, MalformedURLException, RuntimeException {
+		
 		// HashMapからMapのインスタンスを生成(戻り値用文字列 )
-		Map<String, String> ret = new HashMap<String, String>();
-
+		Map<String, List<String>> ret = new HashMap<String, List<String>>();
+		
+		// ステージリスト
+		List<String> stage_list = new ArrayList<String>();
+		
 		try {
-			URL url = new URL(u); // URLクラスのインスタンス作成
-			URLConnection con = url.openConnection(); // コネクションを開く。
-			InputStream is = con.getInputStream(); // 接続先のデータを取得
+			// URLクラスのインスタンス作成・コネクションを開く
+			URLConnection con = new URL(u).openConnection();
+			
+			// 接続先のデータを取得
+			InputStream is = con.getInputStream();
 
 			// 取得した文字列を文字列にして返す。
 			BufferedReader input = new BufferedReader(new InputStreamReader(is,
 					"Shift_JIS"));
 			String line = "";
 
+			// 1,stage1.png,東京都新宿区左門町17
 			while ((line = input.readLine()) != null) {
+				
 				// 1行をデータの要素に分割
 				StringTokenizer st = new StringTokenizer(line, ",");
-
+				String key = null;
+				int cnt = 0;
+				
 				// トークンの出力
 				while (st.hasMoreTokens()) {
-					ret.put(st.nextToken(), st.nextToken());
+					cnt++;
+					if (cnt == 1) {
+						// 最初の要素(ID)の場合をKEYとし値を保持しておく
+						key = st.nextToken();
+						continue;
+					}
+					stage_list.add(st.nextToken());	
 				}
+				ret.put(key, stage_list);
 			}
 			input.close();
 			return ret;

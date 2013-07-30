@@ -1,13 +1,23 @@
 package com.tetuo41.arnovel;
 
+import java.util.List;
+import java.util.Map;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
+
+import com.tetuo41.arnovel.common.CommonDef;
+import com.tetuo41.arnovel.common.CommonUtil;
+import com.tetuo41.arnovel.db.Dao;
 
 /**
 * トップ画面を表示するクラスです。
@@ -20,6 +30,14 @@ public class TopActivity extends Activity implements View.OnClickListener{
 	private static final String CURRENT_PACKAGE = 
 			TopActivity.class.getPackage().getName();
 	
+	/** 共通クラスオブジェクト */
+	private CommonUtil cmnutil;
+	private CommonDef cmndef;
+	
+	/** 外部サーバーにあるCSVファイルのURL */
+	String novel_url;
+	String stage_url;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         //Log.e(this.getClass().getName(),"onCreate");
@@ -31,13 +49,42 @@ public class TopActivity extends Activity implements View.OnClickListener{
 		findViewById(R.id.start).setOnClickListener(this);
 		findViewById(R.id.record).setOnClickListener(this);
 		
+		/** DBアクセスクラスオブジェクト */
+		Dao dao = new Dao(getApplicationContext());
+		
+		try {
+			// 非同期で外部サーバよりCSVファイル読込
+			// TODO 初期データDB登録
+			Init init = new Init();
+			init.execute();
+		} catch (NetworkOnMainThreadException e) {
+			// CSVファイル読み込み失敗したとき
+			Log.e("ERROR","NetworkOnMainThreadException");
+    		Toast.makeText(this, "CSVファイルの読込に失敗しました。", Toast.LENGTH_LONG).show();
+			
+		} catch (RuntimeException e) {
+			// インターネットに接続できなかった場合
+			Log.e("ERROR", e.toString());
+			Toast.makeText(this, "インターネットに接続えきませんでした。", Toast.LENGTH_LONG).show();
+			
+		} catch (Exception e) {
+			// CSVファイル読み込み失敗したとき
+			Log.e("ERROR", e.toString());
+			Toast.makeText(this, "CSVファイルの読込に失敗しました。", Toast.LENGTH_LONG).show();
+			
+		}
     }
     
     /** 
      * コンストラクタ
      */
     public TopActivity() {
-    	// 処理なし
+    	cmnutil = new CommonUtil();
+    	cmndef = new CommonDef();
+    	this.novel_url = "http://" + cmndef.S_HOST_NAME + 
+    			cmndef.DATA_DIR + cmndef.NOVEL_FILE;
+    	this.stage_url = "http://" + cmndef.S_HOST_NAME + 
+    			cmndef.DATA_DIR + cmndef.STAGE_FILE;
     }
     
     /** 
@@ -125,6 +172,37 @@ public class TopActivity extends Activity implements View.OnClickListener{
     		
     		// 処理を終了する
     		return;
+    	}
+    }
+    
+    /**
+     * 内部初期処理クラス
+     * 外部サーバーよりCSVファイル読込、DBへ初期データ登録
+     * 
+     * */
+    class Init extends AsyncTask<String,Void,Map<String, List<String>>>{
+    	
+    	protected Map<String, List<String>> doInBackground(String... params) {
+    		
+    		try {
+        		// ノベルファイル読込・取得
+        		Map<String, List<String>> novel_data = 
+        				cmnutil.ReadCsvFile(novel_url, getApplicationContext());
+        		Log.d("DEBUG", "ノベルファイル読込・取得完了");
+        		
+            	// ステージデータファイル読み込み
+        		Map<String, List<String>> stage_data = 
+        				cmnutil.ReadCsvFile(stage_url, getApplicationContext());
+        		Log.d("DEBUG", "ステージデータファイル読込・取得完了");
+        		
+        		// TODO データをDBに収録
+        		
+        		
+        		return null;
+        	} catch (Exception e) {
+        		Log.w("WARN", "CSVファイル読込タスクで例外発生：" + e.toString());
+                return null;
+    		}
     	}
     }
 }
