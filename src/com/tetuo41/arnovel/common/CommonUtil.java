@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -52,11 +52,8 @@ public class CommonUtil {
 	public Map<String, List<String>> ReadCsvFile(String u, Context context) 
 			throws IOException, MalformedURLException, RuntimeException {
 		
-		// HashMapからMapのインスタンスを生成(戻り値用文字列 )
-		Map<String, List<String>> ret = new HashMap<String, List<String>>();
-		
-		// ステージリスト
-		List<String> stage_list = new ArrayList<String>();
+		// LinkedHashMapからMapのインスタンスを生成(要素の挿入順を維持)
+		Map<String, List<String>> ret = new LinkedHashMap<String, List<String>>();
 		
 		try {
 			// URLクラスのインスタンス作成・コネクションを開く
@@ -76,19 +73,20 @@ public class CommonUtil {
 				// 1行をデータの要素に分割
 				StringTokenizer st = new StringTokenizer(line, ",");
 				String key = null;
-				int cnt = 0;
+				
+				// ステージリスト初期化
+				List<String> stage_list = new ArrayList<String>();
 				
 				// トークンの出力
-				while (st.hasMoreTokens()) {
-					cnt++;
-					if (cnt == 1) {
-						// 最初の要素(ID)の場合をKEYとし値を保持しておく
+				for (int i = 0; 0 < st.countTokens(); i++){
+					if (i == 0) {
 						key = st.nextToken();
-						continue;
+					} else {
+						stage_list.add(st.nextToken());
 					}
-					stage_list.add(st.nextToken());	
 				}
 				ret.put(key, stage_list);
+				
 			}
 			input.close();
 			return ret;

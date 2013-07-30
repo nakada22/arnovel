@@ -1,7 +1,9 @@
 package com.tetuo41.arnovel;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -57,20 +59,21 @@ public class TopActivity extends Activity implements View.OnClickListener{
 			// TODO 初期データDB登録
 			Init init = new Init();
 			init.execute();
+			
 		} catch (NetworkOnMainThreadException e) {
 			// CSVファイル読み込み失敗したとき
 			Log.e("ERROR","NetworkOnMainThreadException");
-    		Toast.makeText(this, "CSVファイルの読込に失敗しました。", Toast.LENGTH_LONG).show();
+    		Toast.makeText(this, cmndef.TOP_ERROR_MSG3, Toast.LENGTH_LONG).show();
 			
 		} catch (RuntimeException e) {
 			// インターネットに接続できなかった場合
 			Log.e("ERROR", e.toString());
-			Toast.makeText(this, "インターネットに接続えきませんでした。", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, cmndef.CMN_ERROR_MSG1, Toast.LENGTH_LONG).show();
 			
 		} catch (Exception e) {
 			// CSVファイル読み込み失敗したとき
 			Log.e("ERROR", e.toString());
-			Toast.makeText(this, "CSVファイルの読込に失敗しました。", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, cmndef.TOP_ERROR_MSG3, Toast.LENGTH_LONG).show();
 			
 		}
     }
@@ -96,13 +99,11 @@ public class TopActivity extends Activity implements View.OnClickListener{
     	switch (v.getId()) {
 		case R.id.start:
 			// STARTボタンクリック時
-			Log.d("DEBUG", "STARTボタンクリック");
 			StartClick();
 			
 			break;
 		case R.id.record:
 			// RECORDボタンクリック時
-			Log.d("DEBUG", "RECORDボタンクリック");
 			RecordClick();
 			
 			break;
@@ -129,7 +130,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
     		// アラートダイアログで警告を表示
     		AlertDialog.Builder adb = new AlertDialog.Builder(this);
     		adb.setTitle("エラー");
-    		adb.setMessage("ステージセレクト画面へ遷移できませんでした");
+    		adb.setMessage(cmndef.TOP_ERROR_MSG1);
     		adb.setPositiveButton("OK",
     	            new DialogInterface.OnClickListener() {
     	                public void onClick(DialogInterface dialog, int which) {
@@ -161,7 +162,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
     		// アラートダイアログで警告を表示
     		AlertDialog.Builder adb = new AlertDialog.Builder(this);
     		adb.setTitle("エラー");
-    		adb.setMessage("スタンプログ画面へ遷移できませんでした");
+    		adb.setMessage(cmndef.TOP_ERROR_MSG2);
     		adb.setPositiveButton("OK",
     	            new DialogInterface.OnClickListener() {
     	                public void onClick(DialogInterface dialog, int which) {
@@ -189,18 +190,24 @@ public class TopActivity extends Activity implements View.OnClickListener{
         		Map<String, List<String>> novel_data = 
         				cmnutil.ReadCsvFile(novel_url, getApplicationContext());
         		Log.d("DEBUG", "ノベルファイル読込・取得完了");
+        		Log.d("DEBUG",novel_data.toString());
         		
             	// ステージデータファイル読み込み
         		Map<String, List<String>> stage_data = 
         				cmnutil.ReadCsvFile(stage_url, getApplicationContext());
         		Log.d("DEBUG", "ステージデータファイル読込・取得完了");
+        		Log.d("DEBUG",stage_data.toString());
         		
-        		// TODO データをDBに収録
+        		// TODO ノベルデータをDBに収録
+        		Set novel_keySet = novel_data.keySet();
+        		Iterator novel_keyIte = novel_keySet.iterator();
         		
+        		
+        		// TODO ステージデータをDBに収録
         		
         		return null;
         	} catch (Exception e) {
-        		Log.w("WARN", "CSVファイル読込タスクで例外発生：" + e.toString());
+        		Log.e("ERROR", cmndef.TOP_ERROR_MSG3 + e.toString());
                 return null;
     		}
     	}

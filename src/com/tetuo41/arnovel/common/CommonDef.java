@@ -22,4 +22,16 @@ public class CommonDef {
     /** ディレクトリ名 */
     public final String DATA_DIR = "/data/";
     
+    /** エラーメッセージ */
+    // トップ画面用メッセージ
+    public final String TOP_ERROR_MSG1 = "ステージセレクト画面へ遷移できませんでした";
+    public final String TOP_ERROR_MSG2 = "スタンプログ画面へ遷移できませんでした";
+    public final String TOP_ERROR_MSG3 = "CSVファイルの読込に失敗しました";
+    
+    // 共通用メッセージ
+    public final String CMN_ERROR_MSG1 = "インターネットに接続できませんでした";
+    
+    
+    
+    
 }
