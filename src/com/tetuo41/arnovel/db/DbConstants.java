@@ -10,7 +10,8 @@ public class DbConstants {
 	/** データベースの名前とバージョン */
     public static final String DATABASE_NAME = "LocaNovelDB";
     public static final int DATABASE_VERSION = 1;
-
+    public static final String DB_PATH = "/data/data/com.tetuo41.arnovel/databases/";  
+    
     /** 作成・使用するテーブル名を定義する */
     public static final String TABLE1 = "mst_stamp_rally";
     public static final String TABLE2 = "mst_novel";

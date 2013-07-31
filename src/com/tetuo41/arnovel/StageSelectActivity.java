@@ -3,15 +3,12 @@ package com.tetuo41.arnovel;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.Window;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 /**
@@ -60,10 +57,16 @@ public class StageSelectActivity extends Activity{
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapterview, View view,
 					int position, long id) {
-				StageSelectState sss = dataOfStage.get(position);
+				//StageSelectState sss = dataOfStage.get(position);
 				
 				// TODO カメラプレビュー起動、ノベルデータ保持？
+				Intent i = new Intent(StageSelectActivity.this, CameraPreviewActivity.class);
+				//i.putExtra("CameraPreview", sss);
+				startActivity(i);
+				
+				
 				// 参考URL http://techbooster.jpn.org/andriod/device/9632/ 
+				//        http://blog.ayakix.com/2011/09/androidoverlay.html
 				//Intent i = new Intent(StageSelectActivity.this, DailyActivity.class);
 				//i.putExtra("DailyState", ds);
 				//startActivity(i);
@@ -74,4 +77,6 @@ public class StageSelectActivity extends Activity{
 		// http://sakplus.jp/2011/05/21/stretchlist/
 		
     }
+    
+    
 }

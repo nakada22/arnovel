@@ -27,7 +27,11 @@ public class Dao {
 	public Dao(Context context) {
 		helper = new DbOpenHelper(context);
 		cmnutil = new CommonUtil();
-		helper.getWritableDatabase();
+		//helper.getWritableDatabase();
+		
+		if (db != null) db.close();
+		SQLiteDatabase.openDatabase(DbConstants.DB_PATH + DbConstants.DATABASE_NAME, 
+				null, SQLiteDatabase.OPEN_READWRITE);
 	}
 
 	
