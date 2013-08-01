@@ -51,8 +51,6 @@ public class TopActivity extends Activity implements View.OnClickListener{
 		findViewById(R.id.start).setOnClickListener(this);
 		findViewById(R.id.record).setOnClickListener(this);
 		
-		/** DBアクセスクラスオブジェクト */
-		Dao dao = new Dao(getApplicationContext());
 		
 		try {
 			// 非同期で外部サーバよりCSVファイル読込
@@ -186,22 +184,38 @@ public class TopActivity extends Activity implements View.OnClickListener{
     	protected Map<String, List<String>> doInBackground(String... params) {
     		
     		try {
-        		// ノベルファイル読込・取得
+    			/** DBアクセスクラスオブジェクト */
+    			Dao dao = new Dao(getApplicationContext());
+    			
+        		// 1.ノベルファイル読込・取得
         		Map<String, List<String>> novel_data = 
         				cmnutil.ReadCsvFile(novel_url, getApplicationContext());
         		Log.d("DEBUG", "ノベルファイル読込・取得完了");
-        		Log.d("DEBUG",novel_data.toString());
+        		//Log.d("DEBUG",novel_data.toString());
         		
-            	// ステージデータファイル読み込み
+        		Set novel_keySet = novel_data.keySet();
+        		Iterator novel_keyIte = novel_keySet.iterator();
+        		
+        		// Log.d("DEBUG", novel_keySet.toString()); // [1, 2]
+
+        		//　TODO　1-1.ノベルデータ登録
+        		while (novel_keyIte.hasNext()) {
+        			// ノベルID
+        			String key = novel_keyIte.next().toString();
+        			// ノベルデータリスト
+        			List<String> value = novel_data.get(key);
+        			
+        			// ノベルデータの初期データDB登録
+        			dao.InitDataInsert(key, value);
+        		}
+        		
+        		
+        		
+        		// 2.ステージデータファイル読み込み
         		Map<String, List<String>> stage_data = 
         				cmnutil.ReadCsvFile(stage_url, getApplicationContext());
         		Log.d("DEBUG", "ステージデータファイル読込・取得完了");
         		Log.d("DEBUG",stage_data.toString());
-        		
-        		// TODO ノベルデータをDBに収録
-        		Set novel_keySet = novel_data.keySet();
-        		Iterator novel_keyIte = novel_keySet.iterator();
-        		
         		
         		// TODO ステージデータをDBに収録
         		
