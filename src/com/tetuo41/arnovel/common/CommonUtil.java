@@ -59,7 +59,7 @@ public class CommonUtil {
 			// URLクラスのインスタンス作成・コネクションを開く
 			URLConnection con = new URL(u).openConnection();
 			
-			// 接続先のデータを取得
+			// 接続先のデータを取得 
 			InputStream is = con.getInputStream();
 
 			// 取得した文字列を文字列にして返す。

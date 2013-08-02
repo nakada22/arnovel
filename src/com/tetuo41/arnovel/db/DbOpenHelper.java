@@ -47,7 +47,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     	
-    	if( oldVersion == 1 && newVersion == 2 ){
+    	//if( oldVersion == 1 && newVersion == 2 ){
         	String [] DATABASE_UPDATE = {DbConstants.DATABASE_UPDATE1,
         	         DbConstants.DATABASE_UPDATE2,
         		     DbConstants.DATABASE_UPDATE3,};
@@ -61,6 +61,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         		Log.e("ERROR", "データベースのバージョンアップに失敗しました。");
         	}
 	        onCreate(db);
-        }
+        //}
     }
 }

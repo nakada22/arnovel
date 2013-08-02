@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.tetuo41.arnovel.common.CommonUtil;
 
@@ -30,11 +31,6 @@ public class Dao {
 	public Dao(Context context) {
 		helper = new DbOpenHelper(context);
 		cmnutil = new CommonUtil();
-		//helper.getWritableDatabase();
-		
-		if (db != null) db.close();
-		SQLiteDatabase.openDatabase(DbConstants.DB_PATH + DbConstants.DATABASE_NAME, 
-				null, SQLiteDatabase.OPEN_READWRITE);
 	}
 	
 	/**
@@ -47,29 +43,36 @@ public class Dao {
 		String[] put_table = new String[]{"mst_novel","mst_stage_select"};
 		
 		try {
+			
 			// TODO ノベルマスタのDB登録
 			Cursor c = db.rawQuery("SELECT mn.novel_id FROM " +
 					put_table[0] + " mn WHERE mn.novel_id=?", 
 					new String[]{key});
 			
 			if (c.moveToFirst()){
-				// TODO ノベルIDがあれば、そのノベルデータをUpdateする
-				
+				Log.d("debug","c.moveToFirst()");
+				// ノベルIDがある場合、Update
 				
 			} else {
+				Log.d("debug","c.moveToFirst() else");
 				// ノベルIDがない場合、全てをInsert
 				ContentValues cv = new ContentValues();
-				cv.put("novel_id", key);
-				cv.put("stage_id", key); // ノベルIDと同じIDを登録
-				cv.put("longitude", data.get(0));
-				cv.put("latitude", data.get(1));
-				cv.put("novel_title", data.get(2));
-				cv.put("novel_data", data.get(3));
+				cv.put(DbConstants.CLM_NOVEL_ID, key);
+				cv.put(DbConstants.CLM_STAGE_ID, key); // ノベルIDと同じIDを登録
+				cv.put(DbConstants.CLM_LONGITUDE, data.get(0));
+				cv.put(DbConstants.CLM_LATITUDE, data.get(1));
+				cv.put(DbConstants.CLM_NOVEL_TITLE, data.get(2));
+				cv.put(DbConstants.CLM_NOVEL_INTRO1, data.get(3));
+				cv.put(DbConstants.CLM_NOVEL_INTRO2, data.get(4));
+				cv.put(DbConstants.CLM_NOVEL_INTRO3, data.get(5));
+				cv.put("novel_data", data.get(6));
 				db.insert(DbConstants.TABLE2, null, cv);
 				
 			}
 		} catch (RuntimeException e){
 			
+		} finally {
+			db.close();
 		}
 		
 	}

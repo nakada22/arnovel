@@ -191,7 +191,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
         		Map<String, List<String>> novel_data = 
         				cmnutil.ReadCsvFile(novel_url, getApplicationContext());
         		Log.d("DEBUG", "ノベルファイル読込・取得完了");
-        		//Log.d("DEBUG",novel_data.toString());
+        		Log.d("DEBUG",novel_data.toString());
         		
         		Set novel_keySet = novel_data.keySet();
         		Iterator novel_keyIte = novel_keySet.iterator();

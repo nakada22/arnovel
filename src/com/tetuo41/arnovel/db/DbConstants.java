@@ -9,7 +9,7 @@ public class DbConstants {
 
 	/** データベースの名前とバージョン */
     public static final String DATABASE_NAME = "LocaNovelDB";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 9;
     public static final String DB_PATH = "/data/data/com.tetuo41.arnovel/databases/";  
     
     /** 作成・使用するテーブル名を定義する */
@@ -40,7 +40,16 @@ public class DbConstants {
     
     /** ノベルタイトル */
     public static final String CLM_NOVEL_TITLE = "novel_title";
-    
+
+    /** ノベル導入部分1 */
+    public static final String CLM_NOVEL_INTRO1 = "novel_intro1";
+
+    /** ノベル導入部分2 */
+    public static final String CLM_NOVEL_INTRO2 = "novel_intro2";
+
+    /** ノベル導入部分3 */
+    public static final String CLM_NOVEL_INTRO3 = "novel_intro3";
+
     /** ノベルデータ */
     public static final String CLM_NOVEL_DATA = "novel_data";
     
@@ -72,6 +81,9 @@ public class DbConstants {
                             + CLM_LONGITUDE + " TEXT NOT NULL, "
                             + CLM_LATITUDE + " TEXT NOT NULL, "
                             + CLM_NOVEL_TITLE + " TEXT NOT NULL, "
+                            + CLM_NOVEL_INTRO1 + " TEXT NOT NULL, "
+                            + CLM_NOVEL_INTRO2 + " TEXT NOT NULL, "
+                            + CLM_NOVEL_INTRO3 + " TEXT NOT NULL, "
                             + CLM_NOVEL_DATA + " TEXT NOT NULL "
                             + " );";
     
