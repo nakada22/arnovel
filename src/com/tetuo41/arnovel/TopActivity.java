@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
 import com.tetuo41.arnovel.db.Dao;
+import com.tetuo41.arnovel.db.DbConstants;
 
 /**
 * トップ画面を表示するクラスです。
@@ -42,7 +43,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        //Log.e(this.getClass().getName(),"onCreate");
+        // Log.e(this.getClass().getName(),"onCreate");
     	super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.top);
@@ -51,10 +52,9 @@ public class TopActivity extends Activity implements View.OnClickListener{
 		findViewById(R.id.start).setOnClickListener(this);
 		findViewById(R.id.record).setOnClickListener(this);
 		
-		
 		try {
 			// 非同期で外部サーバよりCSVファイル読込
-			// TODO 初期データDB登録
+			// 初期データDB登録
 			Init init = new Init();
 			init.execute();
 			
@@ -187,7 +187,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
     			/** DBアクセスクラスオブジェクト */
     			Dao dao = new Dao(getApplicationContext());
     			
-        		// 1.ノベルファイル読込・取得
+        		/** 1.ノベルファイル読込・取得 */
         		Map<String, List<String>> novel_data = 
         				cmnutil.ReadCsvFile(novel_url, getApplicationContext());
         		Log.d("DEBUG", "ノベルファイル読込・取得完了");
@@ -195,10 +195,9 @@ public class TopActivity extends Activity implements View.OnClickListener{
         		
         		Set novel_keySet = novel_data.keySet();
         		Iterator novel_keyIte = novel_keySet.iterator();
-        		
         		// Log.d("DEBUG", novel_keySet.toString()); // [1, 2]
 
-        		//　TODO　1-1.ノベルデータ登録
+        		/**　1-1.ノベルデータ登録 */
         		while (novel_keyIte.hasNext()) {
         			// ノベルID
         			String key = novel_keyIte.next().toString();
@@ -206,18 +205,28 @@ public class TopActivity extends Activity implements View.OnClickListener{
         			List<String> value = novel_data.get(key);
         			
         			// ノベルデータの初期データDB登録
-        			dao.InitDataInsert(key, value);
+        			dao.InitDataInsert(key, value, DbConstants.TABLE2);
         		}
         		
-        		
-        		
-        		// 2.ステージデータファイル読み込み
+        		/** 2.ステージデータファイル読み込み */
         		Map<String, List<String>> stage_data = 
         				cmnutil.ReadCsvFile(stage_url, getApplicationContext());
         		Log.d("DEBUG", "ステージデータファイル読込・取得完了");
         		Log.d("DEBUG",stage_data.toString());
         		
-        		// TODO ステージデータをDBに収録
+        		Set stage_keySet = stage_data.keySet();
+        		Iterator stage_keyIte = stage_keySet.iterator();
+        		
+        		/** 2-1 ステージデータをDBに収録 */
+        		while (stage_keyIte.hasNext()) {
+        			// ステージID
+        			String key = stage_keyIte.next().toString();
+        			// ステージセレクトデータリスト
+        			List<String> value = stage_data.get(key);
+        			
+        			// ステージセレクトデータの初期データDB登録
+        			dao.InitDataInsert(key, value, DbConstants.TABLE3);
+        		}
         		
         		return null;
         	} catch (Exception e) {
