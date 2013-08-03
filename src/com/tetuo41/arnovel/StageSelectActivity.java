@@ -1,15 +1,21 @@
 package com.tetuo41.arnovel;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Surface;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.tetuo41.arnovel.common.CommonDef;
+import com.tetuo41.arnovel.common.CommonUtil;
+import com.tetuo41.arnovel.db.Dao;
 
 /**
  * ステージ選択画面
@@ -20,6 +26,13 @@ public class StageSelectActivity extends Activity{
 	
 	/** スクロール中かどうかフラグ */
 	// boolean mBusy;
+	
+	/** 共通クラスオブジェクト */
+	private CommonUtil cmnutil;
+	private CommonDef cmndef;
+	
+	/** 外部サーバーの画像URL */
+	String stage_img_url;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,20 +45,46 @@ public class StageSelectActivity extends Activity{
     }
     
     /** 
+     * コンストラクタ
+     */
+    public StageSelectActivity() {
+    	cmnutil = new CommonUtil();
+    	cmndef = new CommonDef();
+    	this.stage_img_url = "http://" + cmndef.S_HOST_NAME + 
+    			cmndef.IMAGE_DIR;
+    }
+    /** 
      * ステージリスト表示する
      * 
      */
     private void StageSelectView() {
 		
     	final ArrayList<StageSelectState> dataOfStage = new ArrayList<StageSelectState>();
-    	
+    	/** DBアクセスクラスオブジェクト */
+		Dao dao = new Dao(getApplicationContext());
+		
+    	// ステージセレクトデータ取得
+		List<List<String>> stage_data = dao.StageSelctData();
+		Log.d("DEBUG", "ステージセレクトデータ読込・取得完了");
+		Log.d("DEBUG",stage_data.toString());
+
+		//[
+		// [1, 四谷 於岩稲荷田宮神社（お岩稲荷）, 外苑東通りから５０メートル程入・・・, 東京都新宿区左門町17], 
+		// [2, 平将門首塚, 東京丸の内、日本一の近代的オフ・・・, 東京都千代田区大手町1-1-1], 
+		// [3, 道了堂跡, 鑓水という町の由来は寒村だった・・・, 東京都八王子市鑓水]
+		//]
+				
+
+
+			
     	// TODO ノベルデータをDBから取得・セット
-    	for (int i = 1; i <= 3; i++) {
+    	for (int i = 0; i < stage_data.size(); i++) {
     		StageSelectState sss = new StageSelectState();
-    		sss.setPhotoUrl("http://sashihara.web.fc2.com/image/locanovel/stage" + i +".png");
-    		sss.setStageTitle("ステージタイトル");
-    		sss.setOutLine("あらすじあらすじあらすじあらすじ");
-    		sss.setAddress("東京都新宿区左門町17");
+    		List<String> data = stage_data.get(i);
+    		sss.setPhotoUrl(stage_img_url + "stage" + data.get(0) +".png");
+    		sss.setStageTitle(data.get(1));
+    		sss.setOutLine(data.get(2));
+    		sss.setAddress(data.get(3));
     		dataOfStage.add(sss);
     	}
     	
