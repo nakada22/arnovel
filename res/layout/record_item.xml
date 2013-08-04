@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/black_bar"
+    android:orientation="horizontal" >
+
+    <!-- 1行目 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <!-- レコード一つ目 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <!-- レコード画像1 -->
+            <ImageView
+                android:id="@+id/record_img1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/oiwa_stamp" />
+
+            <!-- レコードID(ステージID)1 -->
+            <TextView
+                android:id="@+id/record_id1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- レコードタイトル(ステージタイトル)1 -->
+            <TextView
+                android:id="@+id/record_title1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+        
+        <!-- レコード２つ目 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <!-- レコード画像2 -->
+            <ImageView
+                android:id="@+id/record_img2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/oiwa_stamp" />
+
+            <!-- レコードID(ステージID)2 -->
+            <TextView
+                android:id="@+id/record_id2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- レコードタイトル(ステージタイトル)2 -->
+            <TextView
+                android:id="@+id/record_title2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- レコード3つ目 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <!-- レコード画像３ -->
+            <ImageView
+                android:id="@+id/record_img3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/oiwa_stamp" />
+
+            <!-- レコードID(ステージID) -->
+            <TextView
+                android:id="@+id/record_id3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- レコードタイトル(ステージタイトル) -->
+            <TextView
+                android:id="@+id/record_title3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 2行目 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <!-- レコード４つ目 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <!-- レコード画像 -->
+            <ImageView
+                android:id="@+id/record_img4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/oiwa_stamp" />
+
+            <!-- レコードID(ステージID) -->
+            <TextView
+                android:id="@+id/record_id4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- レコードタイトル(ステージタイトル) -->
+            <TextView
+                android:id="@+id/record_title4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- レコード5つ目 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <!-- レコード画像2 -->
+            <ImageView
+                android:id="@+id/record_img5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/oiwa_stamp" />
+
+            <!-- レコードID(ステージID) -->
+            <TextView
+                android:id="@+id/record_id5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- レコードタイトル(ステージタイトル) -->
+            <TextView
+                android:id="@+id/record_title5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- レコード6つ目 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <!-- レコード画像 -->
+            <ImageView
+                android:id="@+id/record_img6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/oiwa_stamp" />
+
+            <!-- レコードID(ステージID) -->
+            <TextView
+                android:id="@+id/record_id6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- レコードタイトル(ステージタイトル) -->
+            <TextView
+                android:id="@+id/record_title6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 3行目 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <!-- レコード7つ目 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <!-- レコード画像 -->
+            <ImageView
+                android:id="@+id/record_img7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <!-- レコードID(ステージID) -->
+            <TextView
+                android:id="@+id/record_id7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- レコードタイトル(ステージタイトル) -->
+            <TextView
+                android:id="@+id/record_title7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- レコード8つ目 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <!-- レコード画像 -->
+            <ImageView
+                android:id="@+id/record_img8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <!-- レコードID(ステージID) -->
+            <TextView
+                android:id="@+id/record_id8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- レコードタイトル(ステージタイトル) -->
+            <TextView
+                android:id="@+id/record_title8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- レコード9つ目 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            android:orientation="vertical" >
+
+            <!-- レコード画像 -->
+            <ImageView
+                android:id="@+id/record_img9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <!-- レコードID(ステージID) -->
+            <TextView
+                android:id="@+id/record_id9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- レコードタイトル(ステージタイトル) -->
+            <TextView
+                android:id="@+id/record_title9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="#000000"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

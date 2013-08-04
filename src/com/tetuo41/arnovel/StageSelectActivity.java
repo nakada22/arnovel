@@ -68,16 +68,7 @@ public class StageSelectActivity extends Activity{
 		Log.d("DEBUG", "ステージセレクトデータ読込・取得完了");
 		Log.d("DEBUG",stage_data.toString());
 
-		//[
-		// [1, 四谷 於岩稲荷田宮神社（お岩稲荷）, 外苑東通りから５０メートル程入・・・, 東京都新宿区左門町17], 
-		// [2, 平将門首塚, 東京丸の内、日本一の近代的オフ・・・, 東京都千代田区大手町1-1-1], 
-		// [3, 道了堂跡, 鑓水という町の由来は寒村だった・・・, 東京都八王子市鑓水]
-		//]
-				
-
-
-			
-    	// TODO ノベルデータをDBから取得・セット
+    	// ノベルデータをDBから取得・セット
     	for (int i = 0; i < stage_data.size(); i++) {
     		StageSelectState sss = new StageSelectState();
     		List<String> data = stage_data.get(i);
