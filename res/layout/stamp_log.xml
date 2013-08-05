@@ -1,9 +1,7 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:scaleType="fitCenter"
-    tools:context=".StampLogActivity" >
+    android:layout_height="fill_parent" >
 
     <!-- Record画像 -->
 	<!-- http://d.hatena.ne.jp/Korsakov/20110131/1296504108#a6 -->
@@ -11,96 +9,239 @@
         android:id="@+id/record_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="60dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:scaleType="fitCenter"
         android:src="@drawable/record_title" >
     </ImageView>
 
-    <Button
-        android:id="@+id/btn1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="button1"
-        android:layout_marginTop="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true">
-    </Button>
-    <Button
-        android:id="@+id/btn2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="button2"
-        android:layout_marginTop="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/btn3"
-        android:layout_toRightOf="@+id/btn1">
-    </Button>
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="button3"
-        android:layout_marginTop="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true">
-    </Button>
+    <TableRow
+        android:gravity="center"
+        android:background="#000000">
+        
+        <!-- レコード画像1 -->
+        <ImageView
+            android:id="@+id/record_img1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_margin="15dp"
+			android:gravity="center_vertical"
+            android:scaleType="fitCenter"
+            android:src="@drawable/oiwa_stamp" />
+        
+		<!-- レコード画像2 -->
+        <ImageView
+            android:id="@+id/record_img2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_margin="15dp"
+			android:gravity="center_vertical"
+			android:scaleType="fitCenter"
+            android:src="@drawable/blankstamp" />
+		<!-- レコード画像３ -->
+        <ImageView
+            android:id="@+id/record_img3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_margin="15dp"
+			android:gravity="center_vertical"
+            android:scaleType="fitCenter"
+            android:src="@drawable/blankstamp" />
+    </TableRow>
     
-    <Button
-        android:id="@+id/btn7"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="button7"
-        android:layout_below="@+id/btn2"
-        android:layout_above="@+id/btn5"
-        android:layout_toLeftOf="@+id/btn2">
-    </Button>
-    <Button
-        android:id="@+id/btn8"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="button8"
-        android:layout_below="@+id/btn2"
-        android:layout_above="@+id/btn5"
-        android:layout_toLeftOf="@+id/btn9"
-        android:layout_toRightOf="@+id/btn7">
-    </Button>
-    <Button
-        android:id="@+id/btn9"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="button9"
-        android:layout_below="@+id/btn2"
-        android:layout_above="@+id/btn5"
-        android:layout_toRightOf="@+id/btn2">
-    </Button>
+	<TableRow
+	    android:gravity="center"
+        android:background="#000000">
+        
+		<!-- レコードID(ステージID)・レコードタイトル1 -->
+        <TextView
+            android:id="@+id/record_id_title1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#000000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:text="No.1 「四谷怪談」"
+            android:textSize="12sp" />
+
+        <!-- レコードID(ステージID)・レコードタイトル2 -->
+        <TextView
+            android:id="@+id/record_id_title2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#000000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:text="No.2 「平将門首塚」"
+            android:textSize="12sp" />
+        
+        <!-- レコードID(ステージID)・レコードタイトル3 -->
+        <TextView
+            android:id="@+id/record_id_title3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#000000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:text="No.3 「道了堂跡」"
+            android:textSize="12sp" />
+        
+	 </TableRow>   
+
+	<TableRow
+	    android:gravity="center"
+        android:background="#000000">
+        
+        <!-- レコード画像4 -->
+        <ImageView
+            android:id="@+id/record_img4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_margin="15dp"
+            android:scaleType="fitCenter"
+            android:gravity="center_vertical"
+            android:src="@drawable/blankstamp" />
+        
+		<!-- レコード画像5 -->
+        <ImageView
+            android:id="@+id/record_img5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_margin="15dp"
+			android:gravity="center_vertical"
+            android:scaleType="fitCenter"
+            android:src="@drawable/blankstamp" />
+		<!-- レコード画像6 -->
+        <ImageView
+            android:id="@+id/record_img6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_margin="15dp"
+			android:gravity="center_vertical" 
+            android:scaleType="fitCenter"
+            android:src="@drawable/blankstamp" />
+            
+    </TableRow>
     
-    <Button
-        android:id="@+id/btn4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="button4"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true">
-    </Button>
-    <Button
-        android:id="@+id/btn5"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="button5"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/btn6"
-        android:layout_toRightOf="@+id/btn4">
-    </Button>
-    <Button
-        android:id="@+id/btn6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="button6"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true">
-    </Button>
+	<TableRow
+	    android:gravity="center"
+        android:background="#000000">
+		<!-- レコードID(ステージID)・レコードタイトル4 -->
+        <TextView
+            android:id="@+id/record_id_title4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#000000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:text="No.4 「	????」"
+            android:textSize="12sp" />
 
+        <!-- レコードID(ステージID)・レコードタイトル5 -->
+        <TextView
+            android:id="@+id/record_id_title5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#000000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:text="No.5 「	????」"
+            android:textSize="12sp" />
+        
+        <!-- レコードID(ステージID)・レコードタイトル6 -->
+        <TextView
+            android:id="@+id/record_id_title6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#000000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:text="No.6 「	????」"
+            android:textSize="12sp" />
+        
+	 </TableRow>  
+	 
+	<TableRow
+	    android:gravity="center"
+        android:background="#000000">
+        
+        <!-- レコード画像7 -->
+        <ImageView
+            android:id="@+id/record_img7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_margin="15dp"
+            android:scaleType="fitCenter"
+            android:gravity="center_vertical"
+            android:src="@drawable/blankstamp" />
+        
+		<!-- レコード画像8 -->
+        <ImageView
+            android:id="@+id/record_img8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_margin="15dp"
+			android:gravity="center_vertical"
+            android:scaleType="fitCenter"
+            android:src="@drawable/blankstamp" />
+		<!-- レコード画像9 -->
+        <ImageView
+            android:id="@+id/record_img9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_margin="15dp"
+			android:gravity="center_vertical" 
+            android:scaleType="fitCenter"
+            android:src="@drawable/blankstamp" />
+            
+    </TableRow>
+    
+	<TableRow
+	    android:gravity="center"
+        android:background="#000000">
+		<!-- レコードID(ステージID)・レコードタイトル7 -->
+        <TextView
+            android:id="@+id/record_id_title7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#000000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:text="No.7 「	????」"
+            android:textSize="12sp" />
 
-</RelativeLayout>
+        <!-- レコードID(ステージID)・レコードタイトル8 -->
+        <TextView
+            android:id="@+id/record_id_title8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#000000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:text="No.8 「	????」"
+            android:textSize="12sp" />
+        
+        <!-- レコードID(ステージID)・レコードタイトル9 -->
+        <TextView
+            android:id="@+id/record_id_title9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#000000"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:text="No.9 「	????」"
+            android:textSize="12sp" />
+        
+	 </TableRow>
+	 
+</TableLayout>
