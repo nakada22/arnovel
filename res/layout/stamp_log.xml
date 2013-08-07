@@ -27,8 +27,7 @@
             android:layout_height="wrap_content"
 			android:layout_margin="15dp"
 			android:gravity="center_vertical"
-            android:scaleType="fitCenter"
-            android:src="@drawable/oiwa_stamp" />
+            android:scaleType="fitCenter" />
         
 		<!-- レコード画像2 -->
         <ImageView
@@ -37,8 +36,7 @@
             android:layout_height="wrap_content"
 			android:layout_margin="15dp"
 			android:gravity="center_vertical"
-			android:scaleType="fitCenter"
-            android:src="@drawable/blankstamp" />
+			android:scaleType="fitCenter" />
 		<!-- レコード画像３ -->
         <ImageView
             android:id="@+id/record_img3"
@@ -46,8 +44,7 @@
             android:layout_height="wrap_content"
 			android:layout_margin="15dp"
 			android:gravity="center_vertical"
-            android:scaleType="fitCenter"
-            android:src="@drawable/blankstamp" />
+            android:scaleType="fitCenter" />
     </TableRow>
     
 	<TableRow
@@ -63,7 +60,6 @@
             android:background="#000000"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:text="No.1 「四谷怪談」"
             android:textSize="12sp" />
 
         <!-- レコードID(ステージID)・レコードタイトル2 -->
@@ -103,8 +99,7 @@
             android:layout_height="wrap_content"
 			android:layout_margin="15dp"
             android:scaleType="fitCenter"
-            android:gravity="center_vertical"
-            android:src="@drawable/blankstamp" />
+            android:gravity="center_vertical" />
         
 		<!-- レコード画像5 -->
         <ImageView
@@ -113,8 +108,7 @@
             android:layout_height="wrap_content"
 			android:layout_margin="15dp"
 			android:gravity="center_vertical"
-            android:scaleType="fitCenter"
-            android:src="@drawable/blankstamp" />
+            android:scaleType="fitCenter" />
 		<!-- レコード画像6 -->
         <ImageView
             android:id="@+id/record_img6"
@@ -122,8 +116,7 @@
             android:layout_height="wrap_content"
 			android:layout_margin="15dp"
 			android:gravity="center_vertical" 
-            android:scaleType="fitCenter"
-            android:src="@drawable/blankstamp" />
+            android:scaleType="fitCenter" />
             
     </TableRow>
     
@@ -179,8 +172,7 @@
             android:layout_height="wrap_content"
 			android:layout_margin="15dp"
             android:scaleType="fitCenter"
-            android:gravity="center_vertical"
-            android:src="@drawable/blankstamp" />
+            android:gravity="center_vertical" />
         
 		<!-- レコード画像8 -->
         <ImageView
@@ -189,8 +181,7 @@
             android:layout_height="wrap_content"
 			android:layout_margin="15dp"
 			android:gravity="center_vertical"
-            android:scaleType="fitCenter"
-            android:src="@drawable/blankstamp" />
+            android:scaleType="fitCenter" />
 		<!-- レコード画像9 -->
         <ImageView
             android:id="@+id/record_img9"
@@ -198,8 +189,7 @@
             android:layout_height="wrap_content"
 			android:layout_margin="15dp"
 			android:gravity="center_vertical" 
-            android:scaleType="fitCenter"
-            android:src="@drawable/blankstamp" />
+            android:scaleType="fitCenter" />
             
     </TableRow>
     

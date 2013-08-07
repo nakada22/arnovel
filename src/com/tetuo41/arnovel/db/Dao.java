@@ -40,6 +40,7 @@ public class Dao {
 	public void InitDataInsert(String key, List<String> data, String table){
 		SQLiteDatabase db = helper.getWritableDatabase();
 		
+		// TODO スタンプラリーマスタ(mst_stamp_rally)登録
 		if (table.equals(DbConstants.TABLE2)) {
 			
 			/** ノベルマスタのDB登録 */
@@ -126,19 +127,8 @@ public class Dao {
 	public List<List<String>> StageSelctData(){
 		SQLiteDatabase db = helper.getReadableDatabase();
 		
-		//[
-		// [1, 四谷 於岩稲荷田宮神社（お岩稲荷）, 外苑東通りから５０メートル程入・・・, 東京都新宿区左門町17], 
-		// [2, 平将門首塚, 東京丸の内、日本一の近代的オフ・・・, 東京都千代田区大手町1-1-1], 
-		// [3, 道了堂跡, 鑓水という町の由来は寒村だった・・・, 東京都八王子市鑓水]
-		//]
-
 		// データ格納用(昇順)
 		List<List<String>> ret = new LinkedList<List<String>>();
-		
-		// 戻り値：データ格納のリストの件数,データリスト
-		// 必要な情報：データ格納のリスト件数、ステージタイトル、あらすじ、住所
-		// あらすじは、ノベルデータから取得
-		// 御互いのステージIDが一致するデータを取得
 		
 		/** ステージセレクト画面での表示データを取得 */
 		try {
@@ -154,6 +144,7 @@ public class Dao {
 				int rowcount = c.getCount(); // 件数
 				
 				for (int i = 0; i < rowcount ; i++) {
+					// 必要な情報：データ格納のリスト件数、ステージタイトル、あらすじ、住所
 					// 表示データリスト
 					List<String> data_list = new ArrayList<String>();
 
@@ -181,4 +172,88 @@ public class Dao {
 		return ret;
 		
 	}
+	
+	/**
+	 * スタンプ一覧画面で表示するデータを取得する。
+	 * @return ステージID別データ
+	 * 
+	 * */
+	public List<List<String>> StampRecordData() {
+		// TODO スタンプフラグが「1」のステージID, ステージタイトル、ノベルデータをDBから取得・セット
+		SQLiteDatabase db = helper.getReadableDatabase();
+		
+		// データ格納用(昇順)
+		List<List<String>> ret = new LinkedList<List<String>>();
+		
+		// テスト用データ投入(スタンプラリーマスタ)
+//		ContentValues cv = new ContentValues();
+//		cv.put(DbConstants.CLM_STAGE_ID, 1);
+//		cv.put(DbConstants.CLM_STAMP_FLG, 1);
+//		cv.put(DbConstants.CLM_REGIST_DATE, "2013/08/07 09:01:00");
+//		db.insert(DbConstants.TABLE1, null, cv);
+//		ContentValues cv2 = new ContentValues();
+//		cv2.put(DbConstants.CLM_STAGE_ID, 2);
+//		cv2.put(DbConstants.CLM_STAMP_FLG, 0);
+//		cv2.put(DbConstants.CLM_REGIST_DATE, "2013/08/07 09:02:00");
+//		db.insert(DbConstants.TABLE1, null, cv2);
+//		ContentValues cv3 = new ContentValues();
+//		cv3.put(DbConstants.CLM_STAGE_ID, 3);
+//		cv3.put(DbConstants.CLM_STAMP_FLG, 1);
+//		cv3.put(DbConstants.CLM_REGIST_DATE, "2013/08/07 09:03:00");
+//		db.insert(DbConstants.TABLE1, null, cv3);
+		
+		/** スタンプ一覧画面での表示データを取得 */
+		try {
+			// SQL文生成
+			String SQL = "SELECT mn.stage_id, msr.stamp_flg, " +
+					" mn.novel_title, mn.novel_data" +
+					" FROM mst_novel mn, mst_stage_select mss, " +
+					" mst_stamp_rally msr WHERE mn.stage_id=mss.stage_id AND " + 
+					" mn.stage_id=msr.stage_id GROUP BY mn.stage_id";
+			
+			Cursor c = db.rawQuery(SQL, null);
+			int rowcount = c.getCount(); // 件数
+			
+			if (c.moveToFirst()){
+				Log.d("DEBUG",this.getClass().getName()+"【データがあれば】");
+				
+				// データがあれば
+						
+				Log.d("DEBUG",this.getClass().getName() + rowcount);
+				for (int i = 0; i < rowcount; i++) {
+					// 表示データリスト
+					List<String> data_list = new ArrayList<String>();
+					
+					data_list.add(c.getString(0)); // ステージID格納
+					data_list.add(c.getString(1)); // スタンプフラグ格納
+					data_list.add(c.getString(2)); // ノベルタイトル格納
+					data_list.add(c.getString(3).substring(0, 30)
+							+ "・・・"); // ノベルデータ格納(あらすじ)
+					// データ格納
+					ret.add(data_list);
+					
+					// 次の行へ
+					c.moveToNext();
+				}
+				// 表示データがない件数分、空のデータを入れておく。
+				//for (int i = 0; i < 9 - rowcount; i++) {
+				//	ret.add(new ArrayList<String>());
+				//}
+					
+			} else {
+				// データが0件の場合
+				Log.d("DEBUG",this.getClass().getName()+"【データが0件の場合】");
+				ret.add(null);
+			}
+			
+		} catch (RuntimeException e){
+			Log.d("DEBUG",e.toString());
+		} finally {
+			db.close();
+		}
+		
+		
+		return ret;
+	}
+	
 }

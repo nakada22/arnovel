@@ -5,19 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/black_bar">
-
-    <!-- Record画像 -->
-	<ImageView
-	  android:id="@+id/record_title"
-	  android:scaleType="fitCenter"	
-	  android:layout_marginTop="30dp"
-	  android:layout_marginLeft="40dp"
-	  android:layout_marginBottom="20dp"
-	  android:layout_width="wrap_content"   
-	  android:layout_height="wrap_content" 
-	  android:src="@drawable/record_title" >  
-	</ImageView>
-	
+    
 <LinearLayout
     android:orientation="horizontal"
     android:layout_width="wrap_content"
