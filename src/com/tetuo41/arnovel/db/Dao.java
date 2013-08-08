@@ -40,7 +40,6 @@ public class Dao {
 	public void InitDataInsert(String key, List<String> data, String table){
 		SQLiteDatabase db = helper.getWritableDatabase();
 		
-		// TODO スタンプラリーマスタ(mst_stamp_rally)登録
 		if (table.equals(DbConstants.TABLE2)) {
 			
 			/** ノベルマスタのDB登録 */
@@ -116,6 +115,50 @@ public class Dao {
 			} finally {
 				db.close();
 			}
+		} else if (table.equals(DbConstants.TABLE1)) {
+			/** TODO スタンプラリーマスタ(mst_stamp_rally)登録 */ 
+			try {
+				// ステージセレクトマスタのデータ差分データ登録
+				Cursor c = db.rawQuery(
+						"SELECT mss.stage_id FROM " + DbConstants.TABLE3 + 
+						" mss WHERE mss.stage_id NOT IN (SELECT msr.stage_id FROM " + 
+								DbConstants.TABLE1 + " msr)", null);
+				ContentValues cv = new ContentValues();
+				
+				if (c.moveToFirst()){
+					Log.d("DEBUG","スタンプラリーマスタ差分登録 c.moveToFirst()");
+					// 基本はアプリ2回目起動時以降(差分のステージIDのみ登録)
+					int rowcount = c.getCount(); // 件数
+					
+					for (int i = 0; i < rowcount ; i++) {
+						cv.put(DbConstants.CLM_STAMP_ID, c.getString(0));
+						cv.put(DbConstants.CLM_STAGE_ID, c.getString(0));
+						cv.put(DbConstants.CLM_STAMP_FLG, 0);
+						db.insert(DbConstants.TABLE1, null, cv);
+
+						// 次の行へ
+						c.moveToNext();
+					}
+				} else {
+					Log.d("DEBUG","スタンプラリーマスタ Else c.moveToFirst()");
+					// 0件の場合時に登録するステージセレクトマスタのデータ
+					Cursor c2 = db.rawQuery(
+							"SELECT stage_id FROM " + DbConstants.TABLE3, null);
+					
+					if (c2.moveToFirst()){
+						cv.put(DbConstants.CLM_STAMP_ID, c2.getString(0));
+						cv.put(DbConstants.CLM_STAGE_ID, c2.getString(0));
+						cv.put(DbConstants.CLM_STAMP_FLG, 0);
+						db.insert(DbConstants.TABLE1, null, cv);
+					}
+					
+				}
+				
+			} catch (RuntimeException e){
+			} finally {
+				db.close();
+			}
+
 		}
 	}
 	

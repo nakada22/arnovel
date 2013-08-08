@@ -228,6 +228,9 @@ public class TopActivity extends Activity implements View.OnClickListener{
         			dao.InitDataInsert(key, value, DbConstants.TABLE3);
         		}
         		
+        		/** 3.スタンプラリーマスタの初期データ登録 */
+        		dao.InitDataInsert(null, null, DbConstants.TABLE1);
+        		
         		return null;
         	} catch (Exception e) {
         		Log.e("ERROR", cmndef.TOP_ERROR_MSG3 + e.toString());

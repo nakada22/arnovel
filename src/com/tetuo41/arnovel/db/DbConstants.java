@@ -9,7 +9,7 @@ public class DbConstants {
 
 	/** データベースの名前とバージョン */
     public static final String DATABASE_NAME = "LocaNovelDB";
-    public static final int DATABASE_VERSION = 9;
+    public static final int DATABASE_VERSION = 11;
     public static final String DB_PATH = "/data/data/com.tetuo41.arnovel/databases/";  
     
     /** 作成・使用するテーブル名を定義する */
@@ -26,7 +26,7 @@ public class DbConstants {
     public static final String CLM_STAMP_FLG = "stamp_flg";
     
     /** 登録日時 */
-    public static final String CLM_REGIST_DATE = "regist_date";
+    public static final String CLM_UPDATE_DATE = "update_date";
     
     // ノベルマスタ (mst_novel)
     /** ノベルID */
@@ -67,10 +67,10 @@ public class DbConstants {
     // スタンプラリーマスタのCREATE文を定義
     public static final String CREATE_TABLE1 =
             "CREATE TABLE " + TABLE1 + " ("
-                            + CLM_STAMP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            + CLM_STAMP_ID + " INTEGER PRIMARY KEY,"
                             + CLM_STAGE_ID + " INTEGER NOT NULL, "
                             + CLM_STAMP_FLG + " INTEGER NOT NULL, "
-                            + CLM_REGIST_DATE + " TEXT "
+                            + CLM_UPDATE_DATE + " TEXT "
                             + ");";
 
     // ノベルマスタのCREATE文を定義
