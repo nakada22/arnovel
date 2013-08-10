@@ -7,6 +7,7 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,10 +29,6 @@ import com.tetuo41.arnovel.db.DbConstants;
 * @version 1.0
 */
 public class TopActivity extends Activity implements View.OnClickListener{
-	
-	/** カレントパッケージ名 */
-	private static final String CURRENT_PACKAGE = 
-			TopActivity.class.getPackage().getName();
 	
 	/** 共通クラスオブジェクト */
 	private CommonUtil cmnutil;
@@ -117,25 +114,23 @@ public class TopActivity extends Activity implements View.OnClickListener{
     	
     	try {
     		// STARTボタンクリック時、スタンプログ画面へ遷移
-    		Intent intent = new Intent();
-    		intent.setClassName(CURRENT_PACKAGE, CURRENT_PACKAGE + ".StageSelectActivity");
-    		startActivity(intent);
+    		Intent i = new Intent(getApplicationContext(), StageSelectActivity.class);
+			startActivity(i);
     		
+    	} catch (ActivityNotFoundException e) {
+    		// スタンプログ画面へ遷移できなかった場合
+    		Log.e("ERROR", e.toString());
+  
+    		// アラートダイアログで警告を表示
+    		AlertDialogView("エラー", cmndef.TOP_ERROR_MSG1);
+    		// 処理を終了する
+    		return;
     	} catch (RuntimeException e) {
     		// ステージセレクト画面へ遷移できなかった場合
     		Log.e("ERROR", e.toString());
     		
     		// アラートダイアログで警告を表示
-    		AlertDialog.Builder adb = new AlertDialog.Builder(this);
-    		adb.setTitle("エラー");
-    		adb.setMessage(cmndef.TOP_ERROR_MSG1);
-    		adb.setPositiveButton("OK",
-    	            new DialogInterface.OnClickListener() {
-    	                public void onClick(DialogInterface dialog, int which) {
-    	                	// 処理なし
-    	                }
-    	            });
-    		adb.show();
+    		AlertDialogView("エラー", cmndef.TOP_ERROR_MSG1);
     		
     		// 処理を終了する
     		return;
@@ -149,29 +144,49 @@ public class TopActivity extends Activity implements View.OnClickListener{
     	
     	try {
     		// RECORDボタンクリック時、スタンプログ画面へ遷移
-    		Intent intent = new Intent();
-    		intent.setClassName(CURRENT_PACKAGE, CURRENT_PACKAGE + ".StampLogActivity");
-    		startActivity(intent);
+    		Intent i = new Intent(getApplicationContext(), StampLogActivity.class);
+			startActivity(i);
+			
+    	} catch (ActivityNotFoundException e) {
+    		// スタンプログ画面へ遷移できなかった場合
+    		Log.e("ERROR", e.toString());
+  
+    		// アラートダイアログで警告を表示
+    		AlertDialogView("エラー", cmndef.TOP_ERROR_MSG2);
     		
+    		// 処理を終了する
+    		return;
     	} catch (RuntimeException e) {
     		// スタンプログ画面へ遷移できなかった場合
     		Log.e("ERROR", e.toString());
   
     		// アラートダイアログで警告を表示
-    		AlertDialog.Builder adb = new AlertDialog.Builder(this);
-    		adb.setTitle("エラー");
-    		adb.setMessage(cmndef.TOP_ERROR_MSG2);
-    		adb.setPositiveButton("OK",
-    	            new DialogInterface.OnClickListener() {
-    	                public void onClick(DialogInterface dialog, int which) {
-    	                	// 処理なし
-    	                }
-    	            });
-    		adb.show();
+    		AlertDialogView("エラー", cmndef.TOP_ERROR_MSG2);
     		
     		// 処理を終了する
     		return;
     	}
+    }
+    
+    /**
+     * アラートダイアログを表示する
+     * @param タイトル
+     * @param 表示するメッセージ
+     * 
+     * */
+    private void AlertDialogView(String title, String message) {
+    	
+    	// アラートダイアログで警告を表示
+		AlertDialog.Builder adb = new AlertDialog.Builder(this);
+		adb.setTitle(title);
+		adb.setMessage(message);
+		adb.setPositiveButton("OK",
+	            new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int which) {
+	                	// 処理なし
+	                }
+	            });
+		adb.show();
     }
     
     /**

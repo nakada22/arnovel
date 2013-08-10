@@ -8,7 +8,7 @@ package com.tetuo41.arnovel.common;
  */
 public class CommonDef {
 	
-	/** FTP情報 */
+	/** サーバ情報 */
     public final String S_HOST_NAME = "sashihara.web.fc2.com";
     public final String S_DIR = "/";
     
@@ -20,13 +20,14 @@ public class CommonDef {
     public final String DATA_DIR = "/data/";
     public final String IMAGE_DIR = "/image/locanovel/";
     
-    
-    
     /** エラーメッセージ */
     // トップ画面用メッセージ
     public final String TOP_ERROR_MSG1 = "ステージセレクト画面へ遷移できませんでした";
     public final String TOP_ERROR_MSG2 = "スタンプログ画面へ遷移できませんでした";
     public final String TOP_ERROR_MSG3 = "CSVファイルの読込に失敗しました";
+    
+    // スタンプ一覧画面用メッセージ
+    public final String STAMP_ERROR_MSG1 = "スタンプログ詳細画面へ遷移できませんでした";
     
     // 共通用メッセージ
     public final String CMN_ERROR_MSG1 = "インターネットに接続できませんでした";

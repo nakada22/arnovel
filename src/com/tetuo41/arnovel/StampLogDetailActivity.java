@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
+import android.widget.TextView;
 
+import com.tetuo41.arnovel.StampLogActivity.StampLogState;
 import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
 
 /**
-* スタンプログラリー詳細画面を表示するクラスです。
+* スタンプログ詳細画面を表示するクラスです。
 * @author　HackathonG
 * @version 1.0
 */
@@ -25,10 +27,7 @@ public class StampLogDetailActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.stamp_log_detail);
 		
-		Intent i = getIntent();
-		//RecordState rs = (RecordState) i.getSerializableExtra("RecordState");
-
-		// ノベル読了したステージのスタンプ詳細画面を表示
+		// ノベル読了したステージのスタンプログ詳細画面を表示
 		StampDetailDisp();
     }
     
@@ -46,7 +45,27 @@ public class StampLogDetailActivity extends Activity {
      * 
      * */
     private void StampDetailDisp() {
+    	Intent i = getIntent();
+    	StampLogState sls = (StampLogState) i.getSerializableExtra("StampLogState");
     	
+    	/** スタンプ一覧画面からデータ取得 */
+    	String stamp_id = String.valueOf(sls.getStampId());
+    	String novel_title = sls.getNovelTitle();
+    	String novel_data = sls.getNovelData();
+    	
+    	/** 表示するVIEW取得・テキストセット */
+    	// レコードID
+		TextView tvRecordId = (TextView) findViewById(R.id.record_id);
+		tvRecordId.setText(stamp_id);
+		
+		// レコードタイトル(ノベルタイトル)
+		TextView tvNovelTitle = (TextView) findViewById(R.id.record_title);
+		tvNovelTitle.setText(novel_title);
+		
+		// あらすじ(ノベルデータ)
+		TextView tvNovelData = (TextView) findViewById(R.id.novel_data);
+		tvNovelData.setText(novel_data);
+		
     }
 
 }

@@ -90,7 +90,7 @@ public class StageSelectActivity extends Activity{
 				//StageSelectState sss = dataOfStage.get(position);
 				
 				// TODO カメラプレビュー起動、ノベルデータ保持？
-				Intent i = new Intent(StageSelectActivity.this, CameraPreviewActivity.class);
+				Intent i = new Intent(getApplicationContext(), CameraPreviewActivity.class);
 				//i.putExtra("CameraPreview", sss);
 				startActivity(i);
 				

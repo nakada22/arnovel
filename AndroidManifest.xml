@@ -43,6 +43,14 @@
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
         <activity
+            android:name=".StampLogDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light"
+            android:restoreAnyVersion="true"
+			android:configChanges="orientation|keyboard|keyboardHidden" >
+        </activity>
+        
+        <activity
             android:name=".StageSelectActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light"

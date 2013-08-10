@@ -71,7 +71,6 @@
             android:background="#000000"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:text="No.2 「平将門首塚」"
             android:textSize="12sp" />
         
         <!-- レコードID(ステージID)・レコードタイトル3 -->
@@ -83,7 +82,6 @@
             android:background="#000000"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:text="No.3 「道了堂跡」"
             android:textSize="12sp" />
         
 	 </TableRow>   
@@ -132,7 +130,6 @@
             android:background="#000000"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:text="No.4 「	????」"
             android:textSize="12sp" />
 
         <!-- レコードID(ステージID)・レコードタイトル5 -->
@@ -144,7 +141,6 @@
             android:background="#000000"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:text="No.5 「	????」"
             android:textSize="12sp" />
         
         <!-- レコードID(ステージID)・レコードタイトル6 -->
@@ -156,7 +152,6 @@
             android:background="#000000"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:text="No.6 「	????」"
             android:textSize="12sp" />
         
 	 </TableRow>  
@@ -205,7 +200,6 @@
             android:background="#000000"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:text="No.7 「	????」"
             android:textSize="12sp" />
 
         <!-- レコードID(ステージID)・レコードタイトル8 -->
@@ -217,7 +211,6 @@
             android:background="#000000"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:text="No.8 「	????」"
             android:textSize="12sp" />
         
         <!-- レコードID(ステージID)・レコードタイトル9 -->
@@ -229,7 +222,6 @@
             android:background="#000000"
             android:gravity="center"
             android:textColor="#FFFFFF"
-            android:text="No.9 「	????」"
             android:textSize="12sp" />
         
 	 </TableRow>

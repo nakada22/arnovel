@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.tetuo41.arnovel.common.CommonUtil;
@@ -79,7 +80,11 @@ public class Dao {
 					db.insert(DbConstants.TABLE2, null, cv);
 					
 				}
-			} catch (RuntimeException e){	
+			} catch (SQLiteException e) {
+				// 初期データDB登録に失敗した場合
+				Log.e("ERROR", e.toString());
+				
+			} catch (RuntimeException e){
 			} finally {
 				db.close();
 			}
@@ -111,14 +116,19 @@ public class Dao {
 					cv.put(DbConstants.CLM_ADDRESS, data.get(1));
 					db.insert(DbConstants.TABLE3, null, cv);
 				}
+			} catch (SQLiteException e) {
+				// 初期データDB登録に失敗した場合
+				Log.e("ERROR", e.toString());
+				
 			} catch (RuntimeException e){
 			} finally {
 				db.close();
 			}
 		} else if (table.equals(DbConstants.TABLE1)) {
-			/** TODO スタンプラリーマスタ(mst_stamp_rally)登録 */ 
+			
+			/** スタンプラリーマスタ(mst_stamp_rally)登録 */ 
 			try {
-				// ステージセレクトマスタのデータ差分データ登録
+				// ステージセレクトマスタのデータ差分をデータとして登録
 				Cursor c = db.rawQuery(
 						"SELECT mss.stage_id FROM " + DbConstants.TABLE3 + 
 						" mss WHERE mss.stage_id NOT IN (SELECT msr.stage_id FROM " + 
@@ -141,18 +151,13 @@ public class Dao {
 					}
 				} else {
 					Log.d("DEBUG","スタンプラリーマスタ Else c.moveToFirst()");
-					// 0件の場合時に登録するステージセレクトマスタのデータ
-					Cursor c2 = db.rawQuery(
-							"SELECT stage_id FROM " + DbConstants.TABLE3, null);
-					
-					if (c2.moveToFirst()){
-						cv.put(DbConstants.CLM_STAMP_ID, c2.getString(0));
-						cv.put(DbConstants.CLM_STAGE_ID, c2.getString(0));
-						cv.put(DbConstants.CLM_STAMP_FLG, 0);
-						db.insert(DbConstants.TABLE1, null, cv);
-					}
+					// 差分0件の場合、登録しない
 					
 				}
+				
+			} catch (SQLiteException e) {
+				// 初期データDB登録に失敗した場合
+				Log.e("ERROR", e.toString());
 				
 			} catch (RuntimeException e){
 			} finally {
@@ -222,28 +227,11 @@ public class Dao {
 	 * 
 	 * */
 	public List<List<String>> StampRecordData() {
-		// TODO スタンプフラグが「1」のステージID, ステージタイトル、ノベルデータをDBから取得・セット
+		//　ステージID, スタンプフラグ、ステージタイトル、ノベルデータをDBから取得・セット
 		SQLiteDatabase db = helper.getReadableDatabase();
 		
 		// データ格納用(昇順)
 		List<List<String>> ret = new LinkedList<List<String>>();
-		
-		// テスト用データ投入(スタンプラリーマスタ)
-//		ContentValues cv = new ContentValues();
-//		cv.put(DbConstants.CLM_STAGE_ID, 1);
-//		cv.put(DbConstants.CLM_STAMP_FLG, 1);
-//		cv.put(DbConstants.CLM_REGIST_DATE, "2013/08/07 09:01:00");
-//		db.insert(DbConstants.TABLE1, null, cv);
-//		ContentValues cv2 = new ContentValues();
-//		cv2.put(DbConstants.CLM_STAGE_ID, 2);
-//		cv2.put(DbConstants.CLM_STAMP_FLG, 0);
-//		cv2.put(DbConstants.CLM_REGIST_DATE, "2013/08/07 09:02:00");
-//		db.insert(DbConstants.TABLE1, null, cv2);
-//		ContentValues cv3 = new ContentValues();
-//		cv3.put(DbConstants.CLM_STAGE_ID, 3);
-//		cv3.put(DbConstants.CLM_STAMP_FLG, 1);
-//		cv3.put(DbConstants.CLM_REGIST_DATE, "2013/08/07 09:03:00");
-//		db.insert(DbConstants.TABLE1, null, cv3);
 		
 		/** スタンプ一覧画面での表示データを取得 */
 		try {
