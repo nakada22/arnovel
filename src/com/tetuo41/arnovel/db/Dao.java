@@ -258,7 +258,7 @@ public class Dao {
 					data_list.add(c.getString(0)); // ステージID格納
 					data_list.add(c.getString(1)); // スタンプフラグ格納
 					data_list.add(c.getString(2)); // ノベルタイトル格納
-					data_list.add(c.getString(3).substring(0, 30)
+					data_list.add(c.getString(3).substring(0, 90)
 							+ "・・・"); // ノベルデータ格納(あらすじ)
 					// データ格納
 					ret.add(data_list);

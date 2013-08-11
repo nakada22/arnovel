@@ -61,7 +61,6 @@ public class StampLogActivity extends Activity implements OnClickListener {
     public StampLogActivity() {
     	cmnutil = new CommonUtil();
     	cmndef = new CommonDef();
-    	// http://atgb.cocolog-nifty.com/astimegoesby/2011/02/listviewactivit.html
     	
     }
     
@@ -71,26 +70,36 @@ public class StampLogActivity extends Activity implements OnClickListener {
      */
     public void onClick(View v) {
     	// 詳細データ取得
-    	StampLogState dataOfState= StampListView();
+    	ArrayList<StampLogState> dataOfState = StampListView();
     	
     	switch (v.getId()) {
 		case R.id.record_img1:
-		case R.id.record_img2:
-		case R.id.record_img3:
-			StampImgClick(dataOfState);
-			break;
 			
+			StampImgClick(1, dataOfState);
+			break;
+		case R.id.record_img2:
+			StampImgClick(2, dataOfState);
+			break;
+		case R.id.record_img3:
+			StampImgClick(3, dataOfState);
+			break;
 		case R.id.record_img4:
+			StampImgClick(4, dataOfState);
 			break;
 		case R.id.record_img5:
+			StampImgClick(5, dataOfState);
 			break;
 		case R.id.record_img6:
+			StampImgClick(6, dataOfState);
 			break;
 		case R.id.record_img7:
+			StampImgClick(7, dataOfState);
 			break;
 		case R.id.record_img8:
+			StampImgClick(8, dataOfState);
 			break;
 		case R.id.record_img9:
+			StampImgClick(9, dataOfState);
 			break;
 			
 		default:
@@ -102,11 +111,16 @@ public class StampLogActivity extends Activity implements OnClickListener {
      * ノベル読了したステージのスタンプ一覧を表示する
      * @return  スタンプ詳細画面で表示するデータ
      * */
-    private StampLogState StampListView() {
+    private ArrayList<StampLogState> StampListView() {
 
     	// スタンプログ詳細画面へ受け渡す値を入れ物を用意
     	final ArrayList<StampLogState> dataOfStamp = 
     			new ArrayList<StampLogState>();
+    	
+    	// 空の要素を9個分あらかじめ入れておく
+    	for (int i = 0; i < 10; i++) {
+    		dataOfStamp.add(null);
+    	}
     	
     	/** DBアクセスクラスオブジェクト */
 		Dao dao = new Dao(getApplicationContext());
@@ -143,26 +157,21 @@ public class StampLogActivity extends Activity implements OnClickListener {
 		// データを画面にセットする
 		for (int i = 0; i < stamp_data.size(); i++) {
 			
-			
 			// 1件分のデータ
 			List<String> data = stamp_data.get(i);
 			Log.d("DEBUG",data.toString());
 //			data.get(2); // ノベルタイトル格納
 //			data.get(3); // ノベルデータ格納(あらすじ)
-
-			if (data.isEmpty()) {
-				// 空の場合、何もしない
-			}
+			int stage_id = Integer.parseInt(data.get(0));
 			
-			switch (Integer.parseInt(data.get(0))) {
+			switch (stage_id) {
 				// ステージID(data.get(0))がどれかによって表示する画像、データを変える。
 			case 1:
 				// ステージIDが1の場合
 				sls = StampLogDisp(data.get(0),
 						data.get(1),data.get(2),data.get(3), 
 						img1, record_id_title1);
-				dataOfStamp.add(sls);
-				
+				dataOfStamp.add(stage_id, sls);
 				break;
 				
 			case 2:
@@ -170,8 +179,7 @@ public class StampLogActivity extends Activity implements OnClickListener {
 				sls = StampLogDisp(data.get(0),
 						data.get(1),data.get(2),data.get(3), 
 						img2, record_id_title2);
-				dataOfStamp.add(sls);
-				
+				dataOfStamp.add(stage_id, sls);
 				break;
 				
 			case 3:
@@ -179,19 +187,65 @@ public class StampLogActivity extends Activity implements OnClickListener {
 				sls = StampLogDisp(data.get(0),
 						data.get(1),data.get(2),data.get(3), 
 						img3, record_id_title3);
-				dataOfStamp.add(sls);
-				
+				dataOfStamp.add(stage_id, sls);
+				break;
+			
+			case 4:
+				// ステージIDが4の場合
+				sls = StampLogDisp(data.get(0),
+						data.get(1),data.get(2),data.get(3), 
+						img4, record_id_title4);
+				dataOfStamp.add(stage_id, sls);
+				break;
+			
+			case 5:
+				// ステージIDが5の場合
+				sls = StampLogDisp(data.get(0),
+						data.get(1),data.get(2),data.get(3), 
+						img5, record_id_title5);
+				dataOfStamp.add(stage_id, sls);
+				break;
+			
+			case 6:
+				// ステージIDが6の場合
+				sls = StampLogDisp(data.get(0),
+						data.get(1),data.get(2),data.get(3), 
+						img6, record_id_title6);
+				dataOfStamp.add(stage_id, sls);
+				break;
+			
+			case 7:
+				// ステージIDが7の場合
+				sls = StampLogDisp(data.get(0),
+						data.get(1),data.get(2),data.get(3), 
+						img7, record_id_title7);
+				dataOfStamp.add(stage_id, sls);
+				break;
+			
+			case 8:
+				// ステージIDが8の場合
+				sls = StampLogDisp(data.get(0),
+						data.get(1),data.get(2),data.get(3), 
+						img8, record_id_title8);
+				dataOfStamp.add(stage_id, sls);
+				break;
+			
+			case 9:
+				// ステージIDが9の場合
+				sls = StampLogDisp(data.get(0),
+						data.get(1),data.get(2),data.get(3), 
+						img9, record_id_title9);
+				dataOfStamp.add(stage_id, sls);
 				break;
 			
 			default:
 				// データがnullの場合
-				
 				break;
 			}
 			
 		}
-		// TODO データ受け渡しがうまくいかない(0 は一番目のデータ)
-		return dataOfStamp.get(0);
+		// データ受け渡し
+		return dataOfStamp;
     }
 
     /**
@@ -222,25 +276,27 @@ public class StampLogActivity extends Activity implements OnClickListener {
     	// スタンプログ詳細画面で表示する値セット
 		StampLogState sls = new StampLogState();
 		sls.setStampId(Integer.parseInt(stamp_id));
+		sls.setStampFlg(Integer.parseInt(stamp_flg));
 		sls.setNovelTitle(stage_title);
 		sls.setNovelData(novel_data);
 		return sls;
-		//dataOfStamp.add(sls);
     }
     
     /** 
      * スタンプ画像クリック時の処理を記述する。
      * @param StampLogState
      */
-    private void StampImgClick(StampLogState sls) {
+    private void StampImgClick(int posion, ArrayList<StampLogState> sls) {
     	
     	try {
-    		Log.d("DEBUG",String.valueOf(sls.getStampId()));
-    		
     		// スタンプ画像クリック時、スタンプログ詳細画面へ遷移
-    		Intent i = new Intent(getApplicationContext(), StampLogDetailActivity.class);
-    		i.putExtra("StampLogState", sls);
-			startActivity(i);
+    		StampLogState data = sls.get(posion);
+    		if (data.stamp_flg == 1) {
+    			// スタンプフラグが1の時だけ詳細画面へ遷移
+        		Intent i = new Intent(getApplicationContext(), StampLogDetailActivity.class);
+        		i.putExtra("StampLogState", data);
+    			startActivity(i);
+    		}
     		
     	} catch (ActivityNotFoundException e) {
     		// スタンプログ詳細画面へ遷移できなかった場合
@@ -273,6 +329,9 @@ public class StampLogActivity extends Activity implements OnClickListener {
 
     	/** スタンプID */ 
     	private int stamp_id;
+
+    	/** スタンプフラグ */ 
+    	private int stamp_flg;
     	
     	/** ノベルタイトル */ 
     	private String novel_title;
@@ -285,6 +344,13 @@ public class StampLogActivity extends Activity implements OnClickListener {
     	}
     	public int getStampId() {
     		return this.stamp_id;
+    	}
+    	
+    	public void setStampFlg(int _stamp_flg) {
+    		this.stamp_flg = _stamp_flg;
+    	}
+    	public int getStampFlg() {
+    		return this.stamp_flg;
     	}
     	
     	public void setNovelTitle(String _novel_title) {

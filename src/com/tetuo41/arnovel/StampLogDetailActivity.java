@@ -3,6 +3,7 @@ package com.tetuo41.arnovel;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -52,20 +53,31 @@ public class StampLogDetailActivity extends Activity {
     	String stamp_id = String.valueOf(sls.getStampId());
     	String novel_title = sls.getNovelTitle();
     	String novel_data = sls.getNovelData();
+    	// ノベルデータを30文字づつ改行区切りでわける。
+    	// まず、25文字づつ 70
+    	String str;
+    	StringBuilder sb = new StringBuilder();
     	
+    	for (int j = 0; j < novel_data.length() / 25; j++) {
+    		sb.append(novel_data.substring(25*j,(25*j)+25));
+    		Log.d("DEBUG", sb.toString());
+        	sb.append("\n"); // 改行文字
+    	}
+    	
+    	sb.append(novel_data.substring(sb.length()-1));
+  	
     	/** 表示するVIEW取得・テキストセット */
     	// レコードID
 		TextView tvRecordId = (TextView) findViewById(R.id.record_id);
-		tvRecordId.setText(stamp_id);
+		tvRecordId.setText("No." + stamp_id);
 		
 		// レコードタイトル(ノベルタイトル)
 		TextView tvNovelTitle = (TextView) findViewById(R.id.record_title);
-		tvNovelTitle.setText(novel_title);
+		tvNovelTitle.setText("「" + novel_title + "」");
 		
 		// あらすじ(ノベルデータ)
 		TextView tvNovelData = (TextView) findViewById(R.id.novel_data);
-		tvNovelData.setText(novel_data);
-		
+		tvNovelData.setText(sb);
     }
 
 }
