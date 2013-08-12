@@ -53,18 +53,19 @@ public class StampLogDetailActivity extends Activity {
     	String stamp_id = String.valueOf(sls.getStampId());
     	String novel_title = sls.getNovelTitle();
     	String novel_data = sls.getNovelData();
-    	// ノベルデータを30文字づつ改行区切りでわける。
-    	// まず、25文字づつ 70
-    	String str;
+    	// ノベルデータを25文字づつ改行区切りでわける。
     	StringBuilder sb = new StringBuilder();
     	
-    	for (int j = 0; j < novel_data.length() / 25; j++) {
+    	// 表示する行数Z(改行文字の数でもある)
+    	int row_count = novel_data.length() / 25;
+    	
+    	for (int j = 0; j < row_count; j++) {
     		sb.append(novel_data.substring(25*j,(25*j)+25));
     		Log.d("DEBUG", sb.toString());
         	sb.append("\n"); // 改行文字
     	}
-    	
-    	sb.append(novel_data.substring(sb.length()-1));
+    	// 残り文字列の連結
+    	sb.append(novel_data.substring(sb.length() - row_count));
   	
     	/** 表示するVIEW取得・テキストセット */
     	// レコードID
