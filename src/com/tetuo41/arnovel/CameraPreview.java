@@ -2,104 +2,149 @@ package com.tetuo41.arnovel;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.hardware.Camera.PreviewCallback;
+import android.hardware.Camera.ShutterCallback;
+import android.os.Environment;
+import android.provider.MediaStore.Images;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
+import com.tetuo41.arnovel.common.CommonDef;
+import com.tetuo41.arnovel.common.CommonUtil;
+
 public class CameraPreview extends SurfaceView implements
 		SurfaceHolder.Callback, PictureCallback {
-	
-	
-    protected Context context;
-    private SurfaceHolder holder;
-	protected Camera camera;
-	private static final String SDCARD_FOLDER = "/sdcard/locanovel/";
 
-	public CameraPreview(Context context) {
+	/** 共通クラスオブジェクト */
+	private CommonUtil cmnutil;
+	private CommonDef cmndef;
+
+	/** カメラオブジェクト */
+	private Camera mCam;
+
+	// 参考URL http://androidguide.nomaki.jp/html/device/camera/camIntro.html
+
+	protected Context context;
+	private static final String SDCARD_FOLDER = Environment
+			.getExternalStorageDirectory().getPath() + "/locanovel/";
+
+	/**
+	 * コンストラクタ
+	 */
+	public CameraPreview(Context context, Camera cam) {
 		super(context);
 		this.context = context;
-        holder = getHolder();
-        holder.addCallback(this);
-        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        
-        
-		//holder = getHolder();
-		//holder.addCallback(this);
-		
-		//プッシュバッッファの指定
-		//holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		
-		// 保存用フォルダ作成
+		cmnutil = new CommonUtil();
+		cmndef = new CommonDef();
+		mCam = cam;
+
+		// サーフェスホルダーの取得とコールバック通知先の設定
+		SurfaceHolder holder = getHolder();
+		holder.addCallback(this);
+		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+		// 保存用フォルダ作成(なければ)
 		File dirs = new File(SDCARD_FOLDER);
 		if (!dirs.exists()) {
 			dirs.mkdir();
 		}
-
 	}
 
-	@Override
+	/**
+	 * SurfaceView 生成
+	 */
 	public void surfaceCreated(SurfaceHolder holder) {
-		if (camera == null) {
-            try {
-                camera = Camera.open();
-            } catch (RuntimeException e) {
-                ((Activity)context).finish();
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
-		
-		 
+		try {
+			// カメラインスタンスに、画像表示先を設定
+			mCam.setPreviewDisplay(holder);
+
+			// プレビュー開始
+			mCam.startPreview();
+
+		} catch (IOException e) {
+			// 　例外発生時
+			Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+		}
 	}
 
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-		//camera.stopPreview();
-		//Camera.Parameters params = camera.getParameters();
-		//params.setPreviewFormat(format);
-		//params.setPreviewSize(width, height);
-		//camera.setParameters(params);
-
-		// 縦画面対応
-		// setRotation(90)はxperiaなどで効かないよう。
-		// 出力画像を回転させる方向で実装しておいた方がよい
-		//camera.setDisplayOrientation(90);
-		//params.setRotation(90);
-
-		//camera.startPreview();
-	}
-
-	@Override
+	/**
+	 * SurfaceView 破棄時 
+	 * (プレビュー画面からステージセレクト画面へBackした場合)
+	 */
 	public void surfaceDestroyed(SurfaceHolder holder) {
-//		camera.setPreviewCallback(null);
-//	    camera.stopPreview();
-//	    camera.release();
-//	    camera = null;
+		mCam.release();
+		mCam = null;
 	}
 
-	@Override
-	public void onPictureTaken(byte[] data, Camera camera) {
-		// TODO 自動生成されたメソッド・スタブ
+	// JPEGイメージ生成後に呼ばれるコールバック
+	private PictureCallback mPictureListener = new PictureCallback() {
 
-	}
+		@Override
+		public void onPictureTaken(byte[] data, Camera camera) {
+
+			// 画像ファイル名
+			SimpleDateFormat date = new SimpleDateFormat("_yyyyMMddkkmmss");
+			String datName = cmndef.APP_NAME + date.format(new Date()) + ".jpg";
+
+			// Log.d("DEBUG", "onPictureTaken Start");
+			try {
+				if (data != null) {
+					// 撮影画像保存
+					savePhotoData(datName, data);
+				}
+			} catch (Exception e) {
+				// 撮影画像の保存できなかった場合
+				Log.e("ERROR", e.toString());
+				Toast.makeText(context, cmndef.CAMERA_ERROR_MSG1,
+						Toast.LENGTH_LONG).show();
+
+				if (camera != null) {
+					camera.release();
+					camera = null;
+				}
+			}
+			// TODO 撮影画像を背景としNovelActivity起動
+			// 撮影画像の位置情報がノベル位置情報と一致しなければ、画像削除。
+			// Toast表示、プレビュースタート
+			Log.d("DEBUG", "撮影画像を背景としNovelActivity起動");
+
+			camera.startPreview();
+
+		}
+	};
+
+	/** シャッターが押されたときに呼ばれるコールバック */
+	private ShutterCallback mShutterListener = new ShutterCallback() {
+		public void onShutter() {
+		}
+	};
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
+
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			//camera.takePicture(null, null, this);
+			// タッチ押下時、撮影データを取得。
+			// 撮影データはPictureCallback.onPictureTaken()にbyte列で渡される
+			mCam.takePicture(mShutterListener, null, mPictureListener);
+
 		}
 		return true;
 	}
 
 	private void savePhotoData(String datName, byte[] data) throws Exception {
-		// TODO Auto-generated method stub
+
 		FileOutputStream outStream = null;
 
 		try {
@@ -112,5 +157,39 @@ public class CameraPreview extends SurfaceView implements
 			}
 			throw e;
 		}
+
+		ContentValues cv = new ContentValues();
+		try {
+			// 追加した画像をギャラリーに表示
+			ContentResolver contentResolver = context.getContentResolver();
+			cv.put(Images.Media.TITLE, datName);
+			cv.put(Images.Media.MIME_TYPE, "image/jpeg");
+			cv.put("_data", SDCARD_FOLDER + datName);
+			contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, cv);
+
+		} catch (Exception e) {
+			Log.w("WARN", e.toString());
+			Toast.makeText(context, cmndef.CAMERA_ERROR_MSG2,
+					Toast.LENGTH_SHORT).show();
+
+		}
+
+		// カメラプレビュー
+		mCam.startPreview();
+
+	}
+
+	/**
+	 * SurfaceHolder が変化したときのイベント
+	 */
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+		// 画面回転に対応する場合は、ここでプレビューを停止し、
+		// 回転による処理を実施、再度プレビューを開始する。
+
+	}
+
+	@Override
+	public void onPictureTaken(byte[] data, Camera camera) {
 	}
 }

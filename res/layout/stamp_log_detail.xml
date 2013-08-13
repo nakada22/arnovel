@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
         android:scaleType="fitCenter"
         android:src="@drawable/record_title" >
@@ -67,7 +67,7 @@
            android:id="@+id/novel_data"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           android:layout_marginLeft="20dp"
+           android:layout_marginLeft="10dp"
            android:layout_marginBottom="20dp"
            android:background="#000000"
            android:textColor="#FFFFFF"
@@ -99,8 +99,8 @@
 
 		<ImageView
 		    android:id="@+id/twitter_img"
-		    android:layout_width="160dp"
-		    android:layout_height="40dp"
+		    android:layout_width="140dp"
+		    android:layout_height="35dp"
 		    android:layout_marginBottom="30dp"
 		    android:layout_marginLeft="10dp"
             android:scaleType="fitCenter"
@@ -109,8 +109,8 @@
 	    <!-- facebook画像 -->
 		<ImageView
 		    android:id="@+id/facebook_btn"
-		    android:layout_width="160dp"
-		    android:layout_height="40dp"
+		    android:layout_width="140dp"
+		    android:layout_height="35dp"
             android:scaleType="fitCenter"
 		    android:layout_marginBottom="30dp"
 		    android:layout_marginLeft="20dp"

@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -55,12 +54,14 @@ public class TopActivity extends Activity implements View.OnClickListener{
 			Init init = new Init();
 			init.execute();
 			
-		} catch (NetworkOnMainThreadException e) {
-			// CSVファイル読み込み失敗したとき
-			Log.e("ERROR","NetworkOnMainThreadException");
-    		Toast.makeText(this, cmndef.TOP_ERROR_MSG3, Toast.LENGTH_LONG).show();
-			
-		} catch (RuntimeException e) {
+		}
+//		catch (NetworkOnMainThreadException e) {
+//			// CSVファイル読み込み失敗したとき
+//			Log.e("ERROR","NetworkOnMainThreadException");
+//    		Toast.makeText(this, cmndef.TOP_ERROR_MSG3, Toast.LENGTH_LONG).show();
+//			
+//		}
+		catch (RuntimeException e) {
 			// インターネットに接続できなかった場合
 			Log.e("ERROR", e.toString());
 			Toast.makeText(this, cmndef.CMN_ERROR_MSG1, Toast.LENGTH_LONG).show();

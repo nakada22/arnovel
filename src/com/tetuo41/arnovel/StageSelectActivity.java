@@ -2,16 +2,19 @@ package com.tetuo41.arnovel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
@@ -27,6 +30,9 @@ public class StageSelectActivity extends Activity{
 	/** スクロール中かどうかフラグ */
 	// boolean mBusy;
 	
+	static final int REQUEST_CAPTURE_IMAGE = 0;
+	ImageView imageView1;
+	
 	/** 共通クラスオブジェクト */
 	private CommonUtil cmnutil;
 	private CommonDef cmndef;
@@ -40,6 +46,9 @@ public class StageSelectActivity extends Activity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.stage_select);
 		
+		// プレビュー撮影画像
+    	//ImageView imageView1 = (ImageView)findViewById(R.id.camera_preview);
+    	
 		// ステージリスト表示メソッド
 		StageSelectView();
     }
@@ -87,19 +96,24 @@ public class StageSelectActivity extends Activity{
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapterview, View view,
 					int position, long id) {
-				//StageSelectState sss = dataOfStage.get(position);
 				
-				// TODO カメラプレビュー起動、ノベルデータ保持？
-				Intent i = new Intent(getApplicationContext(), CameraPreviewActivity.class);
-				//i.putExtra("CameraPreview", sss);
-				startActivity(i);
-				
-				
+				// TODO カメラアプリの起動、ノベルデータ保持？　GPS機能も起動
+//				Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//				i.addCategory(Intent.CATEGORY_DEFAULT);
+//				//　ここの0の番号で呼び出し元と呼び出し先で対象かどうか判断する
+//				startActivityForResult(i,REQUEST_CAPTURE_IMAGE);
+				// インテントのインスタンス生成
+				// Intent i = new Intent();
+				// i.setAction("android.media.action.IMAGE_CAPTURE");
+				// startActivityForResult(i, REQUEST_CAPTURE_IMAGE);
+			
 				// 参考URL http://techbooster.jpn.org/andriod/device/9632/ 
 				//        http://blog.ayakix.com/2011/09/androidoverlay.html
-				//Intent i = new Intent(StageSelectActivity.this, DailyActivity.class);
-				//i.putExtra("DailyState", ds);
-				//startActivity(i);
+				StageSelectState sss = dataOfStage.get(position);
+
+				Intent i = new Intent(getApplicationContext(), CameraPreviewActivity.class);
+				i.putExtra("CameraPreview", sss);
+				startActivity(i);
 			}
 		});
 		
@@ -108,5 +122,36 @@ public class StageSelectActivity extends Activity{
 		
     }
     
+    @Override
+	protected void onActivityResult( int requestCode, int resultCode, 
+		Intent data) {
+    	
+    	try {
+    		
+        	if(REQUEST_CAPTURE_IMAGE == requestCode 
+    			&& resultCode == Activity.RESULT_OK ){
+        		
+        		Toast.makeText(this, "Activity.RESULT_OK", Toast.LENGTH_LONG).show();
+        		
+        		// カメラからの結果を取得(ここでNull PointerException)
+    			Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
+    			imageView1.setImageBitmap(capturedImage);
+    			Toast.makeText(this, "setImageBitmap OK", Toast.LENGTH_LONG).show();
+        		
+    			View view = getLayoutInflater().inflate(R.layout.camera_preview, null);
+    			Toast.makeText(this, "etLayoutInflater().infl OK", Toast.LENGTH_LONG).show();
+    			
+    			addContentView(view, new LayoutParams(LayoutParams.FILL_PARENT,
+    			LayoutParams.FILL_PARENT));
+    			
+    		}
+    	} catch(Exception e) {
+    		Log.d("DEBUG", e.toString());
+    		// Null PointerException!!!!
+    		Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+    		Toast.makeText(this, "カメラからの結果取得に失敗しました", Toast.LENGTH_LONG).show();
+    	}
+    	
+	}
     
 }

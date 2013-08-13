@@ -3,7 +3,6 @@ package com.tetuo41.arnovel;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +22,6 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
     private LayoutInflater inflater;
     private ViewHolder     holder;
     private Context context;
-    
-
     
     /** 
      * コンストラクタ
@@ -85,16 +82,18 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
                     		new DownloadImageTask(holder.photo, context);
                     task.execute(image_url);
                     
-                } catch (NetworkOnMainThreadException e) {
-                	// 3.0以降「StrictMode」がデフォルトで有効になっており
-            		// メインスレッドでネットワーク処理を行うと例外がスローされる
-            		
-                	// 画像の読込が失敗した場合
-            		Log.e("WARN","NetworkOnMainThreadException");
-            		Toast.makeText(context, "画像の読込が失敗しました。", 
-            				Toast.LENGTH_LONG).show();
-            		
-            	} catch (Exception e) {
+                } 
+//            	catch (NetworkOnMainThreadException e) {
+//                	// 3.0以降「StrictMode」がデフォルトで有効になっており
+//            		// メインスレッドでネットワーク処理を行うと例外がスローされる
+//            		
+//                	// 画像の読込が失敗した場合
+//            		Log.e("WARN","NetworkOnMainThreadException");
+//            		Toast.makeText(context, "画像の読込が失敗しました。", 
+//            				Toast.LENGTH_LONG).show();
+//            		
+//            	} 
+            	catch (Exception e) {
             		// 画像の読込が失敗した場合
             		Log.w("WARN", e.toString());
             		Toast.makeText(context, "画像の読込が失敗しました。", 

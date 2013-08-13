@@ -7,7 +7,10 @@ package com.tetuo41.arnovel.common;
  * @author HackathonG
  */
 public class CommonDef {
-	
+
+	/** アプリ関連 */
+    public final String APP_NAME = "LocaNovel";
+    
 	/** サーバ情報 */
     public final String S_HOST_NAME = "sashihara.web.fc2.com";
     public final String S_DIR = "/";
@@ -16,7 +19,7 @@ public class CommonDef {
     public final String NOVEL_FILE = "loca_novel.csv";
     public final String STAGE_FILE = "stage.csv";
 
-    /** ディレクトリ名 */
+    /** サーバディレクトリ名 */
     public final String DATA_DIR = "/data/";
     public final String IMAGE_DIR = "/image/locanovel/";
     
@@ -32,6 +35,9 @@ public class CommonDef {
     // 共通用メッセージ
     public final String CMN_ERROR_MSG1 = "インターネットに接続できませんでした";
     
+    // カメラプレビュー画面用メッセージ
+    public final String CAMERA_ERROR_MSG1 = "撮影画像の保存に失敗しました";
+    public final String CAMERA_ERROR_MSG2 = "ファイルの保存中にエラーが発生しました";
     
     
     
