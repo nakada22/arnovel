@@ -36,7 +36,8 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
 		
 		this.context = context;
         this.list = _list;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.inflater = (LayoutInflater) context.getSystemService
+        		(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	

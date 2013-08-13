@@ -46,9 +46,6 @@ public class StageSelectActivity extends Activity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.stage_select);
 		
-		// プレビュー撮影画像
-    	//ImageView imageView1 = (ImageView)findViewById(R.id.camera_preview);
-    	
 		// ステージリスト表示メソッド
 		StageSelectView();
     }

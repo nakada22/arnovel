@@ -61,7 +61,6 @@ public class StampLogActivity extends Activity implements OnClickListener {
     public StampLogActivity() {
     	cmnutil = new CommonUtil();
     	cmndef = new CommonDef();
-    	
     }
     
     /** 
@@ -256,6 +255,7 @@ public class StampLogActivity extends Activity implements OnClickListener {
      * @param ノベルデータ
      * @param イメージビュー
      * @param テキストビュー
+     * @return スタンプログデータ
      * 
      * */
     private StampLogState StampLogDisp(String stamp_id, String stamp_flg, 
@@ -321,7 +321,6 @@ public class StampLogActivity extends Activity implements OnClickListener {
     /**
      * 内部クラス
      * をシリアライズ(直列化)
-     * @author HackathonG
      */
     public static class StampLogState implements Serializable {
     	

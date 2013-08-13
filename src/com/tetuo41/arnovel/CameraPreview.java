@@ -9,9 +9,9 @@ import java.util.Date;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
-import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
@@ -35,7 +35,8 @@ public class CameraPreview extends SurfaceView implements
 	private Camera mCam;
 
 	// 参考URL http://androidguide.nomaki.jp/html/device/camera/camIntro.html
-
+	// TODO オートフォーカス機能
+	
 	protected Context context;
 	private static final String SDCARD_FOLDER = Environment
 			.getExternalStorageDirectory().getPath() + "/locanovel/";
@@ -67,6 +68,17 @@ public class CameraPreview extends SurfaceView implements
 	 */
 	public void surfaceCreated(SurfaceHolder holder) {
 		try {
+			if (mCam == null) {
+				// カメラオブジェクトがない場合は作成
+				try {
+		            mCam = Camera.open();
+		        } catch (Exception e) {
+		        	// エラー発生時
+		            Log.w("WARN", e.toString());
+		        	Toast.makeText(context, 
+		        			"カメラの起動に失敗しました", Toast.LENGTH_LONG).show();
+		        }
+			}
 			// カメラインスタンスに、画像表示先を設定
 			mCam.setPreviewDisplay(holder);
 
@@ -74,8 +86,8 @@ public class CameraPreview extends SurfaceView implements
 			mCam.startPreview();
 
 		} catch (IOException e) {
-			// 　例外発生時
-			Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+			// 例外発生時
+			Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -104,6 +116,7 @@ public class CameraPreview extends SurfaceView implements
 					// 撮影画像保存
 					savePhotoData(datName, data);
 				}
+				
 			} catch (Exception e) {
 				// 撮影画像の保存できなかった場合
 				Log.e("ERROR", e.toString());
@@ -115,16 +128,23 @@ public class CameraPreview extends SurfaceView implements
 					camera = null;
 				}
 			}
-			// TODO 撮影画像を背景としNovelActivity起動
-			// 撮影画像の位置情報がノベル位置情報と一致しなければ、画像削除。
-			// Toast表示、プレビュースタート
-			Log.d("DEBUG", "撮影画像を背景としNovelActivity起動");
-
-			camera.startPreview();
-
+			
+			// TODO 撮影画像の位置情報がノベル位置情報と一致しなければ、画像削除。
+			// TODO Toast表示、ノベルデータを受け渡し
+			// 撮影画像を背景としNovelActivity起動
+			Log.d("DEBUG", "撮影画像を背景としNovelIntroActivity起動");
+			Intent i = new Intent(context, NovelIntroActivity.class);
+			// i.putExtra("NovelIntroActivity", sss);
+			
+			// 背景画像用のパスをセット
+			i.putExtra("back_ground", SDCARD_FOLDER + datName);
+			
+			// 外部Activityを自分のActivityスタックとは別に立てる
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			getContext().startActivity(i);
 		}
 	};
-
+	
 	/** シャッターが押されたときに呼ばれるコールバック */
 	private ShutterCallback mShutterListener = new ShutterCallback() {
 		public void onShutter() {
@@ -143,6 +163,12 @@ public class CameraPreview extends SurfaceView implements
 		return true;
 	}
 
+	/**
+	 * 撮影画像を保存する。
+	 * @param datName 画像ファイル名
+	 * @param data 撮影データ
+	 * 
+	 * */
 	private void savePhotoData(String datName, byte[] data) throws Exception {
 
 		FileOutputStream outStream = null;
@@ -175,7 +201,7 @@ public class CameraPreview extends SurfaceView implements
 		}
 
 		// カメラプレビュー
-		mCam.startPreview();
+		// mCam.startPreview();
 
 	}
 
@@ -184,6 +210,7 @@ public class CameraPreview extends SurfaceView implements
 	 */
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
+		Log.d("DEBUG", "surfaceChanged called.");
 		// 画面回転に対応する場合は、ここでプレビューを停止し、
 		// 回転による処理を実施、再度プレビューを開始する。
 

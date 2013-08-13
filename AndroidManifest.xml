@@ -63,6 +63,13 @@
             android:restoreAnyVersion="true"
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
+		<activity
+            android:name=".NovelIntroActivity"
+            android:screenOrientation="portrait"
+            android:restoreAnyVersion="true"
+            android:theme="@android:style/Theme.Translucent"
+			android:configChanges="orientation|keyboard|keyboardHidden" >
+        </activity>
         
     </application>
 

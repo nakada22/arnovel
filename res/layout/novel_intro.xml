@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scaleType="fitCenter"
+    tools:context=".StageSelectActivity" >
+
+    <!-- 背景画像 -->
+    <ImageView
+        android:id="@+id/back_ground"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitCenter" >
+    </ImageView>
+
+    <!-- 導入部黒吹き出し１ -->
+    <ImageView
+        android:id="@+id/b_blowoff_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="left"
+        android:scaleType="fitCenter"
+        android:src="@drawable/b_blowoff_top" >
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/b_blowoff_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/b_blowoff_top"
+        android:background="#000000"
+        android:src="@drawable/b_blowoff_center" >
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/b_blowoff_under"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentBottom="@id/b_blowoff_center"
+        android:src="@drawable/b_blowoff_under" >
+    </ImageView>
+
+</RelativeLayout>
