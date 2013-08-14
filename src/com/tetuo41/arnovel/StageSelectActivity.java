@@ -78,10 +78,16 @@ public class StageSelectActivity extends Activity{
     	for (int i = 0; i < stage_data.size(); i++) {
     		StageSelectState sss = new StageSelectState();
     		List<String> data = stage_data.get(i);
+    		sss.setStageId(Integer.valueOf(data.get(0)));
     		sss.setPhotoUrl(stage_img_url + "stage" + data.get(0) +".png");
     		sss.setStageTitle(data.get(1));
-    		sss.setOutLine(data.get(2));
+    		sss.setOutLine(data.get(2).substring(0, 30) + "・・・");
     		sss.setAddress(data.get(3));
+    		sss.setLongitude(data.get(4)); // 経度
+    		sss.setLatitude(data.get(5)); // 緯度
+    		sss.setNovelIntro1(data.get(6));// ノベル導入部分1
+    		sss.setNovelIntro1(data.get(7));// ノベル導入部分2
+    		sss.setNovelIntro1(data.get(8));// ノベル導入部分3
     		dataOfStage.add(sss);
     	}
     	
@@ -109,7 +115,7 @@ public class StageSelectActivity extends Activity{
 				StageSelectState sss = dataOfStage.get(position);
 
 				Intent i = new Intent(getApplicationContext(), CameraPreviewActivity.class);
-				i.putExtra("CameraPreview", sss);
+				i.putExtra("StageSelectState", sss);
 				startActivity(i);
 			}
 		});
@@ -119,36 +125,36 @@ public class StageSelectActivity extends Activity{
 		
     }
     
-    @Override
-	protected void onActivityResult( int requestCode, int resultCode, 
-		Intent data) {
-    	
-    	try {
-    		
-        	if(REQUEST_CAPTURE_IMAGE == requestCode 
-    			&& resultCode == Activity.RESULT_OK ){
-        		
-        		Toast.makeText(this, "Activity.RESULT_OK", Toast.LENGTH_LONG).show();
-        		
-        		// カメラからの結果を取得(ここでNull PointerException)
-    			Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
-    			imageView1.setImageBitmap(capturedImage);
-    			Toast.makeText(this, "setImageBitmap OK", Toast.LENGTH_LONG).show();
-        		
-    			View view = getLayoutInflater().inflate(R.layout.camera_preview, null);
-    			Toast.makeText(this, "etLayoutInflater().infl OK", Toast.LENGTH_LONG).show();
-    			
-    			addContentView(view, new LayoutParams(LayoutParams.FILL_PARENT,
-    			LayoutParams.FILL_PARENT));
-    			
-    		}
-    	} catch(Exception e) {
-    		Log.d("DEBUG", e.toString());
-    		// Null PointerException!!!!
-    		Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-    		Toast.makeText(this, "カメラからの結果取得に失敗しました", Toast.LENGTH_LONG).show();
-    	}
-    	
-	}
+//    @Override
+//	protected void onActivityResult( int requestCode, int resultCode, 
+//		Intent data) {
+//    	
+//    	try {
+//    		
+//        	if(REQUEST_CAPTURE_IMAGE == requestCode 
+//    			&& resultCode == Activity.RESULT_OK ){
+//        		
+//        		Toast.makeText(this, "Activity.RESULT_OK", Toast.LENGTH_LONG).show();
+//        		
+//        		// カメラからの結果を取得(ここでNull PointerException)
+//    			Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
+//    			imageView1.setImageBitmap(capturedImage);
+//    			Toast.makeText(this, "setImageBitmap OK", Toast.LENGTH_LONG).show();
+//        		
+//    			View view = getLayoutInflater().inflate(R.layout.camera_preview, null);
+//    			Toast.makeText(this, "getLayoutInflater().infl OK", Toast.LENGTH_LONG).show();
+//    			
+//    			addContentView(view, new LayoutParams(LayoutParams.FILL_PARENT,
+//    			LayoutParams.FILL_PARENT));
+//    			
+//    		}
+//    	} catch(Exception e) {
+//    		Log.d("DEBUG", e.toString());
+//    		// Null PointerException!!!!
+//    		Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+//    		Toast.makeText(this, "カメラからの結果取得に失敗しました", Toast.LENGTH_LONG).show();
+//    	}
+//    	
+//	}
     
 }

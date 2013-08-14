@@ -2,6 +2,9 @@ package com.tetuo41.arnovel;
 
 import java.util.ArrayList;
 
+import com.tetuo41.arnovel.common.CommonDef;
+import com.tetuo41.arnovel.common.CommonUtil;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +26,10 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
     private ViewHolder     holder;
     private Context context;
     
+    /** 共通クラスオブジェクト */
+	private CommonUtil cmnutil;
+	private CommonDef cmndef;
+	
     /** 
      * コンストラクタ
      *
@@ -33,7 +40,9 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
 	public StageSelectAdapter(Context context, int textViewResourceId, 
 			ArrayList<StageSelectState> _list) {
 		super(context, textViewResourceId, _list);
-		
+		cmnutil = new CommonUtil();
+    	cmndef = new CommonDef();
+    	
 		this.context = context;
         this.list = _list;
         this.inflater = (LayoutInflater) context.getSystemService
@@ -97,7 +106,7 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
             	catch (Exception e) {
             		// 画像の読込が失敗した場合
             		Log.w("WARN", e.toString());
-            		Toast.makeText(context, "画像の読込が失敗しました。", 
+            		Toast.makeText(context, cmndef.STAGE_ERROR_MSG1, 
             				Toast.LENGTH_LONG).show();
             		
             	}

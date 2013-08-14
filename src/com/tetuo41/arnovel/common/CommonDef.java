@@ -32,12 +32,16 @@ public class CommonDef {
     // スタンプ一覧画面用メッセージ
     public final String STAMP_ERROR_MSG1 = "スタンプログ詳細画面へ遷移できませんでした";
     
+    // スタンプ一覧画面用メッセージ
+    public final String STAGE_ERROR_MSG1 = "画像の読込が失敗しました";
+    
     // 共通用メッセージ
     public final String CMN_ERROR_MSG1 = "インターネットに接続できませんでした";
     
     // カメラプレビュー画面用メッセージ
     public final String CAMERA_ERROR_MSG1 = "撮影画像の保存に失敗しました";
     public final String CAMERA_ERROR_MSG2 = "ファイルの保存中にエラーが発生しました";
+    public final String CAMERA_ERROR_MSG3 = "カメラの起動に失敗しました";
     
     
     

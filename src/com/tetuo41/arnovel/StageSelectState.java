@@ -16,11 +16,29 @@ public class StageSelectState implements Serializable {
 	/** ステージタイトル */ 
 	private String stage_title;
 	
-	/** あらすじ */ 
+	/** ノベルデータ(あらすじ) */ 
 	private String outline;
 
 	/** 住所 */ 
 	private String address;
+	
+	/** ステージID */ 
+	private int stage_id;
+	
+	/** 経度 */ 
+	private String longitude;
+	
+	/** 緯度 */ 
+	private String latitude;
+	
+	/** 導入文１ */ 
+	private String novel_intro1;
+	
+	/** 導入文２ */ 
+	private String novel_intro2;
+	
+	/** 導入文３ */ 
+	private String novel_intro3;
 	
 	public void setPhotoUrl(String _photo_url) {
 		this.photo_url = _photo_url;
@@ -43,12 +61,60 @@ public class StageSelectState implements Serializable {
 	public String getOutLine() {
 		return this.outline;
 	}
+
+	public void setAddress(String _address) {
+		this.address = _address;
+	}
 	
 	public String getAddress() {
 		return this.address;
 	}
 	
-	public void setAddress(String _address) {
-		this.address = _address;
+	public void setStageId(int _stage_id) {
+		this.stage_id = _stage_id;
+	}
+	
+	public int getStageId() {
+		return this.stage_id;
+	}
+
+	public void setLongitude(String _longitude) {
+		this.longitude = _longitude;
+	}
+	
+	public String getLongitude() {
+		return this.longitude;
+	}
+	
+	public void setLatitude(String _latitude) {
+		this.latitude = _latitude;
+	}
+	
+	public String getLatitude() {
+		return this.latitude;
+	}
+	
+	public void setNovelIntro1(String _novel_intro1) {
+		this.novel_intro1 = _novel_intro1;
+	}
+	
+	public String getNovelIntro1() {
+		return this.novel_intro1;
+	}
+	
+	public void setNovelIntro2(String _novel_intro2) {
+		this.novel_intro2 = _novel_intro2;
+	}
+	
+	public String getNovelIntro2() {
+		return this.novel_intro2;
+	}
+	
+	public void setNovelIntro3(String _novel_intro3) {
+		this.novel_intro3 = _novel_intro3;
+	}
+	
+	public String getNovelIntro3() {
+		return this.novel_intro3;
 	}
 }

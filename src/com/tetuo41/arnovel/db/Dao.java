@@ -181,9 +181,10 @@ public class Dao {
 		/** ステージセレクト画面での表示データを取得 */
 		try {
 			// SQL文生成
-			String SQL = "SELECT mn.stage_id, mn.novel_title, mn.novel_data," +
-					" mss.address FROM mst_novel mn, mst_stage_select mss " +
-					"WHERE mn.stage_id=mss.stage_id";
+			String SQL = "SELECT mn.stage_id, mn.novel_title, mn.novel_data, " +
+					" mss.address, mn.longitude, mn.latitude, mn.novel_intro1, " +
+					" mn.novel_intro2, mn.novel_intro3 FROM mst_novel mn, " +
+					" mst_stage_select mss WHERE mn.stage_id=mss.stage_id";
 			
 			Cursor c = db.rawQuery(SQL, null);
 			
@@ -198,9 +199,13 @@ public class Dao {
 
 					data_list.add(c.getString(0)); // ステージID格納
 					data_list.add(c.getString(1)); // ノベルタイトル格納
-					data_list.add(c.getString(2).substring(0, 30)
-							+ "・・・"); // ノベルデータ格納(あらすじ)
+					data_list.add(c.getString(2)); // ノベルデータ格納(あらすじ)
 					data_list.add(c.getString(3)); // 住所格納
+					data_list.add(c.getString(4)); // 経度
+					data_list.add(c.getString(5)); // 緯度
+					data_list.add(c.getString(6)); // ノベル導入部分1
+					data_list.add(c.getString(7)); // ノベル導入部分2
+					data_list.add(c.getString(8)); // ノベル導入部分3
 					
 					// データ格納
 					ret.add(data_list);

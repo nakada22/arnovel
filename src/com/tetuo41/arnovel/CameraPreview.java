@@ -24,6 +24,11 @@ import android.widget.Toast;
 import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
 
+/**
+ * カメラプレビューの処理を行うクラス
+ * @author HackathonG
+ * @version 1.0
+ */
 public class CameraPreview extends SurfaceView implements
 		SurfaceHolder.Callback, PictureCallback {
 
@@ -34,13 +39,16 @@ public class CameraPreview extends SurfaceView implements
 	/** カメラオブジェクト */
 	private Camera mCam;
 
-	// 参考URL http://androidguide.nomaki.jp/html/device/camera/camIntro.html
-	// TODO オートフォーカス機能
+	/** コンテキスト */
+	private Context context;
 	
-	protected Context context;
+	/** SDカードの画像保存パス */
 	private static final String SDCARD_FOLDER = Environment
 			.getExternalStorageDirectory().getPath() + "/locanovel/";
 
+	// 参考URL http://androidguide.nomaki.jp/html/device/camera/camIntro.html
+	// TODO オートフォーカス機能
+	
 	/**
 	 * コンストラクタ
 	 */
@@ -56,15 +64,17 @@ public class CameraPreview extends SurfaceView implements
 		holder.addCallback(this);
 		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-		// 保存用フォルダ作成(なければ)
+		// 画像保存用フォルダ作成
 		File dirs = new File(SDCARD_FOLDER);
 		if (!dirs.exists()) {
+			// フォルダなければ作成
 			dirs.mkdir();
 		}
 	}
 
 	/**
-	 * SurfaceView 生成
+	 * 画面(Surface)を描画する。
+	 * @param holder
 	 */
 	public void surfaceCreated(SurfaceHolder holder) {
 		try {
@@ -76,7 +86,7 @@ public class CameraPreview extends SurfaceView implements
 		        	// エラー発生時
 		            Log.w("WARN", e.toString());
 		        	Toast.makeText(context, 
-		        			"カメラの起動に失敗しました", Toast.LENGTH_LONG).show();
+		        			cmndef.CAMERA_ERROR_MSG3, Toast.LENGTH_LONG).show();
 		        }
 			}
 			// カメラインスタンスに、画像表示先を設定
@@ -87,20 +97,22 @@ public class CameraPreview extends SurfaceView implements
 
 		} catch (IOException e) {
 			// 例外発生時
-			Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+			Log.w("WARN", e.toString());
+    		Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
 		}
 	}
 
 	/**
 	 * SurfaceView 破棄時 
 	 * (プレビュー画面からステージセレクト画面へBackした場合)
+	 * @param holder
 	 */
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		mCam.release();
 		mCam = null;
 	}
 
-	// JPEGイメージ生成後に呼ばれるコールバック
+	/** JPEGイメージ生成後に呼ばれるコールバック */ 
 	private PictureCallback mPictureListener = new PictureCallback() {
 
 		@Override
@@ -147,10 +159,14 @@ public class CameraPreview extends SurfaceView implements
 	
 	/** シャッターが押されたときに呼ばれるコールバック */
 	private ShutterCallback mShutterListener = new ShutterCallback() {
-		public void onShutter() {
-		}
+		public void onShutter() {}
 	};
 
+	/**
+	 * カメラプレビュー画面でのタッチイベント処理
+	 * @param タッチアクションオブジェクト
+	 * 
+	 * */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
@@ -174,6 +190,7 @@ public class CameraPreview extends SurfaceView implements
 		FileOutputStream outStream = null;
 
 		try {
+			// SDカードへ撮影画像作成・保存
 			outStream = new FileOutputStream(SDCARD_FOLDER + datName);
 			outStream.write(data);
 			outStream.close();
@@ -181,6 +198,7 @@ public class CameraPreview extends SurfaceView implements
 			if (outStream != null) {
 				outStream.close();
 			}
+			// 例外をスローする
 			throw e;
 		}
 
@@ -199,14 +217,15 @@ public class CameraPreview extends SurfaceView implements
 					Toast.LENGTH_SHORT).show();
 
 		}
-
-		// カメラプレビュー
-		// mCam.startPreview();
-
 	}
 
 	/**
 	 * SurfaceHolder が変化したときのイベント
+	 * @param holder
+	 * @param フォーマット
+	 * @param 幅
+	 * @param 高さ
+	 * 
 	 */
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {

@@ -37,8 +37,8 @@
         android:id="@+id/b_blowoff_under"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_alignParentBottom="@id/b_blowoff_center"
+        android:layout_marginTop="45dp"
+        android:layout_alignParentBottom="@id/b_blowoff_top"
         android:src="@drawable/b_blowoff_under" >
     </ImageView>
 
