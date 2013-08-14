@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
@@ -37,12 +38,8 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
 		// テーマに撮影した画像をセット
 		setContentView(R.layout.novel_intro);
 		
-		Intent i = getIntent();
-		// 背景用画像パス取得
-    	String bg_pass = (String) i.getSerializableExtra("back_ground");
-    	Drawable d = Drawable.createFromPath(bg_pass);
-    	novel_layout = (ImageView) findViewById(R.id.back_ground);
-		novel_layout.setBackgroundDrawable(d);
+		// ノベル導入部分を表示する
+		NovelIntroDisp();
 		
 		// ClickListener登録
 		//findViewById(R.id.start).setOnClickListener(this);
@@ -57,6 +54,42 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     	cmndef = new CommonDef();
     }
     
+    /**
+     * ノベル導入部分を表示する
+     * 
+     * */
+    private void NovelIntroDisp() {
+    	
+		// 背景用画像パス取得、背景画像セット
+    	Intent i = getIntent();
+		String bg_pass = (String) i.getSerializableExtra("back_ground");
+    	Drawable d = Drawable.createFromPath(bg_pass);
+    	novel_layout = (ImageView) findViewById(R.id.back_ground);
+		novel_layout.setBackgroundDrawable(d);
+		
+		// ステージセレクトActivityより取得したデータを取得
+		StageSelectState sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
+		
+		// ノベル導入部分1
+		String novel_intro1 = sss.getNovelIntro1();
+		TextView tvNovelIntro1 = (TextView) findViewById(R.id.novel_intro1);
+		tvNovelIntro1.setText(novel_intro1);
+
+		// ノベル導入部分2
+		String novel_intro2 = sss.getNovelIntro2();
+		TextView tvNovelIntro2 = (TextView) findViewById(R.id.novel_intro2);
+		tvNovelIntro2.setText(novel_intro2);
+
+		// ノベル導入部分3
+		String novel_intro3 = sss.getNovelIntro3();
+		TextView tvNovelIntro3 = (TextView) findViewById(R.id.novel_intro3);
+		tvNovelIntro3.setText(novel_intro3);
+
+		
+
+    	
+    }
+    
     /** 
      * ボタンクリック時の処理を記述する。
      * @param View ボタンオブジェクト
@@ -65,12 +98,12 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     	
     	switch (v.getId()) {
 		case R.id.start:
-			// STARTボタンクリック時
+			// 「聞かせて」クリック時
 			TellClick();
 			
 			break;
 		case R.id.record:
-			// RECORDボタンクリック時
+			// 「ごめん、やめておく」ボタンクリック時
 			SorryStopClick();
 			
 			break;

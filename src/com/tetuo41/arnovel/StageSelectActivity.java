@@ -86,8 +86,8 @@ public class StageSelectActivity extends Activity{
     		sss.setLongitude(data.get(4)); // 経度
     		sss.setLatitude(data.get(5)); // 緯度
     		sss.setNovelIntro1(data.get(6));// ノベル導入部分1
-    		sss.setNovelIntro1(data.get(7));// ノベル導入部分2
-    		sss.setNovelIntro1(data.get(8));// ノベル導入部分3
+    		sss.setNovelIntro2(data.get(7));// ノベル導入部分2
+    		sss.setNovelIntro3(data.get(8));// ノベル導入部分3
     		dataOfStage.add(sss);
     	}
     	

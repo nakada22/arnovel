@@ -42,6 +42,9 @@ public class CameraPreview extends SurfaceView implements
 	/** コンテキスト */
 	private Context context;
 	
+	/** ステージセレクト画面から送られてきたデータ */
+	private StageSelectState sss;
+	
 	/** SDカードの画像保存パス */
 	private static final String SDCARD_FOLDER = Environment
 			.getExternalStorageDirectory().getPath() + "/locanovel/";
@@ -52,9 +55,11 @@ public class CameraPreview extends SurfaceView implements
 	/**
 	 * コンストラクタ
 	 */
-	public CameraPreview(Context context, Camera cam) {
+	public CameraPreview(Context context, Camera cam, 
+			StageSelectState sss) {
 		super(context);
 		this.context = context;
+		this.sss = sss;
 		cmnutil = new CommonUtil();
 		cmndef = new CommonDef();
 		mCam = cam;
@@ -142,12 +147,11 @@ public class CameraPreview extends SurfaceView implements
 				}
 			}
 			
-			// TODO 撮影画像の位置情報がノベル位置情報と一致しなければ、画像削除。
-			// TODO Toast表示、ノベルデータを受け渡し
+			// TODO 撮影画像の位置情報がノベル位置情報と一致しなければ、Toast表示、画像削除。
 			// 撮影画像を背景としNovelActivity起動
 			Log.d("DEBUG", "撮影画像を背景としNovelIntroActivity起動");
 			Intent i = new Intent(context, NovelIntroActivity.class);
-			// i.putExtra("NovelIntroActivity", sss);
+			i.putExtra("StageSelectState", sss);
 			
 			// 背景画像用のパスをセット
 			i.putExtra("back_ground", SDCARD_FOLDER + datName);
@@ -250,6 +254,5 @@ public class CameraPreview extends SurfaceView implements
 	}
 
 	@Override
-	public void onPictureTaken(byte[] data, Camera camera) {
-	}
+	public void onPictureTaken(byte[] data, Camera camera) {}
 }

@@ -53,15 +53,11 @@ public class CameraPreviewActivity extends Activity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.camera_preview);
         
-        
         // カメラを開く
-        CameraOpen();
-        
-        
+        // CameraOpen();
         
         // 位置情報取得機能を起動
         initLocationService();
-        
     }
 	
 	/** 
@@ -81,7 +77,14 @@ public class CameraPreviewActivity extends Activity
     			// カメラを開く
                 mCam = Camera.open();
     		}
-    		mCamPreview = new CameraPreview(this, mCam);
+    		
+    		/** ステージ選択画面からのデータ取得し、CameraPreview経由でNovelIntro用にセット */
+            Intent getintent = getIntent();
+        	StageSelectState sss = (StageSelectState) getintent.
+        			getSerializableExtra("StageSelectState");
+        	
+    		// カメラプレビュー起動(データもセット)
+    		mCamPreview = new CameraPreview(this, mCam, sss);
             FrameLayout preview = (FrameLayout)findViewById(R.id.camera_preview);
             preview.addView(mCamPreview);
             
@@ -103,16 +106,6 @@ public class CameraPreviewActivity extends Activity
      * */
     protected void initLocationService() {
     	Log.d("DEBUG", "initLocationService Start");
-    	
-    	/** ステージ選択画面からのデータ取得し、NovelIntro用にセット */
-    	Intent getintent = getIntent();
-    	StageSelectState sss = (StageSelectState) getintent.
-    			getSerializableExtra("StageSelectState");
-    	
-    	Intent setintent = new Intent(getApplicationContext(), NovelIntroActivity.class);
-    	setintent.putExtra("CameraPreviewState", sss);
-    	//String stage_id = String.valueOf(sss.getStageId()); // ステージID
-    	
     	
     	// 参考URL http://d.hatena.ne.jp/orangesignal/20101223/1293079002
     	// LocationManagerインスタンスを取得
@@ -224,13 +217,8 @@ public class CameraPreviewActivity extends Activity
      * */
     private void setLocation(Location location) {
 		stopLocationService();
-
-		// TODO ここに位置情報が取得できた場合の処理を記述
+		// ここに位置情報が取得できた場合の処理を記述
 		Log.d("DEBUG", "setLocation Start(位置情報が取得できた場合の処理)");
-        
-		// 画面にカメラプレビュー画面をセットする
-		// TODO 必要な情報：　経度・緯度、導入文３つ、ノベルデータ全文
-        
         
 	}
     
@@ -241,17 +229,6 @@ public class CameraPreviewActivity extends Activity
     @Override
     public void onLocationChanged(Location location) {
     	Log.d("DEBUG", "onLocationChanged１ Start");
-        
-//		Log.d("----------", "----------");
-//		Log.d("Longitude（経度）", String.valueOf(location.getLongitude()));
-//		Log.d("Latitude（緯度）", String.valueOf(location.getLatitude()));
-//		Log.d("Accuracy（精度）", String.valueOf(location.getAccuracy()));
-//		Log.d("Altitude（標高）", String.valueOf(location.getAltitude()));
-//		Log.d("Time", String.valueOf(location.getTime()));
-//		Log.d("Speed", String.valueOf(location.getSpeed()));
-//		Log.d("Bearing", String.valueOf(location.getBearing()));
-//        
-//		refreshGeoLocation(location);
     }
 
     @Override
@@ -268,7 +245,6 @@ public class CameraPreviewActivity extends Activity
     public void onStatusChanged(
       String provider, int status, Bundle extras) {}
     
-    
     /**
 	 * アクティビティが「停止」の状態
 	 * */
@@ -276,9 +252,7 @@ public class CameraPreviewActivity extends Activity
     protected void onPause() {
 		super.onPause();
 		Log.d("DEBUG", "onPause() Start");
-        
-		// TODO NovelIntroActivity起動時によばれる。
-		
+        // NovelIntroActivity起動時にもよばれる。
 		
         // リスナーの削除
         if (locationManager != null) {
@@ -286,14 +260,7 @@ public class CameraPreviewActivity extends Activity
             locationManager.removeUpdates(this);
         }
         
-        // カメラを停止する
-        if (mCam != null) {
-            mCam.release();
-            mCam = null;
-        }
         Log.d("DEBUG", "onPause() End");
-       
-        
     }
 	
 	/**
@@ -315,8 +282,6 @@ public class CameraPreviewActivity extends Activity
 					bestProvider, 0, 0, locationListener);
 		}
 		Log.d("DEBUG", "onResume() End");
-		
-		
 	}
 	
 }

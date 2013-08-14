@@ -42,4 +42,31 @@
         android:src="@drawable/b_blowoff_under" >
     </ImageView>
 
+    <TextView
+		android:id="@+id/novel_intro1"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="50dp"
+		android:textColor="#FFFFFF"
+		android:textStyle="bold"
+		android:textSize="15sp" />
+    
+    <TextView
+		android:id="@+id/novel_intro2"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="80dp"
+		android:textColor="#FFFFFF"
+		android:textStyle="bold"
+		android:textSize="15sp" />
+        
+	<TextView
+		android:id="@+id/novel_intro3"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginTop="110dp"
+		android:textColor="#FFFFFF"
+		android:textStyle="bold"
+		android:textSize="15sp" />
+        
 </RelativeLayout>
