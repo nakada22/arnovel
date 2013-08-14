@@ -89,6 +89,7 @@ public class CameraPreview extends SurfaceView implements
 		        			cmndef.CAMERA_ERROR_MSG3, Toast.LENGTH_LONG).show();
 		        }
 			}
+
 			// カメラインスタンスに、画像表示先を設定
 			mCam.setPreviewDisplay(holder);
 
@@ -159,7 +160,9 @@ public class CameraPreview extends SurfaceView implements
 	
 	/** シャッターが押されたときに呼ばれるコールバック */
 	private ShutterCallback mShutterListener = new ShutterCallback() {
-		public void onShutter() {}
+		public void onShutter() {
+			Log.d("DEBUG","onShutter Start");
+		}
 	};
 
 	/**
@@ -170,12 +173,17 @@ public class CameraPreview extends SurfaceView implements
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			// タッチ押下時、撮影データを取得。
-			// 撮影データはPictureCallback.onPictureTaken()にbyte列で渡される
-			mCam.takePicture(mShutterListener, null, mPictureListener);
+		try {
+			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				// タッチ押下時、撮影データを取得。
+				// 撮影データはPictureCallback.onPictureTaken()にbyte列で渡される
+				mCam.takePicture(mShutterListener, null, mPictureListener);
 
+			}
+		} catch (Exception e) {
+			Log.d("DEBUG", e.toString());
 		}
+		
 		return true;
 	}
 
@@ -229,10 +237,16 @@ public class CameraPreview extends SurfaceView implements
 	 */
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
+		
 		Log.d("DEBUG", "surfaceChanged called.");
 		// 画面回転に対応する場合は、ここでプレビューを停止し、
 		// 回転による処理を実施、再度プレビューを開始する。
-
+		
+		// プレビュー開始
+        if( mCam != null){
+        	mCam.startPreview();
+        }
+		
 	}
 
 	@Override
