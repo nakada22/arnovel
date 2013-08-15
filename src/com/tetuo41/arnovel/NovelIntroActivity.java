@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -28,8 +29,9 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
 	private CommonUtil cmnutil;
 	private CommonDef cmndef;
 	
-	/** 背景画像用イメージビュー */
+	/** 背景画像用 */
 	private ImageView novel_layout;
+	private String bg_pass;
 	
 	/** ステージセレクト画面からのデータ */
 	private StageSelectState sss;
@@ -37,7 +39,8 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		// テーマに撮影した画像をセット
 		setContentView(R.layout.novel_intro);
@@ -66,7 +69,7 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     	
 		// 背景用画像パス取得、背景画像セット
     	Intent i = getIntent();
-		String bg_pass = (String) i.getSerializableExtra("back_ground");
+		bg_pass = (String) i.getSerializableExtra("back_ground");
     	Drawable d = Drawable.createFromPath(bg_pass);
     	novel_layout = (ImageView) findViewById(R.id.back_ground);
 		novel_layout.setBackgroundDrawable(d);
@@ -120,6 +123,7 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     	try {
     		// STARTボタンクリック時、ノベル表示画面へ遷移
     		Intent i = new Intent(getApplicationContext(), NovelActivity.class);
+    		i.putExtra("back_ground", bg_pass);
 			startActivity(i);
     		
     	} catch (ActivityNotFoundException e) {
@@ -149,10 +153,11 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     private void SorryStopClick() {
     	try {
     		
-    		// ごめん、やめておくボタンクリック時、ステージセレクト画面へ遷移
+    		// アクティビティを終了させ、StartActiv
     		sss = null;
+    		this.finish();
     		Intent i = new Intent(getApplicationContext(), StageSelectActivity.class);
-			startActivity(i);
+    		startActivity(i);
 			
     	} catch (ActivityNotFoundException e) {
     		// ステージセレクト画面へ遷移できなかった場合

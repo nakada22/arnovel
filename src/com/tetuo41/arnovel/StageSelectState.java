@@ -26,10 +26,10 @@ public class StageSelectState implements Serializable {
 	private int stage_id;
 	
 	/** 経度 */ 
-	private String longitude;
+	private double longitude;
 	
 	/** 緯度 */ 
-	private String latitude;
+	private double latitude;
 	
 	/** 導入文１ */ 
 	private String novel_intro1;
@@ -78,19 +78,19 @@ public class StageSelectState implements Serializable {
 		return this.stage_id;
 	}
 
-	public void setLongitude(String _longitude) {
+	public void setLongitude(double _longitude) {
 		this.longitude = _longitude;
 	}
 	
-	public String getLongitude() {
+	public double getLongitude() {
 		return this.longitude;
 	}
 	
-	public void setLatitude(String _latitude) {
+	public void setLatitude(double _latitude) {
 		this.latitude = _latitude;
 	}
 	
-	public String getLatitude() {
+	public double getLatitude() {
 		return this.latitude;
 	}
 	

@@ -82,7 +82,8 @@ public class CameraPreviewActivity extends Activity
         			getSerializableExtra("StageSelectState");
         	
     		// カメラプレビュー起動(データもセット)
-    		mCamPreview = new CameraPreview(this, mCam, sss, longitude, latitude);
+    		mCamPreview = new CameraPreview(getApplicationContext(), 
+    				mCam, sss, longitude, latitude);
             FrameLayout preview = (FrameLayout)findViewById(R.id.camera_preview);
             preview.addView(mCamPreview);
             
@@ -137,6 +138,9 @@ public class CameraPreviewActivity extends Activity
         Location lastKnownLocation = 
         		locationManager.getLastKnownLocation(bestProvider);
         if (lastKnownLocation != null){
+        	
+        	Toast.makeText(getApplicationContext(), "lastKnownLocationがNullではない場合", 
+        			Toast.LENGTH_LONG).show();
         	Log.d("DEBUG", "lastKnownLocationがNullではない場合");
 
         	// 経度・緯度
@@ -156,6 +160,9 @@ public class CameraPreviewActivity extends Activity
 			return;
         } else {
         	Log.d("DEBUG", "lastKnownLocationがNullの場合");
+        	Toast.makeText(getApplicationContext(), "lastKnownLocationがNullの場合", 
+        			Toast.LENGTH_LONG).show();
+        	
         }
         
         // 位置情報の取得を開始
@@ -164,6 +171,8 @@ public class CameraPreviewActivity extends Activity
  			public void onLocationChanged(final Location location) {
  				// 位置情報が更新した時
  				Log.d("DEBUG", "onLocationChanged２ Start");
+ 				Toast.makeText(getApplicationContext(), "onLocationChanged２ Start", 
+ 	        			Toast.LENGTH_LONG).show();
  				
  				// 経度・緯度
  	        	longitude = location.getLongitude();
@@ -210,6 +219,7 @@ public class CameraPreviewActivity extends Activity
      * 
      * */
     private void setLocation(Location location) {
+    	
 		stopLocationService();
 		// ここに位置情報が取得できた場合の処理を記述
 		Log.d("DEBUG", "setLocation Start(位置情報が取得できた場合の処理)");

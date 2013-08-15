@@ -11,14 +11,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
 
 /**
-* ノベル導入画面を表示するクラスです。
+* ノベル表示画面を表示するクラスです。
 * @author　HackathonG
 * @version 1.0
 */
@@ -37,7 +37,8 @@ public class NovelActivity extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		// テーマに撮影した画像をセット
 		setContentView(R.layout.novel);
@@ -45,6 +46,9 @@ public class NovelActivity extends Activity implements OnClickListener{
 		// ノベル部分をリスト表示する
 		NovelDisp();
 		
+		// ClickListener登録
+		//findViewById(R.id.novellist).setOnClickListener(this);
+				
     }
     
     /** 
@@ -65,11 +69,11 @@ public class NovelActivity extends Activity implements OnClickListener{
     	Intent i = getIntent();
 		String bg_pass = (String) i.getSerializableExtra("back_ground");
     	Drawable d = Drawable.createFromPath(bg_pass);
-    	novel_layout = (ImageView) findViewById(R.id.back_ground);
+    	novel_layout = (ImageView) findViewById(R.id.novel_back_ground);
 		novel_layout.setBackgroundDrawable(d);
 		
 		// ステージセレクトActivityより取得したデータを取得
-		sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
+		// sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
 		
     }
     

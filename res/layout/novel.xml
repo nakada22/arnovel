@@ -6,7 +6,7 @@
 
     <!-- 背景画像 -->
     <ImageView
-        android:id="@+id/back_ground"
+        android:id="@+id/novel_back_ground"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="fitCenter" >

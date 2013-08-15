@@ -109,10 +109,10 @@ public class CameraPreview extends SurfaceView implements
 			// プレビュー開始
 			mCam.startPreview();
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// 例外発生時
 			Log.w("WARN", e.toString());
-			Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+			// Toast.makeText(context, cmndef.CAMERA_ERROR_MSG3, Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -159,12 +159,11 @@ public class CameraPreview extends SurfaceView implements
 
 			// TODO 撮影画像の位置情報がノベル位置情報と一致しなければ、Toast表示、画像削除。
 			Log.d("DEBUG", "撮影画像を背景としNovelIntroActivity起動");
-			String n_longitude = sss.getLongitude();// 経度(ノベル位置情報)
-			String n_latitude = sss.getLatitude(); 	// 緯度(ノベル位置情報)
+			double n_longitude = sss.getLongitude();// 経度(ノベル位置情報)
+			double n_latitude = sss.getLatitude(); 	// 緯度(ノベル位置情報)
 			
-			CameraPreviewActivity cpa = new CameraPreviewActivity();
-			double p_longitude = cpa.longitude; // 経度(撮影画像の位置情報)
-			double p_latitude = cpa.latitude; 	// 緯度(撮影画像の位置情報)
+			double p_longitude = longitude; // 経度(撮影画像の位置情報)
+			double p_latitude = latitude; 	// 緯度(撮影画像の位置情報)
 			
 			Log.d("DEBUG", "経度(ノベル位置情報)=" + n_longitude);
 			Log.d("DEBUG", "緯度(ノベル位置情報)=" + n_latitude);
@@ -241,7 +240,7 @@ public class CameraPreview extends SurfaceView implements
 				notouch_flg = true;
 
 				// オートフォーカス(完了時にコールバックにて撮影処理実行)
-				//mCam.autoFocus(mAutoFocusListener);
+				// mCam.autoFocus(mAutoFocusListener);
 
 				// 撮影
 				mCam.takePicture(mShutterListener, null, mPictureListener);
@@ -312,15 +311,15 @@ public class CameraPreview extends SurfaceView implements
 	 */
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-
+		
 		Log.d("DEBUG", "surfaceChanged called.");
 		// 画面回転に対応する場合は、ここでプレビューを停止し、
 		// 回転による処理を実施、再度プレビューを開始する。
 
 		// プレビュー開始
-		if (mCam != null) {
-			mCam.startPreview();
-		}
+//		if (mCam != null) {
+//			mCam.startPreview();
+//		}
 
 	}
 
