@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:scaleType="fitCenter"
-    tools:context=".StageSelectActivity" >
+    android:scaleType="fitCenter">
 
     <!-- 背景画像 -->
     <ImageView
@@ -13,60 +12,80 @@
         android:scaleType="fitCenter" >
     </ImageView>
 
-    <!-- 導入部黒吹き出し１ -->
-    <ImageView
-        android:id="@+id/b_blowoff_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="left"
-        android:scaleType="fitCenter"
-        android:src="@drawable/b_blowoff_top" >
-    </ImageView>
-
-    <ImageView
-        android:id="@+id/b_blowoff_center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/b_blowoff_top"
-        android:background="#000000"
-        android:src="@drawable/b_blowoff_center" >
-    </ImageView>
-
-    <ImageView
-        android:id="@+id/b_blowoff_under"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:layout_alignParentBottom="@id/b_blowoff_top"
-        android:src="@drawable/b_blowoff_under" >
-    </ImageView>
-
-    <TextView
-		android:id="@+id/novel_intro1"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_marginTop="50dp"
+    <!-- ノベル導入文１ -->
+    <Button 
+        android:id="@+id/novel_intro1"
+		android:layout_width="250dp"
+	 	android:layout_height="wrap_content"
+	 	android:layout_marginTop="10dp"
+	 	android:gravity="left"
 		android:textColor="#FFFFFF"
-		android:textStyle="bold"
-		android:textSize="15sp" />
+		android:textSize="12sp"
+		android:background="@drawable/b_blow_off" >
+	</Button>
     
-    <TextView
+    <!-- ノベル導入文2 -->
+    <Button
 		android:id="@+id/novel_intro2"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_marginTop="80dp"
+		android:layout_width="250dp"
+	 	android:layout_height="wrap_content"
+		android:layout_marginTop="100dp"
+		android:layout_marginLeft="100dp"
+		android:gravity="left"
+		android:background="@drawable/m_blow_off"
 		android:textColor="#FFFFFF"
-		android:textStyle="bold"
-		android:textSize="15sp" />
-        
-	<TextView
+		android:textSize="12sp">
+    </Button>
+    
+    <!-- ノベル導入文3 -->
+	<Button
 		android:id="@+id/novel_intro3"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_marginTop="110dp"
+		android:layout_width="250dp"
+	 	android:layout_height="wrap_content"
+		android:layout_marginTop="200dp"
+		android:gravity="left"
+		android:background="@drawable/b_blow_off"
 		android:textColor="#FFFFFF"
-		android:textStyle="bold"
-		android:textSize="15sp" />
-        
+		android:textSize="12sp">
+	</Button>
+	
+	<!-- select_your_answer -->
+	<ImageView
+	    android:id="@+id/select_your_answer"
+	    android:layout_width="250dp"
+	    android:layout_height="45dp"
+	    android:layout_marginTop="410dp"
+	    android:layout_marginLeft="50dp"
+	    android:gravity="center_vertical"
+        android:scaleType="fitCenter"
+	    android:src="@drawable/select_your_answer" />
+		
+	<LinearLayout
+	    android:orientation="horizontal"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="30dp">
+		
+		<!-- ごめんやめておく画像 -->
+		<ImageView
+		    android:id="@+id/gomen_blowoff"
+		    android:layout_width="140dp"
+		    android:layout_height="75dp"
+		    android:layout_marginTop="450dp"
+		    android:layout_marginBottom="30dp"
+            android:scaleType="fitCenter"
+		    android:src="@drawable/gomen_blowoff" />
+
+	    <!-- 聞かせて画像 -->
+		<ImageView
+		    android:id="@+id/kikasete_blowoff"
+		    android:layout_width="140dp"
+		    android:layout_height="75dp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="450dp"
+		    android:layout_marginBottom="30dp"
+		    android:src="@drawable/kikasete_blowoff" >
+	    	</ImageView>
+		
+	  </LinearLayout>
 </RelativeLayout>

@@ -63,4 +63,11 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 	        onCreate(db);
         //}
     }
+    
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    	
+    	// onUpgradeを読ぶ
+    	onUpgrade(db, oldVersion, newVersion);
+    }
 }

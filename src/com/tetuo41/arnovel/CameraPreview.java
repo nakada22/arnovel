@@ -26,6 +26,7 @@ import com.tetuo41.arnovel.common.CommonUtil;
 
 /**
  * カメラプレビューの処理を行うクラス
+ * 
  * @author HackathonG
  * @version 1.0
  */
@@ -35,35 +36,41 @@ public class CameraPreview extends SurfaceView implements
 	/** 共通クラスオブジェクト */
 	private CommonUtil cmnutil;
 	private CommonDef cmndef;
-
+	
+	/** 経度・緯度情報 */
+	public double longitude;
+	public double latitude;
+	
 	/** カメラオブジェクト */
 	private Camera mCam;
 
 	/** コンテキスト */
 	private Context context;
-	
+
 	/** ステージセレクト画面から送られてきたデータ */
 	private StageSelectState sss;
-	
+
+	/** 画面タッチ二度押し禁止フラグ */
+	private boolean notouch_flg = false;
+
 	/** SDカードの画像保存パス */
 	private static final String SDCARD_FOLDER = Environment
 			.getExternalStorageDirectory().getPath() + "/locanovel/";
 
-	// 参考URL http://androidguide.nomaki.jp/html/device/camera/camIntro.html
-	// TODO オートフォーカス機能
-	
 	/**
 	 * コンストラクタ
 	 */
-	public CameraPreview(Context context, Camera cam, 
-			StageSelectState sss) {
+	public CameraPreview(Context context, Camera cam, StageSelectState sss,
+			double longitude, double latitude) {
 		super(context);
 		this.context = context;
 		this.sss = sss;
+		this.longitude = longitude;
+		this.latitude = latitude;
 		cmnutil = new CommonUtil();
 		cmndef = new CommonDef();
 		mCam = cam;
-
+		
 		// サーフェスホルダーの取得とコールバック通知先の設定
 		SurfaceHolder holder = getHolder();
 		holder.addCallback(this);
@@ -79,6 +86,7 @@ public class CameraPreview extends SurfaceView implements
 
 	/**
 	 * 画面(Surface)を描画する。
+	 * 
 	 * @param holder
 	 */
 	public void surfaceCreated(SurfaceHolder holder) {
@@ -86,13 +94,13 @@ public class CameraPreview extends SurfaceView implements
 			if (mCam == null) {
 				// カメラオブジェクトがない場合は作成
 				try {
-		            mCam = Camera.open();
-		        } catch (Exception e) {
-		        	// エラー発生時
-		            Log.w("WARN", e.toString());
-		        	Toast.makeText(context, 
-		        			cmndef.CAMERA_ERROR_MSG3, Toast.LENGTH_LONG).show();
-		        }
+					mCam = Camera.open();
+				} catch (Exception e) {
+					// エラー発生時
+					Log.w("WARN", e.toString());
+					Toast.makeText(context, cmndef.CAMERA_ERROR_MSG3,
+							Toast.LENGTH_LONG).show();
+				}
 			}
 
 			// カメラインスタンスに、画像表示先を設定
@@ -104,13 +112,13 @@ public class CameraPreview extends SurfaceView implements
 		} catch (IOException e) {
 			// 例外発生時
 			Log.w("WARN", e.toString());
-    		Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+			Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
 		}
 	}
 
 	/**
-	 * SurfaceView 破棄時 
-	 * (プレビュー画面からステージセレクト画面へBackした場合)
+	 * SurfaceView 破棄時 (プレビュー画面からステージセレクト画面へBackした場合)
+	 * 
 	 * @param holder
 	 */
 	public void surfaceDestroyed(SurfaceHolder holder) {
@@ -118,7 +126,7 @@ public class CameraPreview extends SurfaceView implements
 		mCam = null;
 	}
 
-	/** JPEGイメージ生成後に呼ばれるコールバック */ 
+	/** JPEGイメージ生成後に呼ばれるコールバック */
 	private PictureCallback mPictureListener = new PictureCallback() {
 
 		@Override
@@ -134,7 +142,7 @@ public class CameraPreview extends SurfaceView implements
 					// 撮影画像保存
 					savePhotoData(datName, data);
 				}
-				
+
 			} catch (Exception e) {
 				// 撮影画像の保存できなかった場合
 				Log.e("ERROR", e.toString());
@@ -145,56 +153,117 @@ public class CameraPreview extends SurfaceView implements
 					camera.release();
 					camera = null;
 				}
+				// 処理を終了する
+				return;
+			}
+
+			// TODO 撮影画像の位置情報がノベル位置情報と一致しなければ、Toast表示、画像削除。
+			Log.d("DEBUG", "撮影画像を背景としNovelIntroActivity起動");
+			String n_longitude = sss.getLongitude();// 経度(ノベル位置情報)
+			String n_latitude = sss.getLatitude(); 	// 緯度(ノベル位置情報)
+			
+			CameraPreviewActivity cpa = new CameraPreviewActivity();
+			double p_longitude = cpa.longitude; // 経度(撮影画像の位置情報)
+			double p_latitude = cpa.latitude; 	// 緯度(撮影画像の位置情報)
+			
+			Log.d("DEBUG", "経度(ノベル位置情報)=" + n_longitude);
+			Log.d("DEBUG", "緯度(ノベル位置情報)=" + n_latitude);
+			Log.d("DEBUG", "経度(撮影画像の位置情報)=" + p_longitude);
+			Log.d("DEBUG", "緯度(撮影画像の位置情報)=" + p_latitude);
+			
+			if (p_longitude == 0.0 || p_latitude == 0.0) {
+				// 撮影時における位置情報(経度・緯度)が取得できていない場合
+				// 位置情報の一致に失敗したため、Toast表示してユーザーに促す
+	        	Toast.makeText(context,cmndef.CAMERA_ERROR_MSG4, 
+	        			Toast.LENGTH_LONG).show();
+	        	
+	        	// TODO 撮影画像は不要なため、削除
+	        	
+	        	// プレビュー再開始
+	    		if (mCam != null) {
+	    			mCam.startPreview();
+	    		}
+	    		
+			} else {
+				// 経度・緯度が一致した場合
+				
 			}
 			
-			// TODO 撮影画像の位置情報がノベル位置情報と一致しなければ、Toast表示、画像削除。
-			// 撮影画像を背景としNovelActivity起動
-			Log.d("DEBUG", "撮影画像を背景としNovelIntroActivity起動");
+			
 			Intent i = new Intent(context, NovelIntroActivity.class);
 			i.putExtra("StageSelectState", sss);
-			
+
 			// 背景画像用のパスをセット
 			i.putExtra("back_ground", SDCARD_FOLDER + datName);
-			
+
 			// 外部Activityを自分のActivityスタックとは別に立てる
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			getContext().startActivity(i);
 		}
 	};
-	
+
 	/** シャッターが押されたときに呼ばれるコールバック */
 	private ShutterCallback mShutterListener = new ShutterCallback() {
 		public void onShutter() {
-			Log.d("DEBUG","onShutter Start");
+			Log.d("DEBUG", "onShutter Start");
 		}
 	};
 
 	/**
-	 * カメラプレビュー画面でのタッチイベント処理
-	 * @param タッチアクションオブジェクト
-	 * 
-	 * */
+	 * オートフォーカス完了時のコールバック
+	 */
+//	private Camera.AutoFocusCallback mAutoFocusListener = new Camera.AutoFocusCallback() {
+//		public void onAutoFocus(boolean success, Camera mCam) {
+//			Log.d("DEBUG", "onAutoFocus　Start");
+//
+//			// タッチダウン時、撮影データを取得。
+//			// 撮影データはPictureCallback.onPictureTaken()にbyte列で渡される
+//			mCam.takePicture(mShutterListener, null, mPictureListener);
+//
+//		}
+//	};
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-
-		try {
-			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				// タッチ押下時、撮影データを取得。
-				// 撮影データはPictureCallback.onPictureTaken()にbyte列で渡される
-				mCam.takePicture(mShutterListener, null, mPictureListener);
-
-			}
-		} catch (Exception e) {
-			Log.d("DEBUG", e.toString());
+		Log.d("DEBUG", "onTouchEvent Start");
+		// 撮影中の2度押し禁止用フラグ設定
+		if (notouch_flg) {
+			return true;
 		}
-		
+
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			/** タッチダウン時の処理 */
+			try {
+				Log.d("DEBUG", "タッチダウン開始");
+
+				// 撮影中の2度押し禁止用フラグ
+				notouch_flg = true;
+
+				// オートフォーカス(完了時にコールバックにて撮影処理実行)
+				//mCam.autoFocus(mAutoFocusListener);
+
+				// 撮影
+				mCam.takePicture(mShutterListener, null, mPictureListener);
+				
+				// 撮影完了したらフラグを戻す
+				notouch_flg = false;
+
+			} catch (Exception e) {
+				Log.d("DEBUG", e.toString());
+			}
+			break;
+
+		}
 		return true;
+
 	}
 
 	/**
 	 * 撮影画像を保存する。
-	 * @param datName 画像ファイル名
-	 * @param data 撮影データ
+	 * 
+	 * @param 画像ファイル名
+	 * @param 撮影データ
 	 * 
 	 * */
 	private void savePhotoData(String datName, byte[] data) throws Exception {
@@ -224,6 +293,7 @@ public class CameraPreview extends SurfaceView implements
 			contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, cv);
 
 		} catch (Exception e) {
+			// ファイルの保存に失敗した場合
 			Log.w("WARN", e.toString());
 			Toast.makeText(context, cmndef.CAMERA_ERROR_MSG2,
 					Toast.LENGTH_SHORT).show();
@@ -233,6 +303,7 @@ public class CameraPreview extends SurfaceView implements
 
 	/**
 	 * SurfaceHolder が変化したときのイベント
+	 * 
 	 * @param holder
 	 * @param フォーマット
 	 * @param 幅
@@ -241,18 +312,19 @@ public class CameraPreview extends SurfaceView implements
 	 */
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		
+
 		Log.d("DEBUG", "surfaceChanged called.");
 		// 画面回転に対応する場合は、ここでプレビューを停止し、
 		// 回転による処理を実施、再度プレビューを開始する。
-		
+
 		// プレビュー開始
-        if( mCam != null){
-        	mCam.startPreview();
-        }
-		
+		if (mCam != null) {
+			mCam.startPreview();
+		}
+
 	}
 
 	@Override
-	public void onPictureTaken(byte[] data, Camera camera) {}
+	public void onPictureTaken(byte[] data, Camera camera) {
+	}
 }

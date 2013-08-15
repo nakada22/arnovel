@@ -33,8 +33,6 @@ public class CameraPreviewActivity extends Activity
 	
 	/** カメラインスタンス */
     private Camera mCam = null;
-
-    /** カメラプレビュー */
     
     /** 共通クラスオブジェクト */
 	private CommonUtil cmnutil;
@@ -44,6 +42,9 @@ public class CameraPreviewActivity extends Activity
 	protected LocationManager locationManager;
 	private LocationListener locationListener;
 	protected String bestProvider;
+	public double longitude;
+	public double latitude;
+	
 	CameraPreview mCamPreview = null;
 	
 	@Override
@@ -52,9 +53,6 @@ public class CameraPreviewActivity extends Activity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.camera_preview);
-        
-        // カメラを開く
-        // CameraOpen();
         
         // 位置情報取得機能を起動
         initLocationService();
@@ -84,7 +82,7 @@ public class CameraPreviewActivity extends Activity
         			getSerializableExtra("StageSelectState");
         	
     		// カメラプレビュー起動(データもセット)
-    		mCamPreview = new CameraPreview(this, mCam, sss);
+    		mCamPreview = new CameraPreview(this, mCam, sss, longitude, latitude);
             FrameLayout preview = (FrameLayout)findViewById(R.id.camera_preview);
             preview.addView(mCamPreview);
             
@@ -107,7 +105,6 @@ public class CameraPreviewActivity extends Activity
     protected void initLocationService() {
     	Log.d("DEBUG", "initLocationService Start");
     	
-    	// 参考URL http://d.hatena.ne.jp/orangesignal/20101223/1293079002
     	// LocationManagerインスタンスを取得
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         
@@ -142,14 +139,18 @@ public class CameraPreviewActivity extends Activity
         if (lastKnownLocation != null){
         	Log.d("DEBUG", "lastKnownLocationがNullではない場合");
 
+        	// 経度・緯度
+        	longitude = lastKnownLocation.getLongitude();
+        	latitude = lastKnownLocation.getLatitude();
+        	
         	Toast.makeText(getApplicationContext(), "Longitude（経度）="
-        			+ String.valueOf(lastKnownLocation.getLongitude()), Toast.LENGTH_LONG).show();
+        			+ String.valueOf(longitude), Toast.LENGTH_LONG).show();
         	Toast.makeText(getApplicationContext(), "Longitude（緯度）="
-                	+ String.valueOf(lastKnownLocation.getLatitude()), Toast.LENGTH_LONG).show();
+                	+ String.valueOf(latitude), Toast.LENGTH_LONG).show();
             		
         	Log.d("----------", "----------");
-			Log.d("Longitude（経度）", String.valueOf(lastKnownLocation.getLongitude()));
-			Log.d("Latitude（緯度）", String.valueOf(lastKnownLocation.getLatitude()));
+			Log.d("Longitude（経度）", String.valueOf(longitude));
+			Log.d("Latitude（緯度）", String.valueOf(latitude));
 				
         	setLocation(lastKnownLocation);
 			return;
@@ -164,15 +165,18 @@ public class CameraPreviewActivity extends Activity
  				// 位置情報が更新した時
  				Log.d("DEBUG", "onLocationChanged２ Start");
  				
- 				Toast.makeText(getApplicationContext(), "Longitude（経度）="
- 	        			+ String.valueOf(location.getLongitude()), Toast.LENGTH_LONG).show();
- 	        	Toast.makeText(getApplicationContext(), "Longitude（緯度）="
- 	                	+ String.valueOf(location.getLatitude()), Toast.LENGTH_LONG).show();
- 	            
+ 				// 経度・緯度
+ 	        	longitude = location.getLongitude();
+ 	        	latitude = location.getLatitude();
  	        	
- 				Log.d("----------", "----------");
- 				Log.d("Longitude（経度）", String.valueOf(location.getLongitude()));
- 				Log.d("Latitude（緯度）", String.valueOf(location.getLatitude()));
+ 	        	Toast.makeText(getApplicationContext(), "Longitude（経度）="
+ 	        			+ String.valueOf(longitude), Toast.LENGTH_LONG).show();
+ 	        	Toast.makeText(getApplicationContext(), "Longitude（緯度）="
+ 	                	+ String.valueOf(latitude), Toast.LENGTH_LONG).show();
+ 	            		
+ 	        	Log.d("----------", "----------");
+ 				Log.d("Longitude（経度）", String.valueOf(longitude));
+ 				Log.d("Latitude（緯度）", String.valueOf(latitude));
  				
  				setLocation(location);
  			}
@@ -187,16 +191,6 @@ public class CameraPreviewActivity extends Activity
  		Log.d("DEBUG", "initLocationService End");
  		
       }
-    
-    /**
-     * 位置が変化した時にしたい処理を記述
-     * @param ロケーション
-     * 
-     * */
-    protected void refreshGeoLocation(Location location){    
-        String desc = location.getLongitude() 
-          + ", " + location.getLatitude();
-    }
     
     /**
      * ロケーションサービスを終了させたい場合の処理
@@ -227,9 +221,7 @@ public class CameraPreviewActivity extends Activity
      * @param ロケーション
      * */
     @Override
-    public void onLocationChanged(Location location) {
-    	Log.d("DEBUG", "onLocationChanged１ Start");
-    }
+    public void onLocationChanged(Location location) {}
 
     @Override
     public void onProviderDisabled(String provider) {}

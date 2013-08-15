@@ -22,7 +22,7 @@ import com.tetuo41.arnovel.common.CommonUtil;
 * @author　HackathonG
 * @version 1.0
 */
-public class NovelIntroActivity extends Activity implements OnClickListener{
+public class NovelActivity extends Activity implements OnClickListener{
 	
 	/** 共通クラスオブジェクト */
 	private CommonUtil cmnutil;
@@ -40,20 +40,17 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		// テーマに撮影した画像をセット
-		setContentView(R.layout.novel_intro);
+		setContentView(R.layout.novel);
 		
-		// ノベル導入部分を表示する
-		NovelIntroDisp();
+		// ノベル部分をリスト表示する
+		NovelDisp();
 		
-		// ClickListener登録
-		findViewById(R.id.gomen_blowoff).setOnClickListener(this);
-		findViewById(R.id.kikasete_blowoff).setOnClickListener(this);
     }
     
     /** 
      * コンストラクタ
      */
-    public NovelIntroActivity() {
+    public NovelActivity() {
     	cmnutil = new CommonUtil();
     	cmndef = new CommonDef();
     }
@@ -62,7 +59,7 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
      * ノベル導入部分を表示する
      * 
      * */
-    private void NovelIntroDisp() {
+    private void NovelDisp() {
     	
 		// 背景用画像パス取得、背景画像セット
     	Intent i = getIntent();
@@ -74,20 +71,6 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
 		// ステージセレクトActivityより取得したデータを取得
 		sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
 		
-		// ノベル導入部分1
-		String novel_intro1 = sss.getNovelIntro1();
-		Button btNovelIntro1 = (Button) findViewById(R.id.novel_intro1);
-		btNovelIntro1.setText(novel_intro1);
-
-		// ノベル導入部分2
-		String novel_intro2 = sss.getNovelIntro2();
-		Button btNovelIntro2 = (Button) findViewById(R.id.novel_intro2);
-		btNovelIntro2.setText(novel_intro2);
-
-		// ノベル導入部分3
-		String novel_intro3 = sss.getNovelIntro3();
-		Button btNovelIntro3 = (Button) findViewById(R.id.novel_intro3);
-		btNovelIntro3.setText(novel_intro3);
     }
     
     /** 
@@ -98,13 +81,8 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     	
     	switch (v.getId()) {
 		case R.id.kikasete_blowoff:
-			// 「聞かせて」クリック時
-			TellClick();
-			
-			break;
-		case R.id.gomen_blowoff:
-			// 「ごめん、やめておく」ボタンクリック時
-			SorryStopClick();
+			// 「読了」クリック時
+			ReadFinishClick();
 			
 			break;
 		default:
@@ -113,62 +91,30 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
 	}
     
     /** 
-     * 「聞かせて」ボタンクリック時の処理を記述する。
+     * 「読了」ボタンクリック時の処理を記述する。
      */
-    private void TellClick() {
+    private void ReadFinishClick() {
     	
     	try {
-    		// STARTボタンクリック時、ノベル表示画面へ遷移
-    		Intent i = new Intent(getApplicationContext(), NovelActivity.class);
+    		// 読了ボタンクリック時、トップ画面へ遷移
+    		Intent i = new Intent(getApplicationContext(), TopActivity.class);
 			startActivity(i);
     		
     	} catch (ActivityNotFoundException e) {
-    		// ノベル表示画面へ遷移できなかった場合
+    		// トップ画面へ遷移できなかった場合
     		Log.e("ERROR", e.toString());
   
     		// アラートダイアログで警告を表示
-    		AlertDialogView("エラー", cmndef.NOVEL_INTRO_ERROR_MSG1);
+    		AlertDialogView("エラー", cmndef.TOP_ERROR_MSG1);
     		// 処理を終了する
     		return;
     		
     	} catch (RuntimeException e) {
-    		// ノベル表示画面へ遷移できなかった場合
+    		// トップ画面へ遷移できなかった場合
     		Log.e("ERROR", e.toString());
     		
     		// アラートダイアログで警告を表示
-    		AlertDialogView("エラー", cmndef.NOVEL_INTRO_ERROR_MSG1);
-    		
-    		// 処理を終了する
-    		return;
-    	}
-    }
-    
-    /** 
-     * 「ごめん、やめておく」ボタンクリック時の処理を記述する。
-     */
-    private void SorryStopClick() {
-    	try {
-    		
-    		// ごめん、やめておくボタンクリック時、ステージセレクト画面へ遷移
-    		sss = null;
-    		Intent i = new Intent(getApplicationContext(), StageSelectActivity.class);
-			startActivity(i);
-			
-    	} catch (ActivityNotFoundException e) {
-    		// ステージセレクト画面へ遷移できなかった場合
-    		Log.e("ERROR", e.toString());
-  
-    		// アラートダイアログで警告を表示
-    		AlertDialogView("エラー", cmndef.NOVEL_INTRO_ERROR_MSG2);
-    		
-    		// 処理を終了する
-    		return;
-    	} catch (RuntimeException e) {
-    		// ステージセレクト画面へ遷移できなかった場合
-    		Log.e("ERROR", e.toString());
-  
-    		// アラートダイアログで警告を表示
-    		AlertDialogView("エラー", cmndef.NOVEL_INTRO_ERROR_MSG2);
+    		AlertDialogView("エラー", cmndef.TOP_ERROR_MSG1);
     		
     		// 処理を終了する
     		return;

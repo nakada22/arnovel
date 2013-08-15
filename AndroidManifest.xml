@@ -71,7 +71,13 @@
             android:theme="@android:style/Theme.Translucent"
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
-        
+		<activity
+            android:name=".NovelActivity"
+            android:screenOrientation="portrait"
+            android:restoreAnyVersion="true"
+            android:theme="@android:style/Theme.Translucent"
+			android:configChanges="orientation|keyboard|keyboardHidden" >
+        </activity>
     </application>
 
 </manifest>
