@@ -2,6 +2,7 @@ package com.tetuo41.arnovel;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -240,7 +241,17 @@ public class CameraPreview extends SurfaceView implements
 //						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //						getContext().startActivity(i);
 //						
+//					} else {
+//						// 撮影画像がステージ選択した場所ではない場合
+//						Log.i("INFO", cmndef.CAMERA_INFO_MSG1);
+//						Toast.makeText(context,cmndef.CAMERA_INFO_MSG1, 
+//			        			Toast.LENGTH_LONG).show();
 //					}
+//				} else {
+//					// 撮影画像がステージ選択した場所ではない場合
+//					Log.i("INFO", cmndef.CAMERA_INFO_MSG1);
+//					Toast.makeText(context,cmndef.CAMERA_INFO_MSG1, 
+//		        			Toast.LENGTH_LONG).show();
 //				}
 				
 			}
@@ -256,6 +267,7 @@ public class CameraPreview extends SurfaceView implements
 			// 外部Activityを自分のActivityスタックとは別に立てる
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			getContext().startActivity(i);
+			
 		}
 	};
 
