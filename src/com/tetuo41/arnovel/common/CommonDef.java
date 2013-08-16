@@ -48,6 +48,7 @@ public class CommonDef {
     public final String NOVEL_INTRO_ERROR_MSG1 = "ノベル表示画面へ遷移できませんでした";
     public final String NOVEL_INTRO_ERROR_MSG2 = "ステージセレクト画面へ遷移できませんでした";
     
-    
+    // ノベル表示画面用メッセージ
+    public final String NOVEL_ERROR_MSG1 = "ノベル完了画面へ遷移できませんでした";
     
 }

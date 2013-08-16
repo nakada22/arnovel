@@ -184,7 +184,7 @@ public class CameraPreview extends SurfaceView implements
 	    		}
 	    		
 			} else {
-				// 経度・緯度が一致した場合
+				// TODO 経度・緯度が一致した場合、ノベル導入画面へ
 				
 			}
 			

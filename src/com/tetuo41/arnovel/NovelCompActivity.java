@@ -18,21 +18,20 @@ import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
 
 /**
-* ノベル表示画面を表示するクラスです。
+* ノベル完了画面を表示するクラスです。
 * @author　HackathonG
 * @version 1.0
 */
-public class NovelActivity extends Activity implements OnClickListener{
+public class NovelCompActivity extends Activity implements OnClickListener{
 	
 	/** 共通クラスオブジェクト */
 	private CommonUtil cmnutil;
 	private CommonDef cmndef;
 	
-	/** 背景画像用 */
+	/** 背景画像用イメージビュー */
 	private ImageView novel_layout;
-	private String bg_pass;
 	
-	/** ステージセレクト画面からのデータ */
+	/** ステージセレクト画面からのデータ(ステージID、ステージタイトル) */
 	private StageSelectState sss;
 	
     @Override
@@ -41,21 +40,22 @@ public class NovelActivity extends Activity implements OnClickListener{
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-		// テーマに撮影した画像をセット
-		setContentView(R.layout.novel);
+		// 背景に撮影した画像をセット
+		setContentView(R.layout.novel_comp);
 		
-		// ノベル部分をリスト表示する
-		NovelDisp();
+		// ノベル完了画面を表示する
+		NovelCompDisp();
 		
 		// ClickListener登録
-		//findViewById(R.id.novellist).setOnClickListener(this);
+		// findViewById(R.id.menu_back).setOnClickListener(this);
 				
     }
     
     /** 
      * コンストラクタ
+     * @return 
      */
-    public NovelActivity() {
+    public NovelCompActivity() {
     	cmnutil = new CommonUtil();
     	cmndef = new CommonDef();
     }
@@ -64,13 +64,13 @@ public class NovelActivity extends Activity implements OnClickListener{
      * ノベル導入部分を表示する
      * 
      * */
-    private void NovelDisp() {
+    private void NovelCompDisp() {
     	
 		// 背景用画像パス取得、背景画像セット
     	Intent i = getIntent();
 		String bg_pass = (String) i.getSerializableExtra("back_ground");
     	Drawable d = Drawable.createFromPath(bg_pass);
-    	novel_layout = (ImageView) findViewById(R.id.novel_back_ground);
+    	novel_layout = (ImageView) findViewById(R.id.novel_comp_back_ground);
 		novel_layout.setBackgroundDrawable(d);
 		
 		// ステージセレクトActivityより取得したデータを取得
@@ -85,9 +85,9 @@ public class NovelActivity extends Activity implements OnClickListener{
     public void onClick(View v) {
     	
     	switch (v.getId()) {
-		case R.id.kikasete_blowoff:
-			// 「読了」クリック時
-			ReadFinishClick();
+		case R.id.menu_back:
+			// 「メニューに戻る」クリック時
+			MenuBackClick();
 			
 			break;
 		default:
@@ -96,32 +96,30 @@ public class NovelActivity extends Activity implements OnClickListener{
 	}
     
     /** 
-     * 「読了」ボタンクリック時の処理を記述する。
+     * 「メニューに戻る」ボタンクリック時の処理を記述する。
      */
-    private void ReadFinishClick() {
+    private void MenuBackClick() {
     	
     	try {
-    		// 読了ボタンクリック時、ノベル完了画面へ遷移
-    		Intent i = new Intent(getApplicationContext(), NovelCompActivity.class);
-    		i.putExtra("back_ground", bg_pass);
+    		// メニューに戻るボタンクリック時、トップ画面へ遷移
+    		Intent i = new Intent(getApplicationContext(), TopActivity.class);
 			startActivity(i);
     		
     	} catch (ActivityNotFoundException e) {
-    		// ノベル完了画面へ遷移できなかった場合
+    		// トップ画面へ遷移できなかった場合
     		Log.e("ERROR", e.toString());
   
     		// アラートダイアログで警告を表示
-    		AlertDialogView("エラー", cmndef.NOVEL_ERROR_MSG1);
-    		
+    		AlertDialogView("エラー", cmndef.TOP_ERROR_MSG1);
     		// 処理を終了する
     		return;
     		
     	} catch (RuntimeException e) {
-    		// ノベル完了画面へ遷移できなかった場合
+    		// トップ画面へ遷移できなかった場合
     		Log.e("ERROR", e.toString());
     		
     		// アラートダイアログで警告を表示
-    		AlertDialogView("エラー", cmndef.NOVEL_ERROR_MSG1);
+    		AlertDialogView("エラー", cmndef.TOP_ERROR_MSG1);
     		
     		// 処理を終了する
     		return;

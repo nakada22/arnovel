@@ -121,7 +121,7 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     private void TellClick() {
     	
     	try {
-    		// STARTボタンクリック時、ノベル表示画面へ遷移
+    		// 「聞かせて」ボタンクリック時、ノベル表示画面へ遷移
     		Intent i = new Intent(getApplicationContext(), NovelActivity.class);
     		i.putExtra("back_ground", bg_pass);
 			startActivity(i);
@@ -153,7 +153,7 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     private void SorryStopClick() {
     	try {
     		
-    		// アクティビティを終了させ、StartActiv
+    		// アクティビティを終了させ、ステージセレクト画面へ遷移
     		sss = null;
     		this.finish();
     		Intent i = new Intent(getApplicationContext(), StageSelectActivity.class);

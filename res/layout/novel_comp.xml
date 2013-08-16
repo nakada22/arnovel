@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scaleType="fitCenter">
+
+    <!-- 背景画像 -->
+    <ImageView
+        android:id="@+id/novel_comp_back_ground"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitCenter" >
+    </ImageView>
+
+    <!-- Mission Complete -->
+    
+
+	<!-- メニューに戻る -->
+    <Button 
+        android:id="@+id/menu_back"
+		android:layout_width="320dp"
+	 	android:layout_height="wrap_content"
+	 	android:layout_marginTop="10dp"
+	 	android:gravity="center"
+		android:textColor="#FFFFFF"
+		android:textSize="12sp"
+		android:text="@string/menu_back"
+		android:background="@drawable/menu_back" >
+	</Button>
+	
+</RelativeLayout>

@@ -55,7 +55,7 @@
 	    android:layout_width="250dp"
 	    android:layout_height="45dp"
 	    android:layout_marginTop="410dp"
-	    android:layout_marginLeft="50dp"
+	    android:layout_marginLeft="40dp"
 	    android:gravity="center_vertical"
         android:scaleType="fitCenter"
 	    android:src="@drawable/select_your_answer" />
@@ -64,28 +64,37 @@
 	    android:orientation="horizontal"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="30dp">
+	    >
 		
 		<!-- ごめんやめておく画像 -->
-		<ImageView
-		    android:id="@+id/gomen_blowoff"
-		    android:layout_width="140dp"
-		    android:layout_height="75dp"
-		    android:layout_marginTop="450dp"
+		<Button
+			android:id="@+id/gomen_blowoff"
+			android:layout_width="160dp"
+		 	android:layout_height="70dp"
+			android:layout_marginTop="450dp"
 		    android:layout_marginBottom="30dp"
-            android:scaleType="fitCenter"
-		    android:src="@drawable/gomen_blowoff" />
-
+			android:background="@drawable/gomen_blowoff"
+			android:textColor="#FFFFFF"
+			android:scaleType="fitCenter"
+			android:gravity="center"
+			android:text="@string/gomen_blowoff"
+			android:textSize="12sp">
+		</Button>
+	
 	    <!-- 聞かせて画像 -->
-		<ImageView
-		    android:id="@+id/kikasete_blowoff"
-		    android:layout_width="140dp"
-		    android:layout_height="75dp"
-            android:scaleType="fitCenter"
-            android:layout_marginTop="450dp"
+	    <Button
+			android:id="@+id/kikasete_blowoff"
+			android:layout_width="160dp"
+		 	android:layout_height="70dp"
+			android:layout_marginTop="450dp"
 		    android:layout_marginBottom="30dp"
-		    android:src="@drawable/kikasete_blowoff" >
-	    	</ImageView>
+			android:background="@drawable/kikasete_blowoff"
+			android:textColor="#FFFFFF"
+			android:scaleType="fitCenter"
+			android:gravity="center"
+			android:text="@string/kikasete_blowoff"
+			android:textSize="12sp">
+		</Button>
 		
 	  </LinearLayout>
 </RelativeLayout>

@@ -4,5 +4,8 @@
     <string name="app_name">ARNovel</string>
     <string name="action_settings">Settings</string>
     <string name="stamp_contrib">▼スタンプを投稿する</string>
-
+    <string name="gomen_blowoff">ごめん、やめておく。。</string>
+    <string name="kikasete_blowoff">聞かせて・・・！</string>
+    <string name="menu_back">メニューに戻る</string>
+    
 </resources>
