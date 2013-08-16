@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ import com.tetuo41.arnovel.db.DbConstants;
 * @author　HackathonG
 * @version 1.0
 */
-public class TopActivity extends Activity implements View.OnClickListener{
+public class TopActivity extends Activity implements OnClickListener{
 	
 	/** 共通クラスオブジェクト */
 	private CommonUtil cmnutil;
@@ -119,7 +120,7 @@ public class TopActivity extends Activity implements View.OnClickListener{
 			startActivity(i);
     		
     	} catch (ActivityNotFoundException e) {
-    		// スタンプログ画面へ遷移できなかった場合
+    		// ステージセレクト画面へ遷移できなかった場合
     		Log.e("ERROR", e.toString());
   
     		// アラートダイアログで警告を表示

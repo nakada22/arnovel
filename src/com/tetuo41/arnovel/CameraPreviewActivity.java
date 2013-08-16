@@ -24,12 +24,6 @@ import com.tetuo41.arnovel.common.CommonUtil;
  */
 public class CameraPreviewActivity extends Activity 
 	implements LocationListener {
-	// ■エミュレータで位置情報を取得する方法
-	// 最後にエミュレータで位置情報を擬似的に受け取る方法を説明します。
-	// AndroidのSDKにはDDMS(Dalvik Debug Monitor Server)というデバックツールが付属しています。
-	// (EclipseのAndroidプラグインを使用している場合は、パースペクティブとして開くことが出来ます。)
-	//
-	// このDDMSの「Location Controls」を使用すると、エミュレータに位置情報を送信することが出来ます。
 	
 	/** カメラインスタンス */
     private Camera mCam = null;
@@ -219,11 +213,10 @@ public class CameraPreviewActivity extends Activity
      * 
      * */
     private void setLocation(Location location) {
-    	
-		stopLocationService();
+    	stopLocationService();
+		
 		// ここに位置情報が取得できた場合の処理を記述
-		Log.d("DEBUG", "setLocation Start(位置情報が取得できた場合の処理)");
-        
+		CameraOpen();
 	}
     
     /**

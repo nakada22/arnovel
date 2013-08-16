@@ -2,7 +2,6 @@ package com.tetuo41.arnovel;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -170,25 +169,84 @@ public class CameraPreview extends SurfaceView implements
 			Log.d("DEBUG", "経度(撮影画像の位置情報)=" + p_longitude);
 			Log.d("DEBUG", "緯度(撮影画像の位置情報)=" + p_latitude);
 			
+			Toast.makeText(context,"経度(撮影画像の位置情報)=" + p_longitude, 
+        			Toast.LENGTH_LONG).show();
+			Toast.makeText(context,"緯度(撮影画像の位置情報)=" + p_latitude, 
+        			Toast.LENGTH_LONG).show();
+			
 			if (p_longitude == 0.0 || p_latitude == 0.0) {
-				// 撮影時における位置情報(経度・緯度)が取得できていない場合
+				
+				/** 撮影時における位置情報(経度・緯度)が取得できていない場合 */ 
 				// 位置情報の一致に失敗したため、Toast表示してユーザーに促す
 	        	Toast.makeText(context,cmndef.CAMERA_ERROR_MSG4, 
 	        			Toast.LENGTH_LONG).show();
 	        	
-	        	// TODO 撮影画像は不要なため、削除
-	        	
+	        	// 位置情報判定に失敗した撮影画像は、不要なためSDカード内ファイル削除
+	    		File sd_file = new File(SDCARD_FOLDER + datName);
+	    		if ( sd_file != null ) {
+	    			sd_file.delete();
+	    		}
+	    		
 	        	// プレビュー再開始
 	    		if (mCam != null) {
 	    			mCam.startPreview();
 	    		}
+	    		return;
 	    		
 			} else {
-				// TODO 経度・緯度が一致した場合、ノベル導入画面へ
+				
+//				/** 位置情報判定処理でOKだった場合 */ 
+//				/** TODO 本番時には以下の処理のコメントアウトを外さないといけない */ 
+//				// 例:139.752170 < 139.752185 <  139.7522
+//				// 参考URL http://java-reference.sakuraweb.com/java_number_bigdecimal.html
+//				// 比較対照の絶対値に対して十分に大きな差による大小比較を行う
+//				// 誤差範囲の基準(BigDecimalで誤差が出ない演算を行う)
+//				BigDecimal big_base = new BigDecimal("0.000015");
+//				
+//				// 経度(ノベル位置情報)　例：139.752185
+//				BigDecimal big_n_longitude = new BigDecimal(n_longitude);
+//				double left_n_longitude = Math.abs(big_base.
+//						subtract(big_n_longitude).doubleValue());// 0.000015減算(絶対値)
+//				double right_n_longitude = Math.abs(big_base.
+//						add(big_n_longitude).doubleValue());// 0.000015加算(絶対値)
+//				
+//				// 緯度(ノベル位置情報)　例：35.708992
+//				BigDecimal big_n_latitude = new BigDecimal(n_latitude);
+//				double left_n_latitude = Math.abs(big_base.
+//						subtract(big_n_latitude).doubleValue());// 0.000015減算(絶対値)
+//				double right_n_latitude = Math.abs(big_base.
+//						add(big_n_latitude).doubleValue());// 0.000015加算(絶対値)
+//				
+//				Log.d("DEBUG", "BigDecimal後 left_n_longitude=" + left_n_longitude);
+//				Log.d("DEBUG", "BigDecimal後 right_n_longitude=" + right_n_longitude);
+//				Log.d("DEBUG", "BigDecimal後 left_n_latitude=" + left_n_latitude);
+//				Log.d("DEBUG", "BigDecimal後 right_n_latitude=" + right_n_latitude);
+//				
+//				if (p_longitude >= left_n_longitude && p_longitude <= right_n_longitude) {
+//					Log.d("DEBUG", "経度比較で範囲内(0.000015)であり");
+//					
+//					// 経度比較で範囲内(0.000015)であり
+//					if (p_latitude >= left_n_latitude && p_latitude <= right_n_latitude) {
+//						Log.d("DEBUG", "緯度比較で範囲内(0.000015)です");
+//						
+//						// 緯度比較で範囲内(0.000015)であればＯＫ，ノベル導入画面へ
+//						Intent i = new Intent(context, NovelIntroActivity.class);
+//						i.putExtra("StageSelectState", sss);
+//
+//						// 背景画像用のパスをセット
+//						i.putExtra("back_ground", SDCARD_FOLDER + datName);
+//
+//						// 外部Activityを自分のActivityスタックとは別に立てる
+//						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//						getContext().startActivity(i);
+//						
+//					}
+//				}
 				
 			}
 			
-			
+			// 以下の処理はテスト用で、取得できていれば、どんな位置情報でもノベル導入画面に行けるようにしたものである
+			// TODO 一時的にテスト用でコメントアウトを外している。
 			Intent i = new Intent(context, NovelIntroActivity.class);
 			i.putExtra("StageSelectState", sss);
 
@@ -316,14 +374,8 @@ public class CameraPreview extends SurfaceView implements
 		// 画面回転に対応する場合は、ここでプレビューを停止し、
 		// 回転による処理を実施、再度プレビューを開始する。
 
-		// プレビュー開始
-//		if (mCam != null) {
-//			mCam.startPreview();
-//		}
-
 	}
 
 	@Override
-	public void onPictureTaken(byte[] data, Camera camera) {
-	}
+	public void onPictureTaken(byte[] data, Camera camera) {}
 }
