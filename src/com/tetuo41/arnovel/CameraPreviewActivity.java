@@ -68,6 +68,9 @@ public class CameraPreviewActivity extends Activity
     		if (mCam == null) {
     			// カメラを開く
                 mCam = Camera.open();
+                // プレビューを90度回転
+                mCam.setDisplayOrientation(90);
+                
     		}
     		
     		/** ステージ選択画面からのデータ取得し、CameraPreview経由でNovelIntro用にセット */
