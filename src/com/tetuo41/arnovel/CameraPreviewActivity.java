@@ -247,7 +247,11 @@ public class CameraPreviewActivity extends Activity
     protected void onPause() {
 		super.onPause();
 		Log.d("DEBUG", "onPause() Start");
-        // NovelIntroActivity起動時にもよばれる。
+        
+		// NovelIntroActivity起動時にもよばれる。
+		// シャッター押下時
+		mCam.release();
+		mCam = null;
 		
         // リスナーの削除
         if (locationManager != null) {

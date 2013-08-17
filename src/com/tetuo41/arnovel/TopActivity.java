@@ -49,6 +49,10 @@ public class TopActivity extends Activity implements OnClickListener{
 		findViewById(R.id.start).setOnClickListener(this);
 		findViewById(R.id.record).setOnClickListener(this);
 		
+		// 最初は、初期データ登録が完了するまでボタンクリックを無効化しておく
+		findViewById(R.id.start).setClickable(false);
+		findViewById(R.id.record).setClickable(false);
+		
 		try {
 			// 非同期で外部サーバよりCSVファイル読込
 			// 初期データDB登録
@@ -247,6 +251,10 @@ public class TopActivity extends Activity implements OnClickListener{
         		
         		/** 3.スタンプラリーマスタの初期データ登録 */
         		dao.InitDataInsert(null, null, DbConstants.TABLE1);
+        		
+        		// START, RECORDボタン有効化
+        		findViewById(R.id.start).setClickable(true);
+        		findViewById(R.id.record).setClickable(true);
         		
         		return null;
         	} catch (Exception e) {

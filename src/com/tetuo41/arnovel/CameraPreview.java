@@ -170,6 +170,10 @@ public class CameraPreview extends SurfaceView implements
 			Log.d("DEBUG", "経度(撮影画像の位置情報)=" + p_longitude);
 			Log.d("DEBUG", "緯度(撮影画像の位置情報)=" + p_latitude);
 			
+			Toast.makeText(context,"経度(ノベル位置情報)=" + n_longitude, 
+        			Toast.LENGTH_LONG).show();
+			Toast.makeText(context,"緯度(ノベル位置情報)=" + n_latitude, 
+        			Toast.LENGTH_LONG).show();
 			Toast.makeText(context,"経度(撮影画像の位置情報)=" + p_longitude, 
         			Toast.LENGTH_LONG).show();
 			Toast.makeText(context,"緯度(撮影画像の位置情報)=" + p_latitude, 
@@ -188,85 +192,108 @@ public class CameraPreview extends SurfaceView implements
 	    			sd_file.delete();
 	    		}
 	    		
-	        	// プレビュー再開始
-	    		if (mCam != null) {
-	    			mCam.startPreview();
+	        	// 再プレビュー開始
+	    		if (camera != null) {
+	    			camera.startPreview();
 	    		}
 	    		return;
 	    		
 			} else {
 				
-//				/** 位置情報判定処理でOKだった場合 */ 
-//				/** TODO 本番時には以下の処理のコメントアウトを外さないといけない */ 
-//				// 例:139.752170 < 139.752185 <  139.7522
-//				// 参考URL http://java-reference.sakuraweb.com/java_number_bigdecimal.html
-//				// 比較対照の絶対値に対して十分に大きな差による大小比較を行う
-//				// 誤差範囲の基準(BigDecimalで誤差が出ない演算を行う)
-//				BigDecimal big_base = new BigDecimal("0.000015");
-//				
-//				// 経度(ノベル位置情報)　例：139.752185
-//				BigDecimal big_n_longitude = new BigDecimal(n_longitude);
-//				double left_n_longitude = Math.abs(big_base.
-//						subtract(big_n_longitude).doubleValue());// 0.000015減算(絶対値)
-//				double right_n_longitude = Math.abs(big_base.
-//						add(big_n_longitude).doubleValue());// 0.000015加算(絶対値)
-//				
-//				// 緯度(ノベル位置情報)　例：35.708992
-//				BigDecimal big_n_latitude = new BigDecimal(n_latitude);
-//				double left_n_latitude = Math.abs(big_base.
-//						subtract(big_n_latitude).doubleValue());// 0.000015減算(絶対値)
-//				double right_n_latitude = Math.abs(big_base.
-//						add(big_n_latitude).doubleValue());// 0.000015加算(絶対値)
-//				
-//				Log.d("DEBUG", "BigDecimal後 left_n_longitude=" + left_n_longitude);
-//				Log.d("DEBUG", "BigDecimal後 right_n_longitude=" + right_n_longitude);
-//				Log.d("DEBUG", "BigDecimal後 left_n_latitude=" + left_n_latitude);
-//				Log.d("DEBUG", "BigDecimal後 right_n_latitude=" + right_n_latitude);
-//				
-//				if (p_longitude >= left_n_longitude && p_longitude <= right_n_longitude) {
-//					Log.d("DEBUG", "経度比較で範囲内(0.000015)であり");
-//					
-//					// 経度比較で範囲内(0.000015)であり
-//					if (p_latitude >= left_n_latitude && p_latitude <= right_n_latitude) {
-//						Log.d("DEBUG", "緯度比較で範囲内(0.000015)です");
-//						
-//						// 緯度比較で範囲内(0.000015)であればＯＫ，ノベル導入画面へ
-//						Intent i = new Intent(context, NovelIntroActivity.class);
-//						i.putExtra("StageSelectState", sss);
-//
-//						// 背景画像用のパスをセット
-//						i.putExtra("back_ground", SDCARD_FOLDER + datName);
-//
-//						// 外部Activityを自分のActivityスタックとは別に立てる
-//						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//						getContext().startActivity(i);
-//						
-//					} else {
-//						// 撮影画像がステージ選択した場所ではない場合
-//						Log.i("INFO", cmndef.CAMERA_INFO_MSG1);
-//						Toast.makeText(context,cmndef.CAMERA_INFO_MSG1, 
-//			        			Toast.LENGTH_LONG).show();
-//					}
-//				} else {
-//					// 撮影画像がステージ選択した場所ではない場合
-//					Log.i("INFO", cmndef.CAMERA_INFO_MSG1);
-//					Toast.makeText(context,cmndef.CAMERA_INFO_MSG1, 
-//		        			Toast.LENGTH_LONG).show();
-//				}
+				/** 位置情報取得でOKだった場合 */ 
+				/** TODO 本番時には以下の処理のコメントアウトを外さないといけない */ 
+				// 例:139.752170 < 139.752185 <  139.7522
+				// 参考URL http://java-reference.sakuraweb.com/java_number_bigdecimal.html
+				// 比較対照の絶対値に対して十分に大きな差による大小比較を行う
+				// 誤差範囲の基準(BigDecimalで誤差が出ない演算を行う)
+				BigDecimal big_base = new BigDecimal("0.001");
+				
+				// 経度(ノベル位置情報)　例：139.752185
+				BigDecimal big_n_longitude = new BigDecimal(n_longitude);
+				double left_n_longitude = Math.abs(big_base.
+						subtract(big_n_longitude).doubleValue());// 0.000015減算(絶対値)
+				double right_n_longitude = Math.abs(big_base.
+						add(big_n_longitude).doubleValue());// 0.000015加算(絶対値)
+				
+				// 緯度(ノベル位置情報)　例：35.708992
+				BigDecimal big_n_latitude = new BigDecimal(n_latitude);
+				double left_n_latitude = Math.abs(big_base.
+						subtract(big_n_latitude).doubleValue());// 0.000015減算(絶対値)
+				double right_n_latitude = Math.abs(big_base.
+						add(big_n_latitude).doubleValue());// 0.000015加算(絶対値)
+				
+				Log.d("DEBUG", "BigDecimal後 left_n_longitude=" + left_n_longitude);
+				Log.d("DEBUG", "BigDecimal後 right_n_longitude=" + right_n_longitude);
+				Log.d("DEBUG", "BigDecimal後 left_n_latitude=" + left_n_latitude);
+				Log.d("DEBUG", "BigDecimal後 right_n_latitude=" + right_n_latitude);
+				
+				if (p_longitude >= left_n_longitude && p_longitude <= right_n_longitude) {
+					Log.d("DEBUG", "経度比較で範囲内(0.000015)であり");
+					
+					// 経度比較で範囲内(0.000015)であり
+					if (p_latitude >= left_n_latitude && p_latitude <= right_n_latitude) {
+						Log.d("DEBUG", "緯度比較で範囲内(0.000015)です");
+						
+						// 緯度比較で範囲内(0.000015)であればＯＫ，ノベル導入画面へ
+						Intent i = new Intent(context, NovelIntroActivity.class);
+						i.putExtra("StageSelectState", sss);
+
+						// 背景画像用のパスをセット
+						i.putExtra("back_ground", SDCARD_FOLDER + datName);
+
+						// 外部Activityを自分のActivityスタックとは別に立てる
+						i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						getContext().startActivity(i);
+						
+					} else {
+						// 撮影画像がステージ選択した場所ではない場合
+						Log.i("INFO", cmndef.CAMERA_INFO_MSG1);
+						Toast.makeText(context,cmndef.CAMERA_INFO_MSG1, 
+			        			Toast.LENGTH_LONG).show();
+						
+						// 撮影画像削除
+						File sd_file = new File(SDCARD_FOLDER + datName);
+			    		if ( sd_file != null ) {
+			    			sd_file.delete();
+			    		}
+			    		
+			    		// 再プレビュー開始
+			    		if (camera != null) {
+			    			camera.startPreview();
+			    		}
+					}
+				} else {
+					// 撮影画像がステージ選択した場所ではない場合
+					Log.i("INFO", cmndef.CAMERA_INFO_MSG1);
+					Toast.makeText(context,cmndef.CAMERA_INFO_MSG1, 
+		        			Toast.LENGTH_LONG).show();
+					
+					// 撮影画像削除
+					File sd_file = new File(SDCARD_FOLDER + datName);
+		    		if ( sd_file != null ) {
+		    			sd_file.delete();
+		    		}
+		    		
+		    		// 再プレビュー開始
+		    		if (camera != null) {
+		    			camera.startPreview();
+		    		}
+		    		
+				}
 				
 			}
 			
-			// 以下の処理はテスト用で、取得できていれば、どんな位置情報でもノベル導入画面に行けるようにしたものである
-			// TODO 一時的にテスト用でコメントアウトを外している。
-			Intent i = new Intent(context, NovelIntroActivity.class);
-			i.putExtra("StageSelectState", sss);
-
-			// 背景画像用のパスをセット
-			i.putExtra("back_ground", SDCARD_FOLDER + datName);
-
-			// 外部Activityを自分のActivityスタックとは別に立てる
-			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			getContext().startActivity(i);
+//			// 以下の処理はテスト用で、取得できていれば、どんな位置情報でもノベル導入画面に行けるようにしたものである
+//			// TODO 一時的にテスト用でコメントアウトを外している。
+//			Intent i = new Intent(context, NovelIntroActivity.class);
+//			i.putExtra("StageSelectState", sss);
+//
+//			// 背景画像用のパスをセット
+//			i.putExtra("back_ground", SDCARD_FOLDER + datName);
+//
+//			// 外部Activityを自分のActivityスタックとは別に立てる
+//			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//			getContext().startActivity(i);
 			
 		}
 	};
@@ -385,7 +412,8 @@ public class CameraPreview extends SurfaceView implements
 		Log.d("DEBUG", "surfaceChanged called.");
 		// 画面回転に対応する場合は、ここでプレビューを停止し、
 		// 回転による処理を実施、再度プレビューを開始する。
-
+		surfaceCreated(holder);
+		
 	}
 
 	@Override
