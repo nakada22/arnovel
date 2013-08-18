@@ -9,7 +9,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -75,11 +74,6 @@ public class CameraPreviewActivity extends Activity
                 
     		}
     		
-    		WindowManager windowManager = getWindowManager();
-    		Display display = windowManager.getDefaultDisplay();
-    		int width = display.getWidth(); 	// ディスプレイサイズ(幅)
-    		int height = display.getHeight(); 	// ディスプレイサイズ(高さ)
-    		
     		/** ステージ選択画面からのデータ取得し、CameraPreview経由でNovelIntro用にセット */
             Intent getintent = getIntent();
         	StageSelectState sss = (StageSelectState) getintent.
@@ -87,7 +81,7 @@ public class CameraPreviewActivity extends Activity
         	
     		// カメラプレビュー起動(データもセット)
     		mCamPreview = new CameraPreview(getApplicationContext(), 
-    				mCam, sss, longitude, latitude, width, height);
+    				mCam, sss, longitude, latitude);
             FrameLayout preview = (FrameLayout)findViewById(R.id.camera_preview);
             preview.addView(mCamPreview);
             

@@ -43,11 +43,6 @@ public class CameraPreview extends SurfaceView implements
 	public double longitude;
 	public double latitude;
 	
-	/***/
-	private int width;
-	private int height;
-	
-	
 	/** カメラオブジェクト */
 	private Camera mCam;
 
@@ -68,14 +63,12 @@ public class CameraPreview extends SurfaceView implements
 	 * コンストラクタ
 	 */
 	public CameraPreview(Context context, Camera cam, StageSelectState sss,
-			double longitude, double latitude, int width, int height) {
+			double longitude, double latitude) {
 		super(context);
 		this.context = context;
 		this.sss = sss;
 		this.longitude = longitude;
 		this.latitude = latitude;
-		this.width = width;
-		this.height = height;
 		
 		cmnutil = new CommonUtil();
 		cmndef = new CommonDef();
