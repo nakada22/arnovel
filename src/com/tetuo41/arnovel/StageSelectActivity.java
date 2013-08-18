@@ -100,18 +100,7 @@ public class StageSelectActivity extends Activity{
 			public void onItemClick(AdapterView<?> adapterview, View view,
 					int position, long id) {
 				
-				// TODO カメラアプリの起動、ノベルデータ保持？　GPS機能も起動
-//				Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//				i.addCategory(Intent.CATEGORY_DEFAULT);
-//				//　ここの0の番号で呼び出し元と呼び出し先で対象かどうか判断する
-//				startActivityForResult(i,REQUEST_CAPTURE_IMAGE);
-				// インテントのインスタンス生成
-				// Intent i = new Intent();
-				// i.setAction("android.media.action.IMAGE_CAPTURE");
-				// startActivityForResult(i, REQUEST_CAPTURE_IMAGE);
-			
-				// 参考URL http://techbooster.jpn.org/andriod/device/9632/ 
-				//        http://blog.ayakix.com/2011/09/androidoverlay.html
+				// カメラプレビューの起動(ノベルデータ保持)
 				StageSelectState sss = dataOfStage.get(position);
 
 				Intent i = new Intent(getApplicationContext(), CameraPreviewActivity.class);
@@ -124,37 +113,4 @@ public class StageSelectActivity extends Activity{
 		// http://sakplus.jp/2011/05/21/stretchlist/
 		
     }
-    
-//    @Override
-//	protected void onActivityResult( int requestCode, int resultCode, 
-//		Intent data) {
-//    	
-//    	try {
-//    		
-//        	if(REQUEST_CAPTURE_IMAGE == requestCode 
-//    			&& resultCode == Activity.RESULT_OK ){
-//        		
-//        		Toast.makeText(this, "Activity.RESULT_OK", Toast.LENGTH_LONG).show();
-//        		
-//        		// カメラからの結果を取得(ここでNull PointerException)
-//    			Bitmap capturedImage = (Bitmap) data.getExtras().get("data");
-//    			imageView1.setImageBitmap(capturedImage);
-//    			Toast.makeText(this, "setImageBitmap OK", Toast.LENGTH_LONG).show();
-//        		
-//    			View view = getLayoutInflater().inflate(R.layout.camera_preview, null);
-//    			Toast.makeText(this, "getLayoutInflater().infl OK", Toast.LENGTH_LONG).show();
-//    			
-//    			addContentView(view, new LayoutParams(LayoutParams.FILL_PARENT,
-//    			LayoutParams.FILL_PARENT));
-//    			
-//    		}
-//    	} catch(Exception e) {
-//    		Log.d("DEBUG", e.toString());
-//    		// Null PointerException!!!!
-//    		Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-//    		Toast.makeText(this, "カメラからの結果取得に失敗しました", Toast.LENGTH_LONG).show();
-//    	}
-//    	
-//	}
-    
 }

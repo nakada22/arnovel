@@ -31,13 +31,13 @@ public class StageSelectState implements Serializable {
 	/** 緯度 */ 
 	private double latitude;
 	
-	/** 導入文１ */ 
+	/** ノベル導入文１ */ 
 	private String novel_intro1;
 	
-	/** 導入文２ */ 
+	/** ノベル導入文２ */ 
 	private String novel_intro2;
 	
-	/** 導入文３ */ 
+	/** ノベル導入文３ */ 
 	private String novel_intro3;
 	
 	public void setPhotoUrl(String _photo_url) {

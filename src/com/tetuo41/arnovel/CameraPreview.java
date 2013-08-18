@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
+import android.hardware.Camera.Size;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
 import android.util.Log;
@@ -41,6 +43,11 @@ public class CameraPreview extends SurfaceView implements
 	public double longitude;
 	public double latitude;
 	
+	/***/
+	private int width;
+	private int height;
+	
+	
 	/** カメラオブジェクト */
 	private Camera mCam;
 
@@ -61,12 +68,15 @@ public class CameraPreview extends SurfaceView implements
 	 * コンストラクタ
 	 */
 	public CameraPreview(Context context, Camera cam, StageSelectState sss,
-			double longitude, double latitude) {
+			double longitude, double latitude, int width, int height) {
 		super(context);
 		this.context = context;
 		this.sss = sss;
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.width = width;
+		this.height = height;
+		
 		cmnutil = new CommonUtil();
 		cmndef = new CommonDef();
 		mCam = cam;
@@ -90,30 +100,25 @@ public class CameraPreview extends SurfaceView implements
 	 * @param holder
 	 */
 	public void surfaceCreated(SurfaceHolder holder) {
+		Log.d("DEBUG", "surfaceCreated Start");
+		
 		try {
 			if (mCam == null) {
-				// カメラオブジェクトがない場合は作成
-				try {
-					mCam = Camera.open();
-				} catch (Exception e) {
-					// エラー発生時
-					Log.w("WARN", e.toString());
-					Toast.makeText(context, cmndef.CAMERA_ERROR_MSG3,
-							Toast.LENGTH_LONG).show();
-				}
+				mCam = Camera.open();
 			}
-
-			// カメラインスタンスに、画像表示先を設定
+					
+			} catch (Exception e) {
+				// エラー発生時
+				Log.w("WARN", e.toString());
+//				Toast.makeText(context, cmndef.CAMERA_ERROR_MSG3,
+//						Toast.LENGTH_LONG).show();
+			}
+		
+		// カメラインスタンスに、画像表示先を設定
+		try {
 			mCam.setPreviewDisplay(holder);
-
-			// プレビュー開始
-			mCam.startPreview();
-
-		} catch (Exception e) {
-			// 例外発生時
-			Log.w("WARN", e.toString());
-			// Toast.makeText(context, cmndef.CAMERA_ERROR_MSG3, Toast.LENGTH_LONG).show();
-		}
+		} catch (Exception e) {}
+					
 	}
 
 	/**
@@ -122,8 +127,12 @@ public class CameraPreview extends SurfaceView implements
 	 * @param holder
 	 */
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		mCam.release();
-		mCam = null;
+		Log.d("DEBUG", "surfaceDestroyed Start");
+		if (mCam != null) {
+			mCam.release();
+			mCam = null;
+		}
+		
 	}
 
 	/** JPEGイメージ生成後に呼ばれるコールバック */
@@ -157,7 +166,7 @@ public class CameraPreview extends SurfaceView implements
 				return;
 			}
 
-			// TODO 撮影画像の位置情報がノベル位置情報と一致しなければ、Toast表示、画像削除。
+			// 撮影画像の位置情報がノベル位置情報と一致しなければ、Toast表示、画像削除。
 			Log.d("DEBUG", "撮影画像を背景としNovelIntroActivity起動");
 			double n_longitude = sss.getLongitude();// 経度(ノベル位置情報)
 			double n_latitude = sss.getLatitude(); 	// 緯度(ノベル位置情報)
@@ -228,13 +237,13 @@ public class CameraPreview extends SurfaceView implements
 				Log.d("DEBUG", "BigDecimal後 right_n_latitude=" + right_n_latitude);
 				
 				if (p_longitude >= left_n_longitude && p_longitude <= right_n_longitude) {
-					Log.d("DEBUG", "経度比較で範囲内(0.000015)であり");
+					Log.d("DEBUG", "経度比較で範囲内であり");
 					
-					// 経度比較で範囲内(0.000015)であり
+					// 経度比較で範囲内であり
 					if (p_latitude >= left_n_latitude && p_latitude <= right_n_latitude) {
-						Log.d("DEBUG", "緯度比較で範囲内(0.000015)です");
+						Log.d("DEBUG", "緯度比較で範囲内です");
 						
-						// 緯度比較で範囲内(0.000015)であればＯＫ，ノベル導入画面へ
+						// 緯度比較で範囲内であればＯＫ，ノベル導入画面へ
 						Intent i = new Intent(context, NovelIntroActivity.class);
 						i.putExtra("StageSelectState", sss);
 
@@ -319,13 +328,16 @@ public class CameraPreview extends SurfaceView implements
 //		}
 //	};
 
+	/**
+	 * 画面タッチ時のコールバック
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		Log.d("DEBUG", "onTouchEvent Start");
 		// 撮影中の2度押し禁止用フラグ設定
-		if (notouch_flg) {
-			return true;
-		}
+//		if (notouch_flg) {
+//			return true;
+//		}
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
@@ -334,7 +346,7 @@ public class CameraPreview extends SurfaceView implements
 				Log.d("DEBUG", "タッチダウン開始");
 
 				// 撮影中の2度押し禁止用フラグ
-				notouch_flg = true;
+				// notouch_flg = true;
 
 				// オートフォーカス(完了時にコールバックにて撮影処理実行)
 				// mCam.autoFocus(mAutoFocusListener);
@@ -343,7 +355,7 @@ public class CameraPreview extends SurfaceView implements
 				mCam.takePicture(mShutterListener, null, mPictureListener);
 				
 				// 撮影完了したらフラグを戻す
-				notouch_flg = false;
+				// notouch_flg = false;
 
 			} catch (Exception e) {
 				Log.d("DEBUG", e.toString());
@@ -408,12 +420,19 @@ public class CameraPreview extends SurfaceView implements
 	 */
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		
 		Log.d("DEBUG", "surfaceChanged called.");
-		// 画面回転に対応する場合は、ここでプレビューを停止し、
-		// 回転による処理を実施、再度プレビューを開始する。
-		surfaceCreated(holder);
-		
+
+		// 正しいカメラのプレビューサイズ(撮影画像)、90°傾きズレ修正
+		if (mCam != null) {
+			mCam.stopPreview();
+			List<Size> previewSizes = mCam.getParameters().getSupportedPreviewSizes();
+		    Size size = previewSizes.get(0);
+		    Camera.Parameters parameters = mCam.getParameters();
+		    parameters.setRotation(90);
+		    parameters.setPreviewSize(size.width, size.height);
+			mCam.setParameters(parameters);
+			mCam.startPreview();
+		}
 	}
 
 	@Override

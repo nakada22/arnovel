@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -50,6 +51,7 @@ public class CameraPreviewActivity extends Activity
         
         // 位置情報取得機能を起動
         initLocationService();
+        
     }
 	
 	/** 
@@ -73,6 +75,11 @@ public class CameraPreviewActivity extends Activity
                 
     		}
     		
+    		WindowManager windowManager = getWindowManager();
+    		Display display = windowManager.getDefaultDisplay();
+    		int width = display.getWidth(); 	// ディスプレイサイズ(幅)
+    		int height = display.getHeight(); 	// ディスプレイサイズ(高さ)
+    		
     		/** ステージ選択画面からのデータ取得し、CameraPreview経由でNovelIntro用にセット */
             Intent getintent = getIntent();
         	StageSelectState sss = (StageSelectState) getintent.
@@ -80,7 +87,7 @@ public class CameraPreviewActivity extends Activity
         	
     		// カメラプレビュー起動(データもセット)
     		mCamPreview = new CameraPreview(getApplicationContext(), 
-    				mCam, sss, longitude, latitude);
+    				mCam, sss, longitude, latitude, width, height);
             FrameLayout preview = (FrameLayout)findViewById(R.id.camera_preview);
             preview.addView(mCamPreview);
             
@@ -167,8 +174,8 @@ public class CameraPreviewActivity extends Activity
  			@Override
  			public void onLocationChanged(final Location location) {
  				// 位置情報が更新した時
- 				Log.d("DEBUG", "onLocationChanged２ Start");
- 				Toast.makeText(getApplicationContext(), "onLocationChanged２ Start", 
+ 				Log.d("DEBUG", "位置情報が更新されました");
+ 				Toast.makeText(getApplicationContext(), "位置情報が更新されました", 
  	        			Toast.LENGTH_LONG).show();
  				
  				// 経度・緯度
@@ -253,8 +260,10 @@ public class CameraPreviewActivity extends Activity
         
 		// NovelIntroActivity起動時にもよばれる。
 		// シャッター押下時
-		mCam.release();
-		mCam = null;
+		if (mCam != null) {
+			mCam.release();
+			mCam = null;
+		}
 		
         // リスナーの削除
         if (locationManager != null) {
