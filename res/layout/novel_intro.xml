@@ -4,97 +4,51 @@
     android:layout_height="fill_parent"
     android:scaleType="fitCenter">
 
-    <!-- 背景画像 -->
+    <!-- select_your_answer -->
     <ImageView
-        android:id="@+id/back_ground"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scaleType="fitCenter" >
-    </ImageView>
-
-    <!-- ノベル導入文１ -->
-    <Button 
-        android:id="@+id/novel_intro1"
-		android:layout_width="250dp"
-	 	android:layout_height="wrap_content"
-	 	android:layout_marginTop="10dp"
-	 	android:gravity="left"
-		android:textColor="#FFFFFF"
-		android:textSize="12sp"
-		android:background="@drawable/b_blow_off" >
-	</Button>
-    
-    <!-- ノベル導入文2 -->
-    <Button
-		android:id="@+id/novel_intro2"
-		android:layout_width="250dp"
-	 	android:layout_height="wrap_content"
-		android:layout_marginTop="100dp"
-		android:layout_marginLeft="100dp"
-		android:gravity="left"
-		android:background="@drawable/m_blow_off"
-		android:textColor="#FFFFFF"
-		android:textSize="12sp">
-    </Button>
-    
-    <!-- ノベル導入文3 -->
-	<Button
-		android:id="@+id/novel_intro3"
-		android:layout_width="250dp"
-	 	android:layout_height="wrap_content"
-		android:layout_marginTop="200dp"
-		android:gravity="left"
-		android:background="@drawable/b_blow_off"
-		android:textColor="#FFFFFF"
-		android:textSize="12sp">
-	</Button>
-	
-	<!-- select_your_answer -->
-	<ImageView
-	    android:id="@+id/select_your_answer"
-	    android:layout_width="250dp"
-	    android:layout_height="45dp"
-	    android:layout_marginTop="410dp"
-	    android:layout_marginLeft="40dp"
-	    android:gravity="center_vertical"
+        android:id="@+id/select_your_answer"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="410dp"
+        android:gravity="center_vertical"
         android:scaleType="fitCenter"
-	    android:src="@drawable/select_your_answer" />
-		
-	<LinearLayout
-	    android:orientation="horizontal"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    >
-		
-		<!-- ごめんやめておく画像 -->
-		<Button
-			android:id="@+id/gomen_blowoff"
-			android:layout_width="160dp"
-		 	android:layout_height="70dp"
-			android:layout_marginTop="450dp"
-		    android:layout_marginBottom="30dp"
-			android:background="@drawable/gomen_blowoff"
-			android:textColor="#FFFFFF"
-			android:scaleType="fitCenter"
-			android:gravity="center"
-			android:text="@string/gomen_blowoff"
-			android:textSize="12sp">
-		</Button>
-	
-	    <!-- 聞かせて画像 -->
-	    <Button
-			android:id="@+id/kikasete_blowoff"
-			android:layout_width="160dp"
-		 	android:layout_height="70dp"
-			android:layout_marginTop="450dp"
-		    android:layout_marginBottom="30dp"
-			android:background="@drawable/kikasete_blowoff"
-			android:textColor="#FFFFFF"
-			android:scaleType="fitCenter"
-			android:gravity="center"
-			android:text="@string/kikasete_blowoff"
-			android:textSize="12sp">
-		</Button>
-		
-	  </LinearLayout>
+        android:src="@drawable/select_your_answer" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <!-- ごめんやめておく画像 -->
+        <Button
+            android:id="@+id/gomen_blowoff"
+            android:layout_width="160dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="450dp"
+            android:background="@drawable/gomen_blowoff"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            android:text="@string/gomen_blowoff"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" >
+        </Button>
+
+        <!-- 聞かせて画像 -->
+        <Button
+            android:id="@+id/kikasete_blowoff"
+            android:layout_width="160dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="450dp"
+            android:background="@drawable/kikasete_blowoff"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            android:text="@string/kikasete_blowoff"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" >
+        </Button>
+    </LinearLayout>
+    
 </RelativeLayout>

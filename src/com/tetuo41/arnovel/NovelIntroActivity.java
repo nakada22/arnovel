@@ -5,15 +5,18 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
@@ -30,7 +33,8 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
 	private CommonDef cmndef;
 	
 	/** 背景画像用 */
-	private ImageView novel_layout;
+	// private ImageView novel_layout;
+	RelativeLayout novel_layout;
 	private String bg_pass;
 	
 	/** ステージセレクト画面からのデータ */
@@ -41,14 +45,17 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
-		// テーマに撮影した画像をセット
-		setContentView(R.layout.novel_intro);
-		
+        
+        // レイアウト作成
+        novel_layout = new RelativeLayout(this);
+        novel_layout.setLayoutParams(new LayoutParams(
+        		LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+    	setContentView(novel_layout);
+
 		// ノベル導入部分を表示する
-		NovelIntroDisp();
-		
-		// ClickListener登録
+     	NovelIntroDisp();
+     	
+     	// ClickListener登録
 		findViewById(R.id.gomen_blowoff).setOnClickListener(this);
 		findViewById(R.id.kikasete_blowoff).setOnClickListener(this);
     }
@@ -66,33 +73,59 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
      * 
      * */
     private void NovelIntroDisp() {
-    	
-		// 背景用画像パス取得、背景画像セット
-    	Intent i = getIntent();
-		bg_pass = (String) i.getSerializableExtra("back_ground");
+
+    	// ステージセレクトActivityより取得したデータを取得
+		Intent i = getIntent();
+     	sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
+     	
+     	// 背景用画像パス取得、背景画像セット
+    	bg_pass = (String) i.getSerializableExtra("back_ground");
     	Drawable d = Drawable.createFromPath(bg_pass);
-    	novel_layout = (ImageView) findViewById(R.id.back_ground);
-		novel_layout.setBackgroundDrawable(d);
-		
-		// ステージセレクトActivityより取得したデータを取得
-		sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
-		
-		// ノベル導入部分1
-		String novel_intro1 = sss.getNovelIntro1();
-		Button btNovelIntro1 = (Button) findViewById(R.id.novel_intro1);
-		btNovelIntro1.setText(novel_intro1);
+    	novel_layout.setBackgroundDrawable(d);
+    	
+    	// ノベル導入部分1
+    	String novel_intro1 = sss.getNovelIntro1();
+		BlowOffMake(novel_intro1, 0, 10, 130, 0, R.drawable.b_blow_off);
 
 		// ノベル導入部分2
 		String novel_intro2 = sss.getNovelIntro2();
-		Button btNovelIntro2 = (Button) findViewById(R.id.novel_intro2);
-		btNovelIntro2.setText(novel_intro2);
-
+		BlowOffMake(novel_intro2, 130, 200, 0, 0, R.drawable.m_blow_off);
+    	
 		// ノベル導入部分3
 		String novel_intro3 = sss.getNovelIntro3();
-		Button btNovelIntro3 = (Button) findViewById(R.id.novel_intro3);
-		btNovelIntro3.setText(novel_intro3);
+		BlowOffMake(novel_intro3, 0, 400, 130, 0, R.drawable.b_blow_off);
+				
+		// Answer ボタン表示
+		View under_intro_view = getLayoutInflater().inflate(R.layout.novel_intro, null);
+		novel_layout.addView(under_intro_view);
+		
     }
     
+    /**
+     * 吹き出し作成処理を行う
+     * @param 吹き出しに表示する文字列
+     * @param マージン左
+     * @param マージン上
+     * @param マージン右
+     * @param マージン下
+     * @param 吹き出し画像のリソース(背景) 
+     * 
+     * */
+    private void BlowOffMake (String str_intro, int m_left, 
+    		int m_top, int m_right, int m_btm, int setback) {
+
+    	Button btn = new Button(this);
+		btn.setTextColor(Color.WHITE);
+		btn.setTextSize(12);
+		btn.setGravity(Gravity.LEFT);
+		btn.setBackgroundResource(setback);
+		btn.setText(str_intro);
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(550,
+				LayoutParams.WRAP_CONTENT);
+		lp.setMargins(m_left, m_top, m_right, m_btm);
+		novel_layout.addView(btn, lp);
+		
+    }
     /** 
      * ボタンクリック時の処理を記述する。
      * @param View ボタンオブジェクト

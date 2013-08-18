@@ -35,8 +35,8 @@ public class TopActivity extends Activity implements OnClickListener{
 	private CommonDef cmndef;
 	
 	/** 外部サーバーにあるCSVファイルのURL */
-	String novel_url;
-	String stage_url;
+	private String novel_url;
+	private String stage_url;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +129,7 @@ public class TopActivity extends Activity implements OnClickListener{
   
     		// アラートダイアログで警告を表示
     		AlertDialogView("エラー", cmndef.TOP_ERROR_MSG1);
+    		
     		// 処理を終了する
     		return;
     	} catch (RuntimeException e) {
