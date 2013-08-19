@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -34,7 +35,7 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
 	
 	/** 背景画像用 */
 	// private ImageView novel_layout;
-	RelativeLayout novel_layout;
+	private RelativeLayout novel_layout;
 	private String bg_pass;
 	
 	/** ステージセレクト画面からのデータ */
@@ -54,10 +55,6 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
 
 		// ノベル導入部分を表示する
      	NovelIntroDisp();
-     	
-     	// ClickListener登録
-		findViewById(R.id.gomen_blowoff).setOnClickListener(this);
-		findViewById(R.id.kikasete_blowoff).setOnClickListener(this);
     }
     
     /** 
@@ -74,7 +71,7 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
      * */
     private void NovelIntroDisp() {
 
-    	// ステージセレクトActivityより取得したデータを取得
+    	// ステージセレクト画面より	データを取得
 		Intent i = getIntent();
      	sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
      	
@@ -83,22 +80,41 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     	Drawable d = Drawable.createFromPath(bg_pass);
     	novel_layout.setBackgroundDrawable(d);
     	
-    	// ノベル導入部分1
-    	String novel_intro1 = sss.getNovelIntro1();
-		BlowOffMake(novel_intro1, 0, 10, 130, 0, R.drawable.b_blow_off);
+		// 6秒カウントダウン、2秒ごとに吹き出しを表示させる
+        new CountDownTimer(6000,1000){
 
-		// ノベル導入部分2
-		String novel_intro2 = sss.getNovelIntro2();
-		BlowOffMake(novel_intro2, 130, 200, 0, 0, R.drawable.m_blow_off);
-    	
-		// ノベル導入部分3
-		String novel_intro3 = sss.getNovelIntro3();
-		BlowOffMake(novel_intro3, 0, 400, 130, 0, R.drawable.b_blow_off);
-				
-		// Answer ボタン表示
+        	// 1秒毎カウントダウン処理
+            public void onTick(long millisUntilFinished){
+            	if (millisUntilFinished/1000 == 5) {
+            		// ノベル導入部分1
+            		String novel_intro1 = sss.getNovelIntro1();
+                	BlowOffMake(novel_intro1, 0, 10, 130, 0, R.drawable.b_blow_off);
+                	
+            	} else if (millisUntilFinished/1000 == 3) {
+            		// ノベル導入部分2(2秒後)
+            		String novel_intro2 = sss.getNovelIntro2();
+                	BlowOffMake(novel_intro2, 130, 200, 0, 0, R.drawable.m_blow_off);
+            		
+            	} else if (millisUntilFinished/1000 == 1) {
+            		// ノベル導入部分3(4秒後)
+            		String novel_intro3 = sss.getNovelIntro3();
+            		BlowOffMake(novel_intro3, 0, 400, 130, 0, R.drawable.b_blow_off);
+            		
+            	}
+            }
+            // カウントが0になった時の処理
+            public void onFinish(){
+            }
+        }.start();
+		
+    	// Answer ボタン表示
 		View under_intro_view = getLayoutInflater().inflate(R.layout.novel_intro, null);
 		novel_layout.addView(under_intro_view);
 		
+		// ClickListener登録
+ 		findViewById(R.id.gomen_blowoff).setOnClickListener(this);
+ 		findViewById(R.id.kikasete_blowoff).setOnClickListener(this);
+		 		
     }
     
     /**
