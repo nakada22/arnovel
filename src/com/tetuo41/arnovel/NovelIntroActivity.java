@@ -27,7 +27,7 @@ import com.tetuo41.arnovel.common.CommonUtil;
 * @author　HackathonG
 * @version 1.0
 */
-public class NovelIntroActivity extends Activity implements OnClickListener{
+public class NovelIntroActivity extends Activity {
 	
 	/** 共通クラスオブジェクト */
 	private CommonUtil cmnutil;
@@ -80,41 +80,56 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
     	Drawable d = Drawable.createFromPath(bg_pass);
     	novel_layout.setBackgroundDrawable(d);
     	
-		// 6秒カウントダウン、2秒ごとに吹き出しを表示させる
+		// 6秒カウントダウン、2秒間隔に吹き出しを表示させる
         new CountDownTimer(6000,1000){
 
         	// 1秒毎カウントダウン処理
             public void onTick(long millisUntilFinished){
             	if (millisUntilFinished/1000 == 5) {
-            		// ノベル導入部分1
+            		// ノベル導入部分1(1秒後)
             		String novel_intro1 = sss.getNovelIntro1();
                 	BlowOffMake(novel_intro1, 0, 10, 130, 0, R.drawable.b_blow_off);
                 	
             	} else if (millisUntilFinished/1000 == 3) {
-            		// ノベル導入部分2(2秒後)
+            		// ノベル導入部分2(3秒後)
             		String novel_intro2 = sss.getNovelIntro2();
                 	BlowOffMake(novel_intro2, 130, 200, 0, 0, R.drawable.m_blow_off);
             		
             	} else if (millisUntilFinished/1000 == 1) {
-            		// ノベル導入部分3(4秒後)
+            		// ノベル導入部分3(5秒後)
             		String novel_intro3 = sss.getNovelIntro3();
             		BlowOffMake(novel_intro3, 0, 400, 130, 0, R.drawable.b_blow_off);
             		
             	}
             }
-            // カウントが0になった時の処理
+            
             public void onFinish(){
+            	// カウントが0になった時の処理
+            	// Answer ボタン表示
+        		View under_intro_view = getLayoutInflater().inflate(R.layout.novel_intro, null);
+        		novel_layout.addView(under_intro_view);
+        		
+        		/**
+        		 * ボタンクリック時の処理
+        		 * */
+        		findViewById(R.id.gomen_blowoff).setOnClickListener(
+            		new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                        	// 「ごめん、やめておく」ボタンクリック時
+                			SorryStopClick();
+                        }
+                });
+        		findViewById(R.id.kikasete_blowoff).setOnClickListener(
+                		new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            	// 「聞かせて」クリック時
+                    			TellClick();
+                            }
+                    });
             }
         }.start();
-		
-    	// Answer ボタン表示
-		View under_intro_view = getLayoutInflater().inflate(R.layout.novel_intro, null);
-		novel_layout.addView(under_intro_view);
-		
-		// ClickListener登録
- 		findViewById(R.id.gomen_blowoff).setOnClickListener(this);
- 		findViewById(R.id.kikasete_blowoff).setOnClickListener(this);
-		 		
     }
     
     /**
@@ -142,28 +157,7 @@ public class NovelIntroActivity extends Activity implements OnClickListener{
 		novel_layout.addView(btn, lp);
 		
     }
-    /** 
-     * ボタンクリック時の処理を記述する。
-     * @param View ボタンオブジェクト
-     */
-    public void onClick(View v) {
-    	
-    	switch (v.getId()) {
-		case R.id.kikasete_blowoff:
-			// 「聞かせて」クリック時
-			TellClick();
-			
-			break;
-		case R.id.gomen_blowoff:
-			// 「ごめん、やめておく」ボタンクリック時
-			SorryStopClick();
-			
-			break;
-		default:
-			break;
-		}
-	}
-    
+
     /** 
      * 「聞かせて」ボタンクリック時の処理を記述する。
      */
