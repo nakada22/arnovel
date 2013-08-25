@@ -133,35 +133,35 @@ public class CameraPreviewActivity extends Activity
         }
         
         // 該当のプロバイダから最後に取得した位置情報(キャッシュ)を取得
-        Location lastKnownLocation = 
-        		locationManager.getLastKnownLocation(bestProvider);
-        if (lastKnownLocation != null){
-        	
-        	Toast.makeText(getApplicationContext(), "lastKnownLocationがNullではない場合", 
-        			Toast.LENGTH_LONG).show();
-        	Log.d("DEBUG", "lastKnownLocationがNullではない場合");
-
-        	// 経度・緯度
-        	longitude = lastKnownLocation.getLongitude();
-        	latitude = lastKnownLocation.getLatitude();
-        	
-        	Toast.makeText(getApplicationContext(), "Longitude（経度）="
-        			+ String.valueOf(longitude), Toast.LENGTH_LONG).show();
-        	Toast.makeText(getApplicationContext(), "Longitude（緯度）="
-                	+ String.valueOf(latitude), Toast.LENGTH_LONG).show();
-            		
-        	Log.d("----------", "----------");
-			Log.d("Longitude（経度）", String.valueOf(longitude));
-			Log.d("Latitude（緯度）", String.valueOf(latitude));
-				
-        	setLocation(lastKnownLocation);
-			return;
-        } else {
-        	Log.d("DEBUG", "lastKnownLocationがNullの場合");
-        	Toast.makeText(getApplicationContext(), "lastKnownLocationがNullの場合", 
-        			Toast.LENGTH_LONG).show();
-        	
-        }
+//        Location lastKnownLocation = 
+//        		locationManager.getLastKnownLocation(bestProvider);
+//        if (lastKnownLocation != null){
+//        	
+//        	Toast.makeText(getApplicationContext(), "lastKnownLocationがNullではない場合", 
+//        			Toast.LENGTH_LONG).show();
+//        	Log.d("DEBUG", "lastKnownLocationがNullではない場合");
+//
+//        	// 経度・緯度
+//        	longitude = lastKnownLocation.getLongitude();
+//        	latitude = lastKnownLocation.getLatitude();
+//        	
+//        	Toast.makeText(getApplicationContext(), "Longitude（経度）="
+//        			+ String.valueOf(longitude), Toast.LENGTH_LONG).show();
+//        	Toast.makeText(getApplicationContext(), "Longitude（緯度）="
+//                	+ String.valueOf(latitude), Toast.LENGTH_LONG).show();
+//            		
+//        	Log.d("----------", "----------");
+//			Log.d("Longitude（経度）", String.valueOf(longitude));
+//			Log.d("Latitude（緯度）", String.valueOf(latitude));
+//				
+//        	setLocation(lastKnownLocation);
+//			return;
+//        } else {
+//        	Log.d("DEBUG", "lastKnownLocationがNullの場合");
+//        	Toast.makeText(getApplicationContext(), "lastKnownLocationがNullの場合", 
+//        			Toast.LENGTH_LONG).show();
+//        	
+//        }
         
         // 位置情報の取得を開始
  		locationListener = new LocationListener() {

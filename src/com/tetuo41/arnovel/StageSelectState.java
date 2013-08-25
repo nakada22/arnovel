@@ -19,6 +19,9 @@ public class StageSelectState implements Serializable {
 	/** ノベルデータ(あらすじ) */ 
 	private String outline;
 
+	/** ノベルデータ(全文) */ 
+	private String alloutline;
+
 	/** 住所 */ 
 	private String address;
 	
@@ -61,7 +64,15 @@ public class StageSelectState implements Serializable {
 	public String getOutLine() {
 		return this.outline;
 	}
+	
+	public void setAllOutLine(String _alloutline) {
+		this.alloutline = _alloutline;
+	}
 
+	public String getAllOutLine() {
+		return this.alloutline;
+	}
+	
 	public void setAddress(String _address) {
 		this.address = _address;
 	}

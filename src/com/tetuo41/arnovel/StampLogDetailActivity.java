@@ -50,13 +50,13 @@ public class StampLogDetailActivity extends Activity {
     	StampLogState sls = (StampLogState) i.getSerializableExtra("StampLogState");
     	
     	/** スタンプ一覧画面からデータ取得 */
-    	String stamp_id = String.valueOf(sls.getStampId());
+    	int stamp_id = sls.getStampId();
     	String novel_title = sls.getNovelTitle();
     	String novel_data = sls.getNovelData();
     	// ノベルデータを25文字づつ改行区切りでわける。
     	StringBuilder sb = new StringBuilder();
     	
-    	// 表示する行数Z(改行文字の数でもある)
+    	// 表示する行数(改行文字の数でもある)
     	int row_count = novel_data.length() / 25;
     	
     	for (int j = 0; j < row_count; j++) {

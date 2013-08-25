@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="170dp"
+    android:layout_height="70dp"
+    android:gravity="center"
+    android:layout_marginLeft="75dp"
+    android:scaleType="fitCenter">
+            		
+    <!-- 読了画像 -->
+    <Button
+        android:id="@+id/read_comp"
+        android:layout_width="170dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/read_comp"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        android:text="@string/read_comp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" >
+    </Button>
+</LinearLayout>

@@ -82,6 +82,7 @@ public class StageSelectActivity extends Activity{
     		sss.setPhotoUrl(stage_img_url + "stage" + data.get(0) +".png");
     		sss.setStageTitle(data.get(1));
     		sss.setOutLine(data.get(2).substring(0, 30) + "・・・");
+    		sss.setAllOutLine(data.get(2)); // ノベル全文
     		sss.setAddress(data.get(3));
     		sss.setLongitude(Double.parseDouble(data.get(4))); // 経度
     		sss.setLatitude(Double.parseDouble(data.get(5))); // 緯度

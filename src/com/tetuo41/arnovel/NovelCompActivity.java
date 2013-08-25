@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
@@ -32,7 +33,7 @@ public class NovelCompActivity extends Activity implements OnClickListener{
 	private ImageView novel_layout;
 	
 	/** ステージセレクト画面からのデータ(ステージID、ステージタイトル) */
-	private StageSelectState sss;
+	StageSelectState sss;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class NovelCompActivity extends Activity implements OnClickListener{
 		NovelCompDisp();
 		
 		// ClickListener登録
-		// findViewById(R.id.menu_back).setOnClickListener(this);
+		findViewById(R.id.menu_back).setOnClickListener(this);
 				
     }
     
@@ -72,9 +73,16 @@ public class NovelCompActivity extends Activity implements OnClickListener{
     	Drawable d = Drawable.createFromPath(bg_pass);
     	novel_layout = (ImageView) findViewById(R.id.novel_comp_back_ground);
 		novel_layout.setBackgroundDrawable(d);
-		
+
 		// ステージセレクトActivityより取得したデータを取得
-		// sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
+		sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
+		
+		// スタンプ保存完了文字列 をセット
+		TextView tv_stamp_save = (TextView)findViewById(R.id.stamp_save);
+		int stage_id = sss.getStageId(); 	// ステージID
+		String stage_title = sss.getStageTitle(); 	// ステージタイトル
+		tv_stamp_save.setText("スタンプNo." + stage_id + 
+				"「" + stage_title + "」を保存しました。");
 		
     }
     
@@ -102,6 +110,7 @@ public class NovelCompActivity extends Activity implements OnClickListener{
     	
     	try {
     		// メニューに戻るボタンクリック時、トップ画面へ遷移
+    		//this.finish();
     		Intent i = new Intent(getApplicationContext(), TopActivity.class);
 			startActivity(i);
     		
@@ -115,7 +124,7 @@ public class NovelCompActivity extends Activity implements OnClickListener{
     		return;
     		
     	} catch (RuntimeException e) {
-    		// トップ画面へ遷移できなかった場合
+    		// 通常は通らないルート
     		Log.e("ERROR", e.toString());
     		
     		// アラートダイアログで警告を表示

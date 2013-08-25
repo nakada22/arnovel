@@ -1,24 +1,31 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<com.tetuo41.arnovel.NovelScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:scaleType="fitCenter">
+    android:fillViewport="true">
 
-    <!-- 背景画像 -->
-    <ImageView
+    <!-- ノベルデータ部 -->
+    <LinearLayout
         android:id="@+id/novel_back_ground"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:scaleType="fitCenter" >
-    </ImageView>
+        android:orientation="vertical" >
 
-    <!-- ノベルデータ -->
-    <ListView
-	    android:layout_marginTop="90dp"
-		android:id="@+id/novellist"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:divider="@null">
-	</ListView>
-	
-</RelativeLayout>
+        <!-- ノベルデータ -->
+        <TextView
+            android:id="@+id/novel_data"
+			android:lineSpacingMultiplier="1.5"
+            android:paddingTop="35dp"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="15dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" >
+        </TextView>
+
+    </LinearLayout>
+</com.tetuo41.arnovel.NovelScrollView>

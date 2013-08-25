@@ -147,7 +147,7 @@ public class NovelIntroActivity extends Activity {
 
     	Button btn = new Button(this);
 		btn.setTextColor(Color.WHITE);
-		btn.setTextSize(12);
+		btn.setTextSize(14);
 		btn.setGravity(Gravity.LEFT);
 		btn.setBackgroundResource(setback);
 		btn.setText(str_intro);
@@ -167,6 +167,7 @@ public class NovelIntroActivity extends Activity {
     		// 「聞かせて」ボタンクリック時、ノベル表示画面へ遷移
     		Intent i = new Intent(getApplicationContext(), NovelActivity.class);
     		i.putExtra("back_ground", bg_pass);
+    		i.putExtra("StageSelectState", sss);
 			startActivity(i);
     		
     	} catch (ActivityNotFoundException e) {
@@ -179,7 +180,7 @@ public class NovelIntroActivity extends Activity {
     		return;
     		
     	} catch (RuntimeException e) {
-    		// ノベル表示画面へ遷移できなかった場合
+    		// 通常は通らないルート
     		Log.e("ERROR", e.toString());
     		
     		// アラートダイアログで警告を表示
@@ -212,7 +213,7 @@ public class NovelIntroActivity extends Activity {
     		// 処理を終了する
     		return;
     	} catch (RuntimeException e) {
-    		// ステージセレクト画面へ遷移できなかった場合
+    		// 通常は通らないルート
     		Log.e("ERROR", e.toString());
   
     		// アラートダイアログで警告を表示

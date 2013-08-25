@@ -8,14 +8,17 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.tetuo41.arnovel.common.CommonDef;
 import com.tetuo41.arnovel.common.CommonUtil;
+import com.tetuo41.arnovel.db.Dao;
 
 /**
 * ノベル表示画面を表示するクラスです。
@@ -29,27 +32,35 @@ public class NovelActivity extends Activity implements OnClickListener{
 	private CommonDef cmndef;
 	
 	/** 背景画像用 */
-	private ImageView novel_layout;
+	private LinearLayout bg_layout;
 	private String bg_pass;
 	
-	/** ステージセレクト画面からのデータ */
-	private StageSelectState sss;
-	
+	/** スクロールビューで必要なオブジェクト */
+	private NovelScrollView scroll;
+    private TextView novel_layout;
+    private boolean flg = false;
+    private StageSelectState sss; 
+    
+    private boolean disp_chg_flg = false;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-		// テーマに撮影した画像をセット
-		setContentView(R.layout.novel);
+        // ノベル表示用レイアウトのオブジェクトを取得・セット
+		scroll = (NovelScrollView) LayoutInflater.from(this)
+        		.inflate(R.layout.novel, null);
+        setContentView(scroll);
 		
+        // ノベルデータ表示用TextView
+        novel_layout = (TextView) scroll.findViewById(R.id.novel_data);
+        	
+		// 参考URL:http://qiita.com/haratchatta/items/86aa8517a91fea1e772f
 		// ノベル部分をリスト表示する
 		NovelDisp();
-		
-		// ClickListener登録
-		//findViewById(R.id.novellist).setOnClickListener(this);
-				
+
     }
     
     /** 
@@ -69,14 +80,90 @@ public class NovelActivity extends Activity implements OnClickListener{
 		// 背景用画像パス取得、背景画像セット
     	Intent i = getIntent();
 		String bg_pass = (String) i.getSerializableExtra("back_ground");
-    	Drawable d = Drawable.createFromPath(bg_pass);
-    	novel_layout = (ImageView) findViewById(R.id.novel_back_ground);
-		novel_layout.setBackgroundDrawable(d);
+		Drawable d = Drawable.createFromPath(bg_pass);
+    	bg_layout = (LinearLayout) findViewById(R.id.novel_back_ground);
+		bg_layout.setBackgroundDrawable(d);
 		
-		// ステージセレクトActivityより取得したデータを取得
-		// sss = (StageSelectState)i.getSerializableExtra("StageSelectState");
+		// ステージセレクト画面より引継ぎして取得したノベルデータ
+		sss = (StageSelectState) i.getSerializableExtra("StageSelectState");
 		
+		// ノベルデータをセット
+    	String novel_data = sss.getAllOutLine();
+    	novel_layout.setText(novel_data);
+    	
+    	if (novel_data.length() <= 500) {
+    		// ノベルデータが500文字以下であれば、「読了」ボタンビューにセット・表示処理を行う
+    		View read_comp_view = getLayoutInflater().inflate(R.layout.novel2, null);
+    		bg_layout.addView(read_comp_view);
+    		flg = true; // 読了ボタンは初回だけ表示
+    		
+    		findViewById(R.id.read_comp).setOnClickListener(
+        		new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    	// 「読了」クリック時
+                    	ReadFinishClick();
+                    }
+            });
+    	}
+    	
+        scroll.setScrollToBottomListener(new NovelScrollView.ScrollToBottomListener() {
+            @Override
+            public void onScrollToBottom(NovelScrollView scrollView) {
+            	Log.d("DEBUG", "onScrollToBottom Start");
+            	
+            	if (flg == false) {
+            		
+            		// 初回の最下部スクロール時だけ、最下部にスクロールした時のイベント
+                	// 「読了」ボタンビューにセット・表示処理を行う
+            		View read_comp_view = getLayoutInflater().inflate(R.layout.novel2, null);
+            		bg_layout.addView(read_comp_view);
+            		
+            		flg = true;
+            		
+            		// ボタンクリック時の処理
+            		findViewById(R.id.read_comp).setOnClickListener(
+                		new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                            	// 「読了」クリック時
+                            	ReadFinishClick();
+                            }
+                    });
+            		
+            	}
+            	
+            }
+
+        });
+    	
+    	// 一番下までスクロールさせる
+//    	scrollView.post(new Runnable() {
+//    		  @Override public run() {
+//    		    scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+//    		  }
+//    		});
+    	
     }
+    
+    
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        Log.d("DEBUG", "onWindowFocusChanged Start");
+        
+        if (disp_chg_flg == true) {
+        	// 読了ボタン押したとき
+        	bg_layout.removeAllViews();
+        	disp_chg_flg = false;
+        } else {
+        	
+        	
+        }
+    	
+        scroll.setScrollBottomMargin(1000);
+    }
+    
     
     /** 
      * ボタンクリック時の処理を記述する。
@@ -85,7 +172,7 @@ public class NovelActivity extends Activity implements OnClickListener{
     public void onClick(View v) {
     	
     	switch (v.getId()) {
-		case R.id.kikasete_blowoff:
+		case R.drawable.read_comp:
 			// 「読了」クリック時
 			ReadFinishClick();
 			
@@ -101,9 +188,18 @@ public class NovelActivity extends Activity implements OnClickListener{
     private void ReadFinishClick() {
     	
     	try {
+    		Log.d("DEBUG", "ReadFinishClick Start");
+    		// DBアクセスクラスオブジェクト
+			Dao dao = new Dao(getApplicationContext());
+			
+			// stampフラグを「1」Update
+    		dao.StampFlgUpdate(String.valueOf(sss.getStageId()));
+    		
     		// 読了ボタンクリック時、ノベル完了画面へ遷移
     		Intent i = new Intent(getApplicationContext(), NovelCompActivity.class);
+    		//bg_layout.removeAllViews();
     		i.putExtra("back_ground", bg_pass);
+    		i.putExtra("StageSelectState", sss);
 			startActivity(i);
     		
     	} catch (ActivityNotFoundException e) {
@@ -117,7 +213,7 @@ public class NovelActivity extends Activity implements OnClickListener{
     		return;
     		
     	} catch (RuntimeException e) {
-    		// ノベル完了画面へ遷移できなかった場合
+    		// 通常通らないルート
     		Log.e("ERROR", e.toString());
     		
     		// アラートダイアログで警告を表示
@@ -128,6 +224,20 @@ public class NovelActivity extends Activity implements OnClickListener{
     	}
     }
     
+    /**
+   	 * アクティビティが「停止」の状態
+   	 * */
+   	@Override
+   protected void onPause() {
+	super.onPause();
+	Log.d("DEBUG", "onPause() Start");
+	
+	// 読了ボタン押した時通る
+	disp_chg_flg = true;
+	
+	Log.d("DEBUG", "onPause() End");
+   }
+   	
     /**
      * アラートダイアログを表示する
      * @param タイトル
