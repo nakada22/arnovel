@@ -40,7 +40,7 @@ public class NovelActivity extends Activity implements OnClickListener{
     private TextView novel_layout;
     private boolean flg = false;
     private StageSelectState sss; 
-    
+    private View read_comp_view;
     private boolean disp_chg_flg = false;
     
     @Override
@@ -49,14 +49,15 @@ public class NovelActivity extends Activity implements OnClickListener{
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-        // ノベル表示用レイアウトのオブジェクトを取得・セット
+        // ノベル表示用ScrollViewのオブジェクトを取得
 		scroll = (NovelScrollView) LayoutInflater.from(this)
         		.inflate(R.layout.novel, null);
         setContentView(scroll);
 		
         // ノベルデータ表示用TextView
         novel_layout = (TextView) scroll.findViewById(R.id.novel_data);
-        	
+        read_comp_view = getLayoutInflater().inflate(R.layout.novel2, null);
+		
 		// 参考URL:http://qiita.com/haratchatta/items/86aa8517a91fea1e772f
 		// ノベル部分をリスト表示する
 		NovelDisp();
@@ -81,7 +82,7 @@ public class NovelActivity extends Activity implements OnClickListener{
     	Intent i = getIntent();
 		String bg_pass = (String) i.getSerializableExtra("back_ground");
 		Drawable d = Drawable.createFromPath(bg_pass);
-    	bg_layout = (LinearLayout) findViewById(R.id.novel_back_ground);
+    	bg_layout = (LinearLayout)scroll.findViewById(R.id.novel_back_ground);
 		bg_layout.setBackgroundDrawable(d);
 		
 		// ステージセレクト画面より引継ぎして取得したノベルデータ
@@ -93,7 +94,6 @@ public class NovelActivity extends Activity implements OnClickListener{
     	
     	if (novel_data.length() <= 500) {
     		// ノベルデータが500文字以下であれば、「読了」ボタンビューにセット・表示処理を行う
-    		View read_comp_view = getLayoutInflater().inflate(R.layout.novel2, null);
     		bg_layout.addView(read_comp_view);
     		flg = true; // 読了ボタンは初回だけ表示
     		
@@ -116,9 +116,7 @@ public class NovelActivity extends Activity implements OnClickListener{
             		
             		// 初回の最下部スクロール時だけ、最下部にスクロールした時のイベント
                 	// 「読了」ボタンビューにセット・表示処理を行う
-            		View read_comp_view = getLayoutInflater().inflate(R.layout.novel2, null);
             		bg_layout.addView(read_comp_view);
-            		
             		flg = true;
             		
             		// ボタンクリック時の処理
@@ -146,18 +144,33 @@ public class NovelActivity extends Activity implements OnClickListener{
     	
     }
     
-    
+    /**
+     * フォーカスが移った直後か失った直後の処理
+     * @param hasFocus フォーカスの状態
+     * */
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         Log.d("DEBUG", "onWindowFocusChanged Start");
         
+        // フォーカス変更後の処理
         if (disp_chg_flg == true) {
-        	// 読了ボタン押したとき
-        	bg_layout.removeAllViews();
+        	
+        	/** 読了ボタン押したとき */ 
+        	// 読了ボタン非表示
+        	read_comp_view.setVisibility(View.INVISIBLE);
+        	
+        	// ノベルデータ非表示
+        	novel_layout.setVisibility(View.INVISIBLE);
         	disp_chg_flg = false;
         } else {
         	
+        	/** ノベル完了画面からノベル表示画面へ戻った時 */
+        	// 読了ボタン表示
+        	read_comp_view.setVisibility(View.VISIBLE);
+        	
+        	// ノベルデータ表示
+        	novel_layout.setVisibility(View.VISIBLE);
         	
         }
     	
@@ -193,11 +206,10 @@ public class NovelActivity extends Activity implements OnClickListener{
 			Dao dao = new Dao(getApplicationContext());
 			
 			// stampフラグを「1」Update
-    		dao.StampFlgUpdate(String.valueOf(sss.getStageId()));
+    		dao.StampFlgUpdate(sss.getStageId());
     		
     		// 読了ボタンクリック時、ノベル完了画面へ遷移
     		Intent i = new Intent(getApplicationContext(), NovelCompActivity.class);
-    		//bg_layout.removeAllViews();
     		i.putExtra("back_ground", bg_pass);
     		i.putExtra("StageSelectState", sss);
 			startActivity(i);

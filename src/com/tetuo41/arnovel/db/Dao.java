@@ -300,14 +300,14 @@ public class Dao {
 	 * @param ステージID
 	 * 
 	 * */
-	public void StampFlgUpdate(String stage_id) {
+	public void StampFlgUpdate(int stage_id) {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		
 		/** スタンプラリーマスタのスタンプフラグを「1」へUpdate */
 		try {
 			Cursor c = db.rawQuery("SELECT ms.stamp_flg FROM " +
 					DbConstants.TABLE1 + " ms WHERE ms.stage_id=?", 
-					new String[]{stage_id});
+					new String[]{String.valueOf(stage_id)});
 			ContentValues cv = new ContentValues();
 			
 			// 現在日時取得
@@ -315,12 +315,15 @@ public class Dao {
 			String currenttime = sdf.format(Calendar.getInstance().getTime());
 			
 			if (c.moveToFirst()){
-				// 同じステージIDがある場合、stamp_flg, update_dateをUpdate
-				cv.put(DbConstants.CLM_STAMP_FLG, 1);
-				cv.put(DbConstants.CLM_UPDATE_DATE, currenttime);
-				db.update(DbConstants.TABLE1, cv, DbConstants.CLM_STAGE_ID+"=?",
-						new String[]{stage_id});
+				String stamp_flg = c.getString(0);
 				
+				if (stamp_flg != "1") {
+					// スタンプフラグが既に1でない場合は、Update
+					cv.put(DbConstants.CLM_STAMP_FLG, 1);
+					cv.put(DbConstants.CLM_UPDATE_DATE, currenttime);
+					db.update(DbConstants.TABLE1, cv, DbConstants.CLM_STAGE_ID+"=?",
+							new String[]{String.valueOf(stage_id)});
+				}
 			}
 		} catch (RuntimeException e){
 			Log.d("DEBUG",e.toString());

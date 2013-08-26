@@ -79,7 +79,7 @@ public class NovelCompActivity extends Activity implements OnClickListener{
 		
 		// スタンプ保存完了文字列 をセット
 		TextView tv_stamp_save = (TextView)findViewById(R.id.stamp_save);
-		int stage_id = sss.getStageId(); 	// ステージID
+		int stage_id = sss.getStageId(); 			// ステージID
 		String stage_title = sss.getStageTitle(); 	// ステージタイトル
 		tv_stamp_save.setText("スタンプNo." + stage_id + 
 				"「" + stage_title + "」を保存しました。");
@@ -110,7 +110,6 @@ public class NovelCompActivity extends Activity implements OnClickListener{
     	
     	try {
     		// メニューに戻るボタンクリック時、トップ画面へ遷移
-    		//this.finish();
     		Intent i = new Intent(getApplicationContext(), TopActivity.class);
 			startActivity(i);
     		

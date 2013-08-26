@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ARNovel</string>
+    <string name="app_name">ロケノベル</string>
     <string name="action_settings">Settings</string>
     <string name="stamp_contrib">▼スタンプを投稿する</string>
     <string name="gomen_blowoff">ごめん、やめておく。。</string>

@@ -57,10 +57,10 @@ public class StampLogDetailActivity extends Activity {
     	StringBuilder sb = new StringBuilder();
     	
     	// 表示する行数(改行文字の数でもある)
-    	int row_count = novel_data.length() / 25;
+    	int row_count = novel_data.length() / 19;
     	
     	for (int j = 0; j < row_count; j++) {
-    		sb.append(novel_data.substring(25*j,(25*j)+25));
+    		sb.append(novel_data.substring(19*j,(19*j)+19));
     		Log.d("DEBUG", sb.toString());
         	sb.append("\n"); // 改行文字
     	}
