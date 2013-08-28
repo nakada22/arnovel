@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel.novel;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel.db;
+package com.tetuo41.locanovel.db;
 
 import android.content.Context;
 import android.database.SQLException;

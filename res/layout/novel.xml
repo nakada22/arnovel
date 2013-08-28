@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.tetuo41.arnovel.NovelScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.tetuo41.locanovel.novel.NovelScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true">
@@ -28,4 +28,4 @@
         </TextView>
 
     </LinearLayout>
-</com.tetuo41.arnovel.NovelScrollView>
+</com.tetuo41.locanovel.novel.NovelScrollView>

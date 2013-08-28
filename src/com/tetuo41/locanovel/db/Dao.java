@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel.db;
+package com.tetuo41.locanovel.db;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import com.tetuo41.arnovel.common.CommonUtil;
+import com.tetuo41.locanovel.common.CommonUtil;
 
 public class Dao {
 	

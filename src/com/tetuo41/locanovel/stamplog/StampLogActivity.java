@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel.stamplog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,9 +17,10 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tetuo41.arnovel.common.CommonDef;
-import com.tetuo41.arnovel.common.CommonUtil;
-import com.tetuo41.arnovel.db.Dao;
+import com.tetuo41.locanovel.R;
+import com.tetuo41.locanovel.common.CommonDef;
+import com.tetuo41.locanovel.common.CommonUtil;
+import com.tetuo41.locanovel.db.Dao;
 
 /**
 * スタンプログラリー画面を表示するクラスです。

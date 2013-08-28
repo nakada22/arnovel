@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel.camera;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,8 +14,10 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.tetuo41.arnovel.common.CommonDef;
-import com.tetuo41.arnovel.common.CommonUtil;
+import com.tetuo41.locanovel.R;
+import com.tetuo41.locanovel.common.CommonDef;
+import com.tetuo41.locanovel.common.CommonUtil;
+import com.tetuo41.locanovel.stageselect.StageSelectState;
 
 /**
  * カメラプレビュー起動クラス

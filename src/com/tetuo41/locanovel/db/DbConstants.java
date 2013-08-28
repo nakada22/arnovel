@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel.db;
+package com.tetuo41.locanovel.db;
 
 /**
 * データベース関連の定数を定義する。

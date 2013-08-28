@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel.stageselect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.tetuo41.arnovel.common.CommonDef;
-import com.tetuo41.arnovel.common.CommonUtil;
-import com.tetuo41.arnovel.db.Dao;
+import com.tetuo41.locanovel.R;
+import com.tetuo41.locanovel.camera.CameraPreviewActivity;
+import com.tetuo41.locanovel.common.CommonDef;
+import com.tetuo41.locanovel.common.CommonUtil;
+import com.tetuo41.locanovel.db.Dao;
 
 /**
  * ステージ選択画面

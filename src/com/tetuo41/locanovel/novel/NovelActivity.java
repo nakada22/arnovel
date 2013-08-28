@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel.novel;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,9 +16,11 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tetuo41.arnovel.common.CommonDef;
-import com.tetuo41.arnovel.common.CommonUtil;
-import com.tetuo41.arnovel.db.Dao;
+import com.tetuo41.locanovel.R;
+import com.tetuo41.locanovel.common.CommonDef;
+import com.tetuo41.locanovel.common.CommonUtil;
+import com.tetuo41.locanovel.db.Dao;
+import com.tetuo41.locanovel.stageselect.StageSelectState;
 
 /**
 * ノベル表示画面を表示するクラスです。

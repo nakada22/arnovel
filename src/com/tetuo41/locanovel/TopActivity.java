@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,10 +18,12 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.tetuo41.arnovel.common.CommonDef;
-import com.tetuo41.arnovel.common.CommonUtil;
-import com.tetuo41.arnovel.db.Dao;
-import com.tetuo41.arnovel.db.DbConstants;
+import com.tetuo41.locanovel.common.CommonDef;
+import com.tetuo41.locanovel.common.CommonUtil;
+import com.tetuo41.locanovel.db.Dao;
+import com.tetuo41.locanovel.db.DbConstants;
+import com.tetuo41.locanovel.stageselect.StageSelectActivity;
+import com.tetuo41.locanovel.stamplog.StampLogActivity;
 
 /**
 * トップ画面を表示するクラスです。
@@ -40,7 +42,6 @@ public class TopActivity extends Activity implements OnClickListener{
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // Log.e(this.getClass().getName(),"onCreate");
     	super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.top);

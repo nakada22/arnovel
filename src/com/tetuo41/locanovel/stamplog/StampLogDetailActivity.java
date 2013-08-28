@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel.stamplog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,9 +7,10 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.tetuo41.arnovel.StampLogActivity.StampLogState;
-import com.tetuo41.arnovel.common.CommonDef;
-import com.tetuo41.arnovel.common.CommonUtil;
+import com.tetuo41.locanovel.R;
+import com.tetuo41.locanovel.common.CommonDef;
+import com.tetuo41.locanovel.common.CommonUtil;
+import com.tetuo41.locanovel.stamplog.StampLogActivity.StampLogState;
 
 /**
 * スタンプログ詳細画面を表示するクラスです。

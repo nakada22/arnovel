@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel.common;
+package com.tetuo41.locanovel.common;
 
 import java.io.BufferedReader;
 import java.io.File;

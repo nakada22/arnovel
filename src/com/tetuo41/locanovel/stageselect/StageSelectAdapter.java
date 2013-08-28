@@ -1,9 +1,6 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel.stageselect;
 
 import java.util.ArrayList;
-
-import com.tetuo41.arnovel.common.CommonDef;
-import com.tetuo41.arnovel.common.CommonUtil;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,6 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tetuo41.locanovel.R;
+import com.tetuo41.locanovel.common.CommonDef;
+import com.tetuo41.locanovel.common.CommonUtil;
 
 /**
  * ステージセレクト画面へデータを渡すためのアダプター

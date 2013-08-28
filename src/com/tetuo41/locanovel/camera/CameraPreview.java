@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel.camera;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,8 +23,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
-import com.tetuo41.arnovel.common.CommonDef;
-import com.tetuo41.arnovel.common.CommonUtil;
+import com.tetuo41.locanovel.common.CommonDef;
+import com.tetuo41.locanovel.common.CommonUtil;
+import com.tetuo41.locanovel.novel.NovelIntroActivity;
+import com.tetuo41.locanovel.stageselect.StageSelectState;
 
 /**
  * カメラプレビューの処理を行うクラス

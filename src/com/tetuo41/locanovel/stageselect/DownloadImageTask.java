@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel;
+package com.tetuo41.locanovel.stageselect;
 
 import java.io.InputStream;
 import java.net.URL;

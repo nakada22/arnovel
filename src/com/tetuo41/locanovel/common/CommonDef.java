@@ -1,4 +1,4 @@
-package com.tetuo41.arnovel.common;
+package com.tetuo41.locanovel.common;
 
 
 /**

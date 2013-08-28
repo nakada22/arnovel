@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tetuo41.arnovel"
+    package="com.tetuo41.locanovel"
     android:versionCode="1"
     android:versionName="1.0" >
     <uses-sdk
@@ -37,14 +37,14 @@
         </activity>
         
         <activity
-            android:name=".StampLogActivity"
+            android:name=".stamplog.StampLogActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light"
             android:restoreAnyVersion="true"
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
         <activity
-            android:name=".StampLogDetailActivity"
+            android:name=".stamplog.StampLogDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light"
             android:restoreAnyVersion="true"
@@ -52,34 +52,34 @@
         </activity>
         
         <activity
-            android:name=".StageSelectActivity"
+            android:name=".stageselect.StageSelectActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light"
             android:restoreAnyVersion="true"
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
         <activity
-            android:name=".CameraPreviewActivity"
+            android:name=".camera.CameraPreviewActivity"
             android:screenOrientation="portrait"
             android:restoreAnyVersion="true"
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
 		<activity
-            android:name=".NovelIntroActivity"
+            android:name=".novel.NovelIntroActivity"
             android:screenOrientation="portrait"
             android:restoreAnyVersion="true"
             android:theme="@android:style/Theme.Translucent"
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
 		<activity
-            android:name=".NovelActivity"
+            android:name=".novel.NovelActivity"
             android:screenOrientation="portrait"
             android:restoreAnyVersion="true"
             android:theme="@android:style/Theme.Translucent"
 			android:configChanges="orientation|keyboard|keyboardHidden" >
         </activity>
         <activity
-            android:name=".NovelCompActivity"
+            android:name=".novel.NovelCompActivity"
             android:screenOrientation="portrait"
             android:restoreAnyVersion="true"
             android:theme="@android:style/Theme.Translucent"
