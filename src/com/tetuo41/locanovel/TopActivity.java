@@ -12,7 +12,9 @@ import java.util.Set;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -49,6 +51,9 @@ public class TopActivity extends Activity implements OnClickListener {
 	private String stage_url;
 	private String stage_img_url;
 
+	/** 初期データ登録中に表示するプログレスダイアログ */
+	ProgressDialog pd;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,19 +64,12 @@ public class TopActivity extends Activity implements OnClickListener {
 		findViewById(R.id.start).setOnClickListener(this);
 		findViewById(R.id.record).setOnClickListener(this);
 
-		// 最初は、初期データ登録が完了するまでボタンクリックを無効化しておく
-		findViewById(R.id.start).setClickable(false);
-		findViewById(R.id.record).setClickable(false);
-
 		try {
-			// TODO 初期データ登録が終わるまではローディングダイアログ表示
-			
-			
 			// 非同期で外部サーバよりCSVファイル読込
 			// 初期データDB登録、ステージ画像ファイル保存
-			Init init = new Init();
+			Init init = new Init(this);
 			init.execute();
-			
+
 		}
 		// catch (NetworkOnMainThreadException e) {
 		// // CSVファイル読み込み失敗したとき
@@ -224,6 +222,23 @@ public class TopActivity extends Activity implements OnClickListener {
 	 * */
 	class Init extends AsyncTask<String, Void, Map<String, List<String>>> {
 
+		private Context context;
+
+		public Init(Context context) {
+			this.context = context;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// 初期データ登録前の事前処理(ローディングダイアログ表示)
+			pd = new ProgressDialog(context);
+			pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			pd.setCancelable(true);
+			pd.setMessage(cmndef.TOP_LOADING_MSG);
+			pd.show();
+
+		}
+
 		protected synchronized Map<String, List<String>> doInBackground(
 				String... params) {
 
@@ -298,10 +313,6 @@ public class TopActivity extends Activity implements OnClickListener {
 
 					/** 3.スタンプラリーマスタの初期データ登録 */
 					dao.InitDataInsert(null, null, DbConstants.TABLE1);
-
-					// START, RECORDボタン有効化
-					findViewById(R.id.start).setClickable(true);
-					findViewById(R.id.record).setClickable(true);
 					return null;
 
 				} catch (MalformedURLException e) {
@@ -325,6 +336,13 @@ public class TopActivity extends Activity implements OnClickListener {
 				}
 			}
 
+		}
+
+		// サーバー通信終了処理(メインスレッドで実行する処理)
+		@Override
+		protected void onPostExecute(Map<String, List<String>> result) {
+			// 処理が終わったらロード中のダイアログを終了させる
+			pd.dismiss();
 		}
 	}
 }

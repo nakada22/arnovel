@@ -23,6 +23,9 @@ public class CommonDef {
     public final String DATA_DIR = "/hack_g/data/";
     public final String IMAGE_DIR = "/hack_g/image/locanovel/";
     
+    /** 各種画面用メッセージ */
+    public final String TOP_LOADING_MSG = "ノベルデータ更新中";
+    
     /** エラーメッセージ */
     // トップ画面用メッセージ
     public final String TOP_ERROR_MSG1 = "ステージセレクト画面へ遷移できませんでした";
