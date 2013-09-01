@@ -141,6 +141,7 @@ public class TopActivity extends Activity implements OnClickListener {
 			Intent i = new Intent(getApplicationContext(),
 					StageSelectActivity.class);
 			startActivity(i);
+			
 
 		} catch (ActivityNotFoundException e) {
 			// ステージセレクト画面へ遷移できなかった場合
@@ -318,20 +319,27 @@ public class TopActivity extends Activity implements OnClickListener {
 				} catch (MalformedURLException e) {
 					// URLが間違っている場合
 					Log.e("ERROR", cmndef.TOP_ERROR_MSG3 + e.toString());
+					
+					// ダイアログを終了させる
+					pd.dismiss();
 					return null;
-
 				} catch (IOException e) {
 					// CSVファイル読み込み失敗したとき
 					Log.e("ERROR", cmndef.TOP_ERROR_MSG3 + e.toString());
 					Toast.makeText(getApplicationContext(),
 							cmndef.TOP_ERROR_MSG3, Toast.LENGTH_SHORT).show();
+					
+					// ダイアログを終了させる
+					pd.dismiss();
 					return null;
-
 				} catch (RuntimeException e) {
 					// インターネットに接続できなかった場合
 					Log.e("ERROR", cmndef.CMN_ERROR_MSG1 + e.toString());
 					Toast.makeText(getApplicationContext(),
 							cmndef.CMN_ERROR_MSG1, Toast.LENGTH_SHORT).show();
+					
+					// ダイアログを終了させる
+					pd.dismiss();
 					return null;
 				}
 			}
