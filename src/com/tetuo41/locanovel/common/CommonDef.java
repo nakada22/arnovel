@@ -12,7 +12,7 @@ public class CommonDef {
     public final String APP_NAME = "LocaNovel";
     
 	/** サーバ情報 */
-    public final String S_HOST_NAME = "sashihara.web.fc2.com";
+    public final String S_HOST_NAME = "133.242.168.69";
     public final String S_DIR = "/";
     
     /** ファイル名 */
@@ -20,20 +20,22 @@ public class CommonDef {
     public final String STAGE_FILE = "stage.csv";
 
     /** サーバディレクトリ名 */
-    public final String DATA_DIR = "/data/";
-    public final String IMAGE_DIR = "/image/locanovel/";
+    public final String DATA_DIR = "/hack_g/data/";
+    public final String IMAGE_DIR = "/hack_g/image/locanovel/";
     
     /** エラーメッセージ */
     // トップ画面用メッセージ
     public final String TOP_ERROR_MSG1 = "ステージセレクト画面へ遷移できませんでした";
     public final String TOP_ERROR_MSG2 = "スタンプログ画面へ遷移できませんでした";
-    public final String TOP_ERROR_MSG3 = "CSVファイルの読込に失敗しました";
+    public final String TOP_ERROR_MSG3 = "ノベルファイルの読込に失敗しました";
+    public final String TOP_ERROR_MSG4 = "ステージファイルの読込に失敗しました";
     
     // スタンプ一覧画面用メッセージ
     public final String STAMP_ERROR_MSG1 = "スタンプログ詳細画面へ遷移できませんでした";
     
-    // スタンプ一覧画面用メッセージ
-    public final String STAGE_ERROR_MSG1 = "画像の読込が失敗しました";
+    // ステージ一覧画面用メッセージ
+    public final String STAGE_ERROR_MSG1 = "ステージ画像ファイルがありません";
+    public final String STAGE_ERROR_MSG2 = "ステージ画像の読込に失敗しました";
     
     // 共通用メッセージ
     public final String CMN_ERROR_MSG1 = "インターネットに接続できませんでした";

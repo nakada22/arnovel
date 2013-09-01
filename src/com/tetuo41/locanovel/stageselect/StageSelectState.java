@@ -2,6 +2,8 @@ package com.tetuo41.locanovel.stageselect;
 
 import java.io.Serializable;
 
+import android.graphics.Bitmap;
+
 /**
  * ステージ毎の物語(ノベル)等の状態を持つ
  * @author HackathonG
@@ -10,8 +12,8 @@ public class StageSelectState implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/** 写真のURL */ 
-	private String photo_url;
+	/** 写真(ステージ画像) */ 
+	private byte[] photo_img;
 	
 	/** ステージタイトル */ 
 	private String stage_title;
@@ -43,11 +45,11 @@ public class StageSelectState implements Serializable {
 	/** ノベル導入文３ */ 
 	private String novel_intro3;
 	
-	public void setPhotoUrl(String _photo_url) {
-		this.photo_url = _photo_url;
+	public void setPhoto(byte[] _photo_img) {
+		this.photo_img = _photo_img;
 	}
-	public String getPhotoUrl() {
-		return this.photo_url;
+	public byte[] getPhoto() {
+		return this.photo_img;
 	}
 	
 	public void setStageTitle(String _stage_title) {

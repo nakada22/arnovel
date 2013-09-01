@@ -114,7 +114,7 @@ public class NovelCompActivity extends Activity implements OnClickListener{
     	try {
     		// メニューに戻るボタンクリック時、トップ画面へ遷移
     		Intent i = new Intent(getApplicationContext(), TopActivity.class);
-			startActivity(i);
+    		startActivity(i);
     		
     	} catch (ActivityNotFoundException e) {
     		// トップ画面へ遷移できなかった場合
