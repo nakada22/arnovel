@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 
 /**
@@ -32,25 +34,15 @@ public class CommonUtil {
 		// 処理なし
 	}
 
-	/** 
-     * キャッシュディレクトリ内のファイル生成する。
-     * @param Context コンテキスト
-     * @param file_name ファイル名
-    　　　*/
-	public static File getDiskCacheDir(Context context, String file_name) {  
-	    final String cachePath = context.getCacheDir().getPath();  
-	    return new File(cachePath + File.separator + file_name);  
-	}
-	
 	/**
 	 * 外部サーバーよりCSVファイルを読み込む
 	 * @param u URL
 	 * @param Context コンテキスト
-	 * @throws IOException,MalformedURLException,RuntimeException
+	 * @throws IOException,MalformedURLException,ConnectException
 	 * @return Map<String, List<String>> データ
 	 */
 	public Map<String, List<String>> ReadCsvFile(String u, Context context) 
-			throws IOException, MalformedURLException, RuntimeException {
+			throws MalformedURLException, IOException, RuntimeException {
 		
 		// LinkedHashMapからMapのインスタンスを生成(要素の挿入順を維持)
 		Map<String, List<String>> ret = new LinkedHashMap<String, List<String>>();
@@ -93,15 +85,16 @@ public class CommonUtil {
 
 		} catch (MalformedURLException e) {
 			// URLが間違っている場合
-			throw e;
+			throw new MalformedURLException(e.toString());
 			
 		} catch (IOException e) {
 			// CSVファイル読み込み失敗したとき
-			throw e;
+			throw new IOException(e.toString());	
 			
 		} catch (RuntimeException e) {
 			// インターネットに接続できなかった場合
-			throw e;
+			throw new RuntimeException(e.toString());	
+			
 		}
 	}
 }

@@ -19,6 +19,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,43 +56,37 @@ public class TopActivity extends Activity implements OnClickListener {
 	/** 初期データ登録中に表示するプログレスダイアログ */
 	ProgressDialog pd;
 
+	/** ConnectivityManagerのインスタンス生成 */
+	ConnectivityManager cm;
+	NetworkInfo nInfo;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.top);
 
-		// ClickListener登録
-		findViewById(R.id.start).setOnClickListener(this);
-		findViewById(R.id.record).setOnClickListener(this);
+		// TODO? 初回アプリインストール時の初期登録を未実施の状態でボタンを押すとエラーが出る
+		
+		// ネットワーク通信が可能な状態か確認
+		cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+		nInfo = cm.getActiveNetworkInfo();
+		if (nInfo == null) {
+			// インターネットに接続できなかった場合
+			Toast.makeText(this, cmndef.CMN_ERROR_MSG1, Toast.LENGTH_LONG)
+					.show();
 
-		try {
+		} else {
 			// 非同期で外部サーバよりCSVファイル読込
 			// 初期データDB登録、ステージ画像ファイル保存
 			Init init = new Init(this);
 			init.execute();
 
 		}
-		// catch (NetworkOnMainThreadException e) {
-		// // CSVファイル読み込み失敗したとき
-		// Log.e("ERROR","NetworkOnMainThreadException");
-		// Toast.makeText(this, cmndef.TOP_ERROR_MSG3,
-		// Toast.LENGTH_LONG).show();
-		//
-		// }
-		catch (RuntimeException e) {
-			// インターネットに接続できなかった場合
-			Log.e("ERROR", e.toString());
-			Toast.makeText(this, cmndef.CMN_ERROR_MSG1, Toast.LENGTH_LONG)
-					.show();
 
-		} catch (Exception e) {
-			// CSVファイル読み込み失敗したとき
-			Log.e("ERROR", e.toString());
-			Toast.makeText(this, cmndef.TOP_ERROR_MSG3, Toast.LENGTH_LONG)
-					.show();
-
-		}
+		// ClickListener登録
+		findViewById(R.id.start).setOnClickListener(this);
+		findViewById(R.id.record).setOnClickListener(this);
 	}
 
 	/**
@@ -104,7 +100,6 @@ public class TopActivity extends Activity implements OnClickListener {
 		this.stage_url = "http://" + cmndef.S_HOST_NAME + cmndef.DATA_DIR
 				+ cmndef.STAGE_FILE;
 		this.stage_img_url = "http://" + cmndef.S_HOST_NAME + cmndef.IMAGE_DIR;
-
 	}
 
 	/**
@@ -141,7 +136,6 @@ public class TopActivity extends Activity implements OnClickListener {
 			Intent i = new Intent(getApplicationContext(),
 					StageSelectActivity.class);
 			startActivity(i);
-			
 
 		} catch (ActivityNotFoundException e) {
 			// ステージセレクト画面へ遷移できなかった場合
@@ -152,7 +146,7 @@ public class TopActivity extends Activity implements OnClickListener {
 
 			// 処理を終了する
 			return;
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			// ステージセレクト画面へ遷移できなかった場合
 			Log.e("ERROR", e.toString());
 
@@ -184,7 +178,7 @@ public class TopActivity extends Activity implements OnClickListener {
 
 			// 処理を終了する
 			return;
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			// スタンプログ画面へ遷移できなかった場合
 			Log.e("ERROR", e.toString());
 
@@ -221,7 +215,7 @@ public class TopActivity extends Activity implements OnClickListener {
 	 * 内部初期処理クラス 外部サーバーよりCSVファイル読込、DBへ初期データ登録、画像ファイル保存
 	 * 
 	 * */
-	class Init extends AsyncTask<String, Void, Map<String, List<String>>> {
+	class Init extends AsyncTask<String, Void, Boolean> {
 
 		private Context context;
 
@@ -240,8 +234,7 @@ public class TopActivity extends Activity implements OnClickListener {
 
 		}
 
-		protected synchronized Map<String, List<String>> doInBackground(
-				String... params) {
+		protected Boolean doInBackground(String... params) {
 
 			synchronized (getApplicationContext()) {
 				try {
@@ -314,33 +307,36 @@ public class TopActivity extends Activity implements OnClickListener {
 
 					/** 3.スタンプラリーマスタの初期データ登録 */
 					dao.InitDataInsert(null, null, DbConstants.TABLE1);
-					return null;
+					return true;
 
 				} catch (MalformedURLException e) {
 					// URLが間違っている場合
 					Log.e("ERROR", cmndef.TOP_ERROR_MSG3 + e.toString());
-					
+
 					// ダイアログを終了させる
 					pd.dismiss();
-					return null;
+					return false;
+
 				} catch (IOException e) {
 					// CSVファイル読み込み失敗したとき
 					Log.e("ERROR", cmndef.TOP_ERROR_MSG3 + e.toString());
 					Toast.makeText(getApplicationContext(),
 							cmndef.TOP_ERROR_MSG3, Toast.LENGTH_SHORT).show();
-					
+
 					// ダイアログを終了させる
 					pd.dismiss();
-					return null;
+					return false;
+
 				} catch (RuntimeException e) {
 					// インターネットに接続できなかった場合
 					Log.e("ERROR", cmndef.CMN_ERROR_MSG1 + e.toString());
 					Toast.makeText(getApplicationContext(),
 							cmndef.CMN_ERROR_MSG1, Toast.LENGTH_SHORT).show();
-					
+
 					// ダイアログを終了させる
 					pd.dismiss();
-					return null;
+					return false;
+
 				}
 			}
 
@@ -348,9 +344,10 @@ public class TopActivity extends Activity implements OnClickListener {
 
 		// サーバー通信終了処理(メインスレッドで実行する処理)
 		@Override
-		protected void onPostExecute(Map<String, List<String>> result) {
+		protected void onPostExecute(Boolean result) {
 			// 処理が終わったらロード中のダイアログを終了させる
 			pd.dismiss();
+
 		}
 	}
 }
