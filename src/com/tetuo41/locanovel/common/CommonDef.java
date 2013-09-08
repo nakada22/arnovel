@@ -47,7 +47,7 @@ public class CommonDef {
     public final String CAMERA_ERROR_MSG1 = "撮影画像の保存に失敗しました";
     public final String CAMERA_ERROR_MSG2 = "ファイルの保存中にエラーが発生しました";
     public final String CAMERA_ERROR_MSG3 = "カメラの起動に失敗しました";
-    public final String CAMERA_ERROR_MSG4 = "ネットワーク未接続のため撮影時における位置情報の取得ができません";
+    public final String CAMERA_ERROR_MSG4 = "撮影時における位置情報の取得ができませんでした";
     public final String CAMERA_INFO_MSG1 = "この場所は選択したステージ画像の場所ではありません";
     
     // ノベル導入画面用メッセージ

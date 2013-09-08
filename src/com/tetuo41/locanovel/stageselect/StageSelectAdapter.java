@@ -84,12 +84,28 @@ public class StageSelectAdapter extends ArrayAdapter<StageSelectState> {
 		StageSelectState item = list.get(position);
 		if (item != null) {
 			if (holder.photo != null) {
-
 				// ステージ画像のbyte[]をBitmapへの変換、セット
 				BitmapFactory.Options options = new BitmapFactory.Options();
 				Bitmap bitmap = BitmapFactory.decodeByteArray(item.getPhoto(),
 						0, item.getPhoto().length, options);
 				holder.photo.setImageBitmap(bitmap);
+				
+//				// 画像のURLをセット
+//				String image_url = item.getPhotoUrl().toString();
+//				try{
+//				  // 非同期で画像読込を実行
+//				      DownloadImageTask task = 
+//				          new DownloadImageTask(holder.photo, context);
+//				      task.execute(image_url);
+//				  } catch (NetworkOnMainThreadException e) {
+//	                 // 3.0以降「StrictMode」がデフォルトで有効になっており
+//	                 // メインスレッドでネットワーク処理を行うと例外がスローされる
+//					 Log.d("DEBUG", position + "の画像読み込みに失敗。NetworkOnMainThreadException");
+//				} catch (MalformedURLException e) {
+//				} catch (IOException e) {
+//				} catch (Exception e) {
+//				  Log.d("DEBUG", position + "の画像読み込みに失敗。Exception");
+//				}
 			}
 
 			if (holder.stage_title != null) {
