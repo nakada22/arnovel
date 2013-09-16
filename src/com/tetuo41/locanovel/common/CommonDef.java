@@ -33,6 +33,7 @@ public class CommonDef {
     public final String TOP_ERROR_MSG3 = "ノベルファイルの読込に失敗しました";
     public final String TOP_ERROR_MSG4 = "データファイル読み込み先のURLが間違っています";
     
+    
     // スタンプ一覧画面用メッセージ
     public final String STAMP_ERROR_MSG1 = "スタンプログ詳細画面へ遷移できませんでした";
     
@@ -42,6 +43,7 @@ public class CommonDef {
     
     // 共通用メッセージ
     public final String CMN_ERROR_MSG1 = "ネットワークに接続できません";
+    public final String CMN_ERROR_MSG2 = "音声の再生に失敗しました";
     
     // カメラプレビュー画面用メッセージ
     public final String CAMERA_ERROR_MSG1 = "撮影画像の保存に失敗しました";

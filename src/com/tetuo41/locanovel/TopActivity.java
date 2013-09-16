@@ -19,6 +19,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.media.SoundPool;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -42,7 +46,8 @@ import com.tetuo41.locanovel.stamplog.StampLogActivity;
  * @author　HackathonG
  * @version 1.0
  */
-public class TopActivity extends Activity implements OnClickListener {
+public class TopActivity extends Activity implements OnClickListener,
+		OnCompletionListener {
 
 	/** 共通クラスオブジェクト */
 	private CommonUtil cmnutil;
@@ -54,11 +59,16 @@ public class TopActivity extends Activity implements OnClickListener {
 	private String stage_img_url;
 
 	/** 初期データ登録中に表示するプログレスダイアログ */
-	ProgressDialog pd;
+	private ProgressDialog pd;
 
 	/** ConnectivityManagerのインスタンス生成 */
-	ConnectivityManager cm;
-	NetworkInfo nInfo;
+	private ConnectivityManager cm;
+	private NetworkInfo nInfo;
+
+	/** 音声関連のインスタンス生成 */
+	private MediaPlayer mp;
+	private SoundPool mSoundPool;
+	private int mSounds;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,14 +76,21 @@ public class TopActivity extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.top);
 
+		/** 音声再生処理 */
+		if (mp != null) {
+			mp.release();
+			mp = null;
+		}
+		mp = new MediaPlayer();
+
 		// TODO? 初回アプリインストール時の初期登録を未実施の状態でボタンを押すとエラーが出る
-		
+
 		// ネットワーク通信が可能な状態か確認
 		cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 		nInfo = cm.getActiveNetworkInfo();
 		if (nInfo == null) {
 			// インターネットに接続できなかった場合
-			Toast.makeText(this, cmndef.CMN_ERROR_MSG1, Toast.LENGTH_LONG)
+			Toast.makeText(this, cmndef.CMN_ERROR_MSG1, Toast.LENGTH_SHORT)
 					.show();
 
 		} else {
@@ -87,6 +104,7 @@ public class TopActivity extends Activity implements OnClickListener {
 		// ClickListener登録
 		findViewById(R.id.start).setOnClickListener(this);
 		findViewById(R.id.record).setOnClickListener(this);
+
 	}
 
 	/**
@@ -132,9 +150,18 @@ public class TopActivity extends Activity implements OnClickListener {
 	private void StartClick() {
 
 		try {
+
+			if (mp.isPlaying()) {
+				Log.d("DEBUG", "再生中であれば  StartClick");
+				// 再生中であれば
+				mp.pause();
+			}
+
+			// ボタンクリック時の音再生
+			mSoundPool.play(mSounds, 1.0F, 1.0F, 1, 0, 1.0F);
+
 			// STARTボタンクリック時、スタンプログ画面へ遷移
-			Intent i = new Intent(getApplicationContext(),
-					StageSelectActivity.class);
+			Intent i = new Intent(this, StageSelectActivity.class);
 			startActivity(i);
 
 		} catch (ActivityNotFoundException e) {
@@ -164,6 +191,14 @@ public class TopActivity extends Activity implements OnClickListener {
 	private void RecordClick() {
 
 		try {
+			if (mp.isPlaying()) {
+				Log.d("DEBUG", "再生中であれば  RecordClick");
+				// 再生中であれば
+				mp.pause();
+			}
+			// ボタンクリック時の音再生
+			mSoundPool.play(mSounds, 1.0F, 1.0F, 1, 0, 1.0F);
+
 			// RECORDボタンクリック時、スタンプログ画面へ遷移
 			Intent i = new Intent(getApplicationContext(),
 					StampLogActivity.class);
@@ -188,6 +223,69 @@ public class TopActivity extends Activity implements OnClickListener {
 			// 処理を終了する
 			return;
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		Log.d("DEBUG", "TopAct onResume　START");
+		super.onResume();
+		
+		// アプリ起動時もここを通る
+		try {
+			if (!mp.isPlaying()) {
+				// 音声再生
+				mp.seekTo(0);
+				mp.start();
+
+				// 再生終了を検出する
+				mp.setOnCompletionListener(this);
+			}
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+			// 音声の再生に失敗した場合
+			Toast.makeText(getApplicationContext(), cmndef.CMN_ERROR_MSG2,
+					Toast.LENGTH_SHORT).show();
+
+		}
+		
+		// ボタンクリック時に呼び出す音をロードしておく
+		mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+		mSounds = mSoundPool.load(getApplicationContext(), R.raw.buttom, 1);
+	}
+
+	@Override
+	protected void onPause() {
+		// 他のアクティビティに遷移する場合
+
+		Log.d("DEBUG", "TopAct onPause　START");
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		Log.d("DEBUG", "TopAct onDestroy　START");
+		super.onDestroy();
+
+		// 音をリリース
+		mSoundPool.release();
+		if (mp != null) {
+			mp.release();
+			mp = null;
+		}
+	}
+
+	/**
+	 * 再生が完了したときに呼ばれ、再生をループさせる
+	 * 
+	 * */
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		Log.d("DEBUG", "onCompletion　START");
+		// 再生箇所を最初に戻す
+		mp.seekTo(0);
+		// 音声を再生させる
+		mp.start();
+
 	}
 
 	/**
@@ -231,11 +329,11 @@ public class TopActivity extends Activity implements OnClickListener {
 			pd.setCancelable(true);
 			pd.setMessage(cmndef.TOP_LOADING_MSG);
 			pd.show();
-
 		}
 
 		protected Boolean doInBackground(String... params) {
 
+			// 初期データ登録時は、排他で登録処理を行う
 			synchronized (getApplicationContext()) {
 				try {
 					/** DBアクセスクラスオブジェクト */
@@ -284,7 +382,7 @@ public class TopActivity extends Activity implements OnClickListener {
 						dao.InitDataInsert(key, value, DbConstants.TABLE3);
 
 						/** 2-2.ステージ画像ファイル保存 */
-						String stage_img_url = "http://" + cmndef.S_HOST_NAME
+						stage_img_url = "http://" + cmndef.S_HOST_NAME
 								+ cmndef.IMAGE_DIR;
 						stage_img_url = stage_img_url
 								+ ("stage" + key + ".png");
@@ -348,6 +446,23 @@ public class TopActivity extends Activity implements OnClickListener {
 			// 処理が終わったらロード中のダイアログを終了させる
 			pd.dismiss();
 
+			// ダイアログ表示が終わったら、音声を再生する
+			try {
+				mp = MediaPlayer.create(context, R.raw.top);
+
+				// サウンド音量設定0.0から1.0で設定
+				mp.setVolume(0.5f, 0.5f);
+				mp.start();
+
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+				// 音声の再生に失敗した場合
+				Toast.makeText(getBaseContext(), cmndef.CMN_ERROR_MSG2,
+						Toast.LENGTH_SHORT).show();
+
+			}
 		}
+
 	}
+
 }

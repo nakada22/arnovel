@@ -10,6 +10,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,7 +30,8 @@ import com.tetuo41.locanovel.stageselect.StageSelectState;
  * @author HackathonG
  * @version 1.0
  */
-public class CameraPreviewActivity extends Activity implements LocationListener {
+public class CameraPreviewActivity extends Activity implements
+		LocationListener, OnCompletionListener {
 
 	/** カメラインスタンス */
 	private Camera mCam = null;
@@ -43,6 +46,9 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 	private double longitude;
 	private double latitude;
 	private CameraPreview mCamPreview = null;
+
+	/** MediaPlayerインスタンス生成 */
+	private MediaPlayer mp;
 
 	/** ステージセレクト画面からのデータオブジェクト */
 	private StageSelectState sss;
@@ -63,6 +69,30 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 		Intent getintent = getIntent();
 		sss = (StageSelectState) getintent
 				.getSerializableExtra("StageSelectState");
+
+		/** 音声再生処理 */
+		if (mp != null) {
+			mp.release();
+			mp = null;
+		}
+		mp = new MediaPlayer();
+		try {
+			mp = MediaPlayer.create(getBaseContext(), R.raw.camera_preview);
+
+			// サウンド音量設定0.0から1.0で設定
+			mp.setVolume(0.7f, 0.7f);
+			mp.start();
+
+			// 再生終了を検出する
+			mp.setOnCompletionListener(this);
+
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+			// 音声の再生に失敗した場合
+			Toast.makeText(getBaseContext(), cmndef.CMN_ERROR_MSG2,
+					Toast.LENGTH_SHORT).show();
+
+		}
 
 		// Timerを使って、5000ミリ秒間隔で位置情報を取得・更新
 		mTimer = new Timer(true);
@@ -102,7 +132,7 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 
 			// カメラプレビュー起動(データもセット)
 			mCamPreview = new CameraPreview(getApplicationContext(), mCam, sss,
-					longitude, latitude, mTimer);
+					longitude, latitude, mTimer, mp);
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mCamPreview);
 
@@ -125,6 +155,7 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 	protected void initLocationService() {
 		Log.d("DEBUG", "initLocationService Start");
 
+		// 参考URL http://d.hatena.ne.jp/glass-_-onion/20101113/1289615195
 		// LocationManagerインスタンスを取得
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -152,38 +183,6 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 			stopLocationService();
 			return;
 		}
-
-		// 該当のプロバイダから最後に取得した位置情報(キャッシュ)を取得
-		// Location lastKnownLocation =
-		// locationManager.getLastKnownLocation(bestProvider);
-		// if (lastKnownLocation != null){
-		//
-		// Toast.makeText(getApplicationContext(),
-		// "lastKnownLocationがNullではない場合",
-		// Toast.LENGTH_SHORT).show();
-		// Log.d("DEBUG", "lastKnownLocationがNullではない場合");
-		//
-		// // 経度・緯度
-		// longitude = lastKnownLocation.getLongitude();
-		// latitude = lastKnownLocation.getLatitude();
-		//
-		// Toast.makeText(getApplicationContext(), "Longitude（経度）="
-		// + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
-		// Toast.makeText(getApplicationContext(), "Longitude（緯度）="
-		// + String.valueOf(latitude), Toast.LENGTH_SHORT).show();
-		//
-		// Log.d("----------", "----------");
-		// Log.d("Longitude（経度）", String.valueOf(longitude));
-		// Log.d("Latitude（緯度）", String.valueOf(latitude));
-		//
-		// setLocation(lastKnownLocation);
-		// return;
-		// } else {
-		// Log.d("DEBUG", "lastKnownLocationがNullの場合");
-		// Toast.makeText(getApplicationContext(), "lastKnownLocationがNullの場合",
-		// Toast.LENGTH_SHORT).show();
-		//
-		// }
 
 		// 位置情報の取得を開始
 		locationListener = new LocationListener() {
@@ -260,7 +259,7 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 			// TODO 位置情報更新のたびに呼ばれるため、addViewされるたびに黒い画面が差し込まれる
 			// カメラプレビュー起動(データもセット)
 			mCamPreview = new CameraPreview(getApplicationContext(), mCam, sss,
-					longitude, latitude, mTimer);
+					longitude, latitude, mTimer, mp);
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mCamPreview);
 
@@ -276,7 +275,6 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 	/**
 	 * 位置情報が更新した時にコールされる
 	 * 
-	 * @param ロケーション
 	 * */
 	@Override
 	public void onLocationChanged(Location location) {
@@ -286,10 +284,6 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 	public void onProviderDisabled(String provider) {
 	}
 
-	/**
-	 * 位置情報のステータスが更新されるとコールされる
-	 * 
-	 * */
 	@Override
 	public void onProviderEnabled(String provider) {
 	}
@@ -304,7 +298,7 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.d("DEBUG", "onPause() Start");
+		Log.d("DEBUG", "CameraPreviewAct onPause() Start");
 
 		// NovelIntroActivity起動時にもよばれる。
 		// シャッター押下時にも呼ばれる。
@@ -322,7 +316,6 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 		// タイマーキャンセル
 		mTimer.cancel();
 
-		Log.d("DEBUG", "onPause() End");
 	}
 
 	/**
@@ -331,7 +324,7 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.d("DEBUG", "onResume() Start");
+		Log.d("DEBUG", "CameraPreviewAct onResume() Start");
 
 		// カメラオープン
 		CameraOpen();
@@ -343,7 +336,28 @@ public class CameraPreviewActivity extends Activity implements LocationListener 
 			locationManager.requestLocationUpdates(bestProvider, 0, 0,
 					locationListener);
 		}
-		Log.d("DEBUG", "onResume() End");
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		Log.d("DEBUG", "CameraPreviewAct onDestroy　START");
+		super.onDestroy();
+
+		if (mp != null) {
+			mp.release();
+			mp = null;
+		}
+	}
+
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		Log.d("DEBUG", "CameraPreviewAct onCompletion　START");
+
+		// 再生箇所を最初に戻す
+		mp.seekTo(0);
+		// 音声を再生させる
+		mp.start();
 	}
 
 }

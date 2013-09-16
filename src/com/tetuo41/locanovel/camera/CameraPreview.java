@@ -16,6 +16,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.hardware.Camera.Size;
+import android.media.MediaPlayer;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
 import android.util.Log;
@@ -50,6 +51,9 @@ public class CameraPreview extends SurfaceView implements
 	/** コンテキスト */
 	private Context context;
 
+	/** MediaPlayerインスタンス生成 */
+	private MediaPlayer mp;
+
 	/** ステージセレクト画面から送られてきたデータ */
 	private StageSelectState sss;
 
@@ -67,14 +71,15 @@ public class CameraPreview extends SurfaceView implements
 	 * コンストラクタ
 	 */
 	public CameraPreview(Context context, Camera cam, StageSelectState sss,
-			double longitude, double latitude, Timer mTimer) {
+			double longitude, double latitude, Timer mTimer, MediaPlayer mp) {
 		super(context);
 		this.context = context;
 		this.sss = sss;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.mTimer = mTimer;
-
+		this.mp = mp;
+		
 		cmndef = new CommonDef();
 		mCam = cam;
 
@@ -129,6 +134,11 @@ public class CameraPreview extends SurfaceView implements
 		if (mCam != null) {
 			mCam.release();
 			mCam = null;
+		}
+		
+		if (mp != null) {
+			mp.release();
+			mp = null;
 		}
 
 	}
@@ -246,6 +256,11 @@ public class CameraPreview extends SurfaceView implements
 							&& p_latitude <= right_n_latitude) {
 						Log.d("DEBUG", "緯度比較で範囲内です");
 
+						if (mp.isPlaying()) {
+							// 再生中であれば
+							mp.pause();
+						}
+						
 						// 緯度比較で範囲内であればＯＫ，ノベル導入画面へ
 						Intent i = new Intent(context, NovelIntroActivity.class);
 						i.putExtra("StageSelectState", sss);
@@ -428,7 +443,12 @@ public class CameraPreview extends SurfaceView implements
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		Log.d("DEBUG", "surfaceChanged called.");
-
+		
+		if (mp.isPlaying()) {
+			// 再生中であれば
+			mp.pause();
+		}
+		
 		// 正しいカメラのプレビューサイズ(撮影画像)、90°傾きズレ修正
 		if (mCam != null) {
 			mCam.stopPreview();
