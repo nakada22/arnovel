@@ -2,6 +2,7 @@ package com.tetuo41.locanovel.stageselect;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import com.tetuo41.locanovel.camera.CameraPreviewActivity;
 import com.tetuo41.locanovel.common.CommonDef;
 import com.tetuo41.locanovel.common.CommonUtil;
 import com.tetuo41.locanovel.db.Dao;
+import com.tetuo41.locanovel.novel.NovelIntroActivity;
 
 /**
  * ステージ選択画面
@@ -106,7 +108,7 @@ public class StageSelectActivity extends Activity implements
 		final ArrayList<StageSelectState> dataOfStage = new ArrayList<StageSelectState>();
 
 		/** DBアクセスクラスオブジェクト */
-		Dao dao = new Dao(getApplicationContext());
+		final Dao dao = new Dao(getApplicationContext());
 
 		// ステージセレクトデータ取得
 		List<List<String>> stage_data = dao.StageSelctData();
@@ -151,10 +153,39 @@ public class StageSelectActivity extends Activity implements
 
 				// カメラプレビュー画面へ遷移した場合、カメラプレビューの起動(ノベルデータ保持)
 				StageSelectState sss = dataOfStage.get(position);
-				Intent i = new Intent(getApplicationContext(),
+
+				if (dao.StampFlgCheck(sss.getStageId())) {
+					Log.d("DEBUG", "スタンプフラグが「1」であれば、ノベル導入画面に遷移");
+					// スタンプフラグが「1」であれば、ノベル表示画面に遷移
+					
+					
+					// 背景画像用のパスをセット
+					String locate_img_name = dao.GetLocateImgName(sss.getStageId());
+					if (locate_img_name != null) {
+						// 背景画像名があり
+						Log.d("DEBUG", "背景画像名があり");
+						File locate_img_file = new File(
+								cmndef.SDCARD_FOLDER + locate_img_name);
+						
+						if (locate_img_file.exists()) {
+							Log.d("DEBUG", "背景画像がSDカードに保存されていれば");
+							Intent i2 = new Intent(getApplicationContext(),
+									NovelIntroActivity.class);
+							i2.putExtra("StageSelectState", sss);
+							i2.putExtra("back_ground", cmndef.SDCARD_FOLDER + locate_img_name);
+							startActivity(i2);
+							return;
+							
+						}
+					}
+				}
+				
+				Log.d("DEBUG", "そうでなければ、カメラプレビュー画面へ遷移");
+				// そうでなければ、カメラプレビュー画面へ遷移
+				Intent i1 = new Intent(getApplicationContext(),
 						CameraPreviewActivity.class);
-				i.putExtra("StageSelectState", sss);
-				startActivity(i);
+				i1.putExtra("StageSelectState", sss);
+				startActivity(i1);
 			}
 		});
 

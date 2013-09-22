@@ -1,5 +1,7 @@
 package com.tetuo41.locanovel.common;
 
+import android.os.Environment;
+
 
 /**
  * 全クラス共通で使用する定数を
@@ -23,6 +25,10 @@ public class CommonDef {
     public final String DATA_DIR = "/hack_g/data/";
     public final String IMAGE_DIR = "/hack_g/image/locanovel/";
     
+	/** SDカードの画像保存パス */
+    public final String SDCARD_FOLDER = Environment
+			.getExternalStorageDirectory().getPath() + "/locanovel/";
+
     /** 各種画面用メッセージ */
     public final String TOP_LOADING_MSG = "ノベルデータ更新中";
     
@@ -32,7 +38,6 @@ public class CommonDef {
     public final String TOP_ERROR_MSG2 = "スタンプログ画面へ遷移できませんでした";
     public final String TOP_ERROR_MSG3 = "ノベルファイルの読込に失敗しました";
     public final String TOP_ERROR_MSG4 = "データファイル読み込み先のURLが間違っています";
-    
     
     // スタンプ一覧画面用メッセージ
     public final String STAMP_ERROR_MSG1 = "スタンプログ詳細画面へ遷移できませんでした";
@@ -58,5 +63,11 @@ public class CommonDef {
     
     // ノベル表示画面用メッセージ
     public final String NOVEL_ERROR_MSG1 = "ノベル完了画面へ遷移できませんでした";
+    
+    // データベース用メッセージ
+    public final String DB_ERROR_MSG1 = "テーブルの作成に失敗しました";
+    public final String DB_ERROR_MSG2 = "データベースのバージョンアップに失敗しました";
+    
+    
     
 }

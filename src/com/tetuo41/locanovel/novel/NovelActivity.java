@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -16,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class NovelActivity extends Activity implements OnClickListener,
 
 	/** 背景画像用 */
 	private LinearLayout bg_layout;
+	private LinearLayout black_layout;
 	private String bg_pass;
 
 	/** スクロールビューで必要なオブジェクト */
@@ -118,9 +120,12 @@ public class NovelActivity extends Activity implements OnClickListener,
 		// 背景用画像パス取得、背景画像セット
 		Intent i = getIntent();
 		String bg_pass = (String) i.getSerializableExtra("back_ground");
-		Drawable d = Drawable.createFromPath(bg_pass);
 		bg_layout = (LinearLayout) scroll.findViewById(R.id.novel_back_ground);
-		bg_layout.setBackgroundDrawable(d);
+		if (!bg_pass.equals("")) {
+			// 背景画像名がセットされていれば
+			Drawable d = Drawable.createFromPath(bg_pass);
+			bg_layout.setBackgroundDrawable(d);
+		}
 
 		// ステージセレクト画面より引継ぎして取得したノベルデータ
 		sss = (StageSelectState) i.getSerializableExtra("StageSelectState");
@@ -165,11 +170,8 @@ public class NovelActivity extends Activity implements OnClickListener,
 									ReadFinishClick();
 								}
 							});
-
 				}
-
 			}
-
 		});
 
 		// 一番下までスクロールさせる

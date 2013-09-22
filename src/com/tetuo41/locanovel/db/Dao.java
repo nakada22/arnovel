@@ -332,4 +332,112 @@ public class Dao {
 		}
 	}
 	
+	/**
+	 * ステージ選択時、スタンプフラグを確認するための処理
+	 * @param ステージID
+	 * 
+	 * */
+	public boolean StampFlgCheck(int stage_id) {
+		SQLiteDatabase db = helper.getReadableDatabase();
+		
+		/** スタンプラリーマスタのスタンプフラグを確認する */
+		try {
+			Cursor c = db.rawQuery("SELECT ms.stamp_flg FROM " +
+					DbConstants.TABLE1 + " ms WHERE ms.stage_id=?", 
+					new String[]{String.valueOf(stage_id)});
+			
+			if (c.moveToFirst()){
+				// ステージIDに対応するデータがあれば
+				String stamp_flg = c.getString(0);
+				Log.d("DEBUG",stamp_flg);
+				
+				if (stamp_flg.equals("1")) {
+					// スタンプフラグが1の場合はtrueを返却
+					return true;
+				}
+			}
+		} catch (RuntimeException e){
+			Log.d("DEBUG",e.toString());
+		} finally {
+			db.close();
+		}
+		return false;
+	}
+	
+	/**
+	 * 撮影時の位置情報判定処理がＯＫだった場合にノベルマスタに
+	 * 背景画像名を登録する
+	 * @param stage_id ステージID
+	 * @param locate_img_name 背景画像名
+	 * 
+	 * */
+	public void RegisteLocateImg(int stage_id, String locate_img_name) {
+		
+		SQLiteDatabase db = helper.getWritableDatabase();
+		
+		/** ノベルマスタのnovel_idを確認する */
+		try {
+			Cursor c = db.rawQuery("SELECT mn.novel_id FROM " +
+					DbConstants.TABLE2 + " mn WHERE mn.stage_id=? " +
+							"AND mn.novel_id=mn.stage_id", 
+					new String[]{String.valueOf(stage_id)});
+			ContentValues cv = new ContentValues();
+			
+			if (c.moveToFirst()){
+				String novel_id = c.getString(0);
+				Log.d("DEBUG","ノベルIDがある場合、背景画像名Update");
+				// ノベルIDがある場合、背景画像名Update
+				cv.put(DbConstants.CLM_LOCATE_IMG_NAME, locate_img_name);
+				db.update(DbConstants.TABLE2, cv, DbConstants.CLM_NOVEL_ID+"=? ",
+						new String[]{novel_id});
+				
+			}
+			
+		} catch (SQLiteException e) {
+			// 背景画像名の登録に失敗した場合
+			Log.e("ERROR", e.toString());
+			
+		} catch (RuntimeException e){
+			Log.d("DEBUG",e.toString());
+		} finally {
+			db.close();
+		}
+		
+	}
+	
+	/**
+	 * ノベルIDに対応する背景画像名を取得する
+	 * @param stage_id ステージID
+	 * 
+	 * */
+	public String GetLocateImgName(int stage_id) {
+		
+		SQLiteDatabase db = helper.getReadableDatabase();
+		
+		/** ノベルマスタのlocate_img_nameを確認する */
+		try {
+			Cursor c = db.rawQuery("SELECT mn.locate_img_name FROM " +
+					DbConstants.TABLE2 + " mn WHERE mn.stage_id=? " +
+							"AND mn.novel_id=mn.stage_id", 
+					new String[]{String.valueOf(stage_id)});
+			
+			if (c.moveToFirst()){
+				// ノベルIDがある場合
+				String locate_img_name = c.getString(0);
+				return locate_img_name;
+			}
+			
+		} catch (SQLiteException e) {
+			// 背景画像名の取得に失敗した場合
+			Log.e("ERROR", e.toString());
+			
+		} catch (RuntimeException e){
+			Log.d("DEBUG",e.toString());
+		} finally {
+			db.close();
+		}
+		return null;
+		
+	}
+	
 }

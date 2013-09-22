@@ -205,6 +205,18 @@ public class NovelCompActivity extends Activity implements OnClickListener,
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		// 音をリリース
+		mSoundPool.release();
+		if (mp != null) {
+			mp.release();
+			mp = null;
+		}
+	}
+	
+	@Override
 	public void onCompletion(MediaPlayer mp) {
 //		// 再生箇所を最初に戻す
 //		mp.seekTo(0);

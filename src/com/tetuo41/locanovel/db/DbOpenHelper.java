@@ -1,5 +1,7 @@
 package com.tetuo41.locanovel.db;
 
+import com.tetuo41.locanovel.common.CommonDef;
+
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,12 +15,16 @@ import android.util.Log;
 */
 public class DbOpenHelper extends SQLiteOpenHelper {
 
+	/** 共通クラスオブジェクト */
+	private CommonDef cmndef;
+	
 	/**
 	* コンストラクタ
 	* @param context コンテキスト
 	*/
     public DbOpenHelper(Context context) {
         super(context, DbConstants.DATABASE_NAME, null, DbConstants.DATABASE_VERSION);
+        cmndef = new CommonDef();
     }
 
 	/**
@@ -31,9 +37,10 @@ public class DbOpenHelper extends SQLiteOpenHelper {
         	db.execSQL(DbConstants.CREATE_TABLE1);
             db.execSQL(DbConstants.CREATE_TABLE2);
             db.execSQL(DbConstants.CREATE_TABLE3);
+            db.execSQL(DbConstants.CREATE_TABLE4);
     	} catch (SQLException e) {
     		// テーブルの作成に失敗した場合
-    		Log.e("ERROR", "テーブルの作成に失敗しました。");
+    		Log.e("ERROR", cmndef.DB_ERROR_MSG1);
     		
     	}
     }
@@ -50,7 +57,8 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     	//if( oldVersion == 1 && newVersion == 2 ){
         	String [] DATABASE_UPDATE = {DbConstants.DATABASE_UPDATE1,
         	         DbConstants.DATABASE_UPDATE2,
-        		     DbConstants.DATABASE_UPDATE3,};
+        		     DbConstants.DATABASE_UPDATE3,
+        		     DbConstants.DATABASE_UPDATE4};
         	
         	try {
         		for (int i = 0; i < DATABASE_UPDATE.length; i++) {
@@ -58,7 +66,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     	        }
         	} catch (SQLException e) {
         		// データベースのバージョンアップに失敗した場合
-        		Log.e("ERROR", "データベースのバージョンアップに失敗しました。");
+        		Log.e("ERROR", cmndef.DB_ERROR_MSG2);
         	}
 	        onCreate(db);
         //}

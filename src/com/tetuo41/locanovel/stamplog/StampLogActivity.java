@@ -333,7 +333,7 @@ public class StampLogActivity extends Activity implements OnClickListener,
 				mSoundPool.play(mSounds[0], 1.0F, 1.0F, 0, 0, 1.0F);
 				
 				// スタンプフラグが1の時だけ詳細画面へ遷移
-				Intent i	 = new Intent(getApplicationContext(),
+				Intent i = new Intent(getApplicationContext(),
 						StampLogDetailActivity.class);
 				i.putExtra("StampLogState", data);
 				startActivity(i);

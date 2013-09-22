@@ -9,13 +9,14 @@ public class DbConstants {
 
 	/** データベースの名前とバージョン */
     public static final String DATABASE_NAME = "LocaNovelDB";
-    public static final int DATABASE_VERSION = 1;
-    public static final String DB_PATH = "/data/data/com.tetuo41.arnovel/databases/";  
+    public static final int DATABASE_VERSION = 2;
+    public static final String DB_PATH = "/data/data/com.tetuo41.locanovel/databases/";  
     
     /** 作成・使用するテーブル名を定義する */
     public static final String TABLE1 = "mst_stamp_rally";
     public static final String TABLE2 = "mst_novel";
     public static final String TABLE3 = "mst_stage_select";
+    public static final String TABLE4 = "mst_locate_info";
     
     /** 使用するテーブル名のカラム名を定義する */
     // スタンプラリーマスタ(mst_stamp_rally)
@@ -25,7 +26,7 @@ public class DbConstants {
     /** スタンプフラグ */
     public static final String CLM_STAMP_FLG = "stamp_flg";
     
-    /** 登録日時 */
+    /** 更新日時 */
     public static final String CLM_UPDATE_DATE = "update_date";
     
     // ノベルマスタ (mst_novel)
@@ -53,6 +54,9 @@ public class DbConstants {
     /** ノベルデータ */
     public static final String CLM_NOVEL_DATA = "novel_data";
     
+    /** 撮影画像名 */
+    public static final String CLM_LOCATE_IMG_NAME = "locate_img_name";
+    
     // ステージセレクトマスタ(mst_stage_select)
     /** ステージID */
     public static final String CLM_STAGE_ID = "stage_id";
@@ -62,6 +66,10 @@ public class DbConstants {
     
     /** 住所 */
     public static final String CLM_ADDRESS = "address";
+    
+    // 位置情報マスタ(mst_locate_info)
+    /** 登録日時 */
+    public static final String CLM_REGIST_DATE = "regist_date";
     
     /** CREATE文を定義する */
     // スタンプラリーマスタのCREATE文を定義
@@ -84,7 +92,8 @@ public class DbConstants {
                             + CLM_NOVEL_INTRO1 + " TEXT NOT NULL, "
                             + CLM_NOVEL_INTRO2 + " TEXT NOT NULL, "
                             + CLM_NOVEL_INTRO3 + " TEXT NOT NULL, "
-                            + CLM_NOVEL_DATA + " TEXT NOT NULL "
+                            + CLM_NOVEL_DATA + " TEXT NOT NULL, "
+                            + CLM_LOCATE_IMG_NAME + " TEXT "
                             + " );";
     
     // ステージセレクトマスタのCREATE文を定義
@@ -95,9 +104,18 @@ public class DbConstants {
                             + CLM_ADDRESS + " TEXT NOT NULL "
                             + " );";
 
+    // 位置情報マスタのCREATE文を定義
+    public static final String CREATE_TABLE4 =
+            "CREATE TABLE " + TABLE4 + " ("
+                            + CLM_LONGITUDE + " TEXT DEFAULT '0.0', "
+                            + CLM_LATITUDE + " TEXT DEFAULT '0.0', "
+                            + CLM_REGIST_DATE + " TEXT NOT NULL "
+                            + " );";
+    
     /** DROP文を定義する */
     public static final String DATABASE_UPDATE1 ="DROP TABLE IF EXISTS " + TABLE1;
     public static final String DATABASE_UPDATE2 ="DROP TABLE IF EXISTS " + TABLE2;
     public static final String DATABASE_UPDATE3 ="DROP TABLE IF EXISTS " + TABLE3;
+    public static final String DATABASE_UPDATE4 ="DROP TABLE IF EXISTS " + TABLE4;
     
 }

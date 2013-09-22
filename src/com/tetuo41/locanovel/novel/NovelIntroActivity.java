@@ -356,7 +356,7 @@ public class NovelIntroActivity extends Activity implements
 		super.onDestroy();
 
 		// 音をリリース
-		// mSoundPool.release();
+		mSoundPool.release();
 		if (mp != null) {
 			mp.release();
 			mp = null;

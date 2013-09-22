@@ -229,7 +229,7 @@ public class TopActivity extends Activity implements OnClickListener,
 	protected void onResume() {
 		Log.d("DEBUG", "TopAct onResume　START");
 		super.onResume();
-		
+
 		// アプリ起動時もここを通る
 		try {
 			if (!mp.isPlaying()) {
@@ -247,7 +247,7 @@ public class TopActivity extends Activity implements OnClickListener,
 					Toast.LENGTH_SHORT).show();
 
 		}
-		
+
 		// ボタンクリック時に呼び出す音をロードしておく
 		mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 		mSounds = mSoundPool.load(getApplicationContext(), R.raw.buttom, 1);
@@ -255,9 +255,13 @@ public class TopActivity extends Activity implements OnClickListener,
 
 	@Override
 	protected void onPause() {
-		// 他のアクティビティに遷移する場合
-
 		Log.d("DEBUG", "TopAct onPause　START");
+		
+		// 他のアクティビティに遷移する場合(Homeボタンクリック時も)
+		// 音声を一旦停止する
+		if (mp.isPlaying()) {
+			mp.pause();
+		}
 		super.onPause();
 	}
 
@@ -326,6 +330,9 @@ public class TopActivity extends Activity implements OnClickListener,
 			// 初期データ登録前の事前処理(ローディングダイアログ表示)
 			pd = new ProgressDialog(context);
 			pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+			// ダイアログで画面外を触った場合に閉じないようにする
+			pd.setCanceledOnTouchOutside(false);
 			pd.setCancelable(true);
 			pd.setMessage(cmndef.TOP_LOADING_MSG);
 			pd.show();
