@@ -153,30 +153,24 @@ public class StageSelectActivity extends Activity implements
 
 				// カメラプレビュー画面へ遷移した場合、カメラプレビューの起動(ノベルデータ保持)
 				StageSelectState sss = dataOfStage.get(position);
-
-				if (dao.StampFlgCheck(sss.getStageId())) {
-					Log.d("DEBUG", "スタンプフラグが「1」であれば、ノベル導入画面に遷移");
-					// スタンプフラグが「1」であれば、ノベル表示画面に遷移
+				
+				// 背景画像用のパスをセット
+				String locate_img_name = dao.GetLocateImgName(sss.getStageId());
+				if (locate_img_name != null) {
+					// 背景画像名がノベルマスタに登録されており
+					Log.d("DEBUG", "背景画像名がノベルマスタに登録されており");
+					File locate_img_file = new File(
+							cmndef.SDCARD_FOLDER + locate_img_name);
 					
-					
-					// 背景画像用のパスをセット
-					String locate_img_name = dao.GetLocateImgName(sss.getStageId());
-					if (locate_img_name != null) {
-						// 背景画像名があり
-						Log.d("DEBUG", "背景画像名があり");
-						File locate_img_file = new File(
-								cmndef.SDCARD_FOLDER + locate_img_name);
+					if (locate_img_file.exists()) {
+						Log.d("DEBUG", "背景画像がSDカードに保存されていれば");
+						Intent i2 = new Intent(getApplicationContext(),
+								NovelIntroActivity.class);
+						i2.putExtra("StageSelectState", sss);
+						i2.putExtra("back_ground", cmndef.SDCARD_FOLDER + locate_img_name);
+						startActivity(i2);
+						return;
 						
-						if (locate_img_file.exists()) {
-							Log.d("DEBUG", "背景画像がSDカードに保存されていれば");
-							Intent i2 = new Intent(getApplicationContext(),
-									NovelIntroActivity.class);
-							i2.putExtra("StageSelectState", sss);
-							i2.putExtra("back_ground", cmndef.SDCARD_FOLDER + locate_img_name);
-							startActivity(i2);
-							return;
-							
-						}
 					}
 				}
 				

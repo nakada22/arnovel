@@ -9,7 +9,7 @@ public class DbConstants {
 
 	/** データベースの名前とバージョン */
     public static final String DATABASE_NAME = "LocaNovelDB";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 1;
     public static final String DB_PATH = "/data/data/com.tetuo41.locanovel/databases/";  
     
     /** 作成・使用するテーブル名を定義する */
@@ -107,10 +107,11 @@ public class DbConstants {
     // 位置情報マスタのCREATE文を定義
     public static final String CREATE_TABLE4 =
             "CREATE TABLE " + TABLE4 + " ("
-                            + CLM_LONGITUDE + " TEXT DEFAULT '0.0', "
-                            + CLM_LATITUDE + " TEXT DEFAULT '0.0', "
-                            + CLM_REGIST_DATE + " TEXT NOT NULL "
-                            + " );";
+                            + CLM_LONGITUDE + " REAL DEFAULT '0.0', "
+                            + CLM_LATITUDE + " REAL DEFAULT '0.0', "
+                            + CLM_REGIST_DATE + " TEXT NOT NULL, "
+                            + "PRIMARY KEY(" + CLM_LONGITUDE + ", " + CLM_LATITUDE
+                            + ") );";
     
     /** DROP文を定義する */
     public static final String DATABASE_UPDATE1 ="DROP TABLE IF EXISTS " + TABLE1;

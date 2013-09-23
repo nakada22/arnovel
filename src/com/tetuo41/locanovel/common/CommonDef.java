@@ -56,6 +56,8 @@ public class CommonDef {
     public final String CAMERA_ERROR_MSG3 = "カメラの起動に失敗しました";
     public final String CAMERA_ERROR_MSG4 = "撮影時における位置情報の取得ができませんでした";
     public final String CAMERA_INFO_MSG1 = "この場所は選択したステージ画像の場所ではありません";
+    public final CharSequence CAMERA_INFO_MSG2 = "位置情報更新中";
+    public final CharSequence CAMERA_INFO_MSG3 = "位置情報が更新されました";
     
     // ノベル導入画面用メッセージ
     public final String NOVEL_INTRO_ERROR_MSG1 = "ノベル表示画面へ遷移できませんでした";
@@ -67,7 +69,5 @@ public class CommonDef {
     // データベース用メッセージ
     public final String DB_ERROR_MSG1 = "テーブルの作成に失敗しました";
     public final String DB_ERROR_MSG2 = "データベースのバージョンアップに失敗しました";
-    
-    
-    
+
 }

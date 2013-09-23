@@ -54,6 +54,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     	
+    	Log.d("DEBUG", "DbOpenHelper onUpgrade called.");
     	//if( oldVersion == 1 && newVersion == 2 ){
         	String [] DATABASE_UPDATE = {DbConstants.DATABASE_UPDATE1,
         	         DbConstants.DATABASE_UPDATE2,
@@ -74,6 +75,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    	Log.d("DEBUG", "DbOpenHelper onDowngrade called.");
     	
     	// onUpgradeを読ぶ
     	onUpgrade(db, oldVersion, newVersion);

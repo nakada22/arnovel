@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -43,8 +44,8 @@ public class CameraPreview extends SurfaceView implements
 	private CommonDef cmndef;
 
 	/** 経度・緯度情報 */
-	public double longitude;
-	public double latitude;
+	private double longitude;
+	private double latitude;
 
 	/** カメラオブジェクト */
 	private Camera mCam;
@@ -61,6 +62,9 @@ public class CameraPreview extends SurfaceView implements
 	/** タイマーオブジェクト */
 	private Timer mTimer;
 
+	/** Daoオブジェクト生成 */
+	private Dao dao;
+	
 	/** 画面タッチ二度押し禁止フラグ */
 	// private boolean notouch_flg = false;
 
@@ -68,18 +72,19 @@ public class CameraPreview extends SurfaceView implements
 	 * コンストラクタ
 	 */
 	public CameraPreview(Context context, Camera cam, StageSelectState sss,
-			double longitude, double latitude, Timer mTimer, MediaPlayer mp) {
+			Timer mTimer, MediaPlayer mp) {
 		super(context);
 		this.context = context;
 		this.sss = sss;
-		this.longitude = longitude;
-		this.latitude = latitude;
 		this.mTimer = mTimer;
 		this.mp = mp;
 		
 		cmndef = new CommonDef();
 		mCam = cam;
 
+		// Daoインスタンス生成
+		dao = new Dao(context);
+				
 		// サーフェスホルダーの取得とコールバック通知先の設定
 		SurfaceHolder holder = getHolder();
 		holder.addCallback(this);
@@ -109,16 +114,12 @@ public class CameraPreview extends SurfaceView implements
 		} catch (Exception e) {
 			// エラー発生時
 			Log.w("WARN", e.toString());
-			// Toast.makeText(context, cmndef.CAMERA_ERROR_MSG3,
-			// Toast.LENGTH_SHORT).show();
 		}
 
 		// カメラインスタンスに、画像表示先を設定
 		try {
 			mCam.setPreviewDisplay(holder);
-		} catch (Exception e) {
-		}
-
+		} catch (Exception e) {}
 	}
 
 	/**
@@ -155,7 +156,6 @@ public class CameraPreview extends SurfaceView implements
 					// 撮影画像保存
 					savePhotoData(datName, data);
 				}
-
 			} catch (Exception e) {
 				// 撮影画像の保存できなかった場合
 				Log.e("ERROR", e.toString());
@@ -175,8 +175,10 @@ public class CameraPreview extends SurfaceView implements
 			double n_longitude = sss.getLongitude();// 経度(ノベル位置情報)
 			double n_latitude = sss.getLatitude(); // 緯度(ノベル位置情報)
 
-			double p_longitude = longitude; // 経度(撮影画像の位置情報)
-			double p_latitude = latitude; // 緯度(撮影画像の位置情報)
+			// 経度・緯度(撮影画像の位置情報)を位置情報マスタから最新の情報を取得する
+			ArrayList<Double> locate_info = dao.GetNewestLocate();
+			double p_longitude = locate_info.get(0); // 経度(撮影画像の位置情報)
+			double p_latitude = locate_info.get(1); // 緯度(撮影画像の位置情報)
 
 			Log.d("DEBUG", "経度(ノベル位置情報)=" + n_longitude);
 			Log.d("DEBUG", "緯度(ノベル位置情報)=" + n_latitude);
@@ -312,9 +314,7 @@ public class CameraPreview extends SurfaceView implements
 					if (camera != null) {
 						camera.startPreview();
 					}
-
 				}
-
 			}
 
 			// // 以下の処理はテスト用で、取得できていれば、どんな位置情報でもノベル導入画面に行けるようにしたものである
@@ -432,6 +432,8 @@ public class CameraPreview extends SurfaceView implements
 			Toast.makeText(context, cmndef.CAMERA_ERROR_MSG2,
 					Toast.LENGTH_SHORT).show();
 
+			// 例外をスローする
+			throw e;
 		}
 	}
 
@@ -448,7 +450,6 @@ public class CameraPreview extends SurfaceView implements
 			int height) {
 		Log.d("DEBUG", "surfaceChanged called.");
 		
-		
 		// 正しいカメラのプレビューサイズ(撮影画像)、90°傾きズレ修正
 		if (mCam != null) {
 			mCam.stopPreview();
@@ -464,6 +465,6 @@ public class CameraPreview extends SurfaceView implements
 	}
 
 	@Override
-	public void onPictureTaken(byte[] data, Camera camera) {
-	}
+	public void onPictureTaken(byte[] data, Camera camera) {}
+	
 }

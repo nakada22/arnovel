@@ -13,17 +13,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import com.tetuo41.locanovel.common.CommonUtil;
-
 public class Dao {
 	
     /** DB作成オブジェクトをインスタンス化 */
 	private DbOpenHelper helper = null;
-	
-	/** 共通クラスインスタンス化 */
-	private CommonUtil cmnutil;
-	
 	SQLiteDatabase db;
+	
+	/** 現在日時オブジェクト(yyyy/MM/dd HH:mm:ss形式) */
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
     /** 
      * コンストラクタ
@@ -31,7 +28,6 @@ public class Dao {
     　　　*/
 	public Dao(Context context) {
 		helper = new DbOpenHelper(context);
-		cmnutil = new CommonUtil();
 	}
 	
 	/**
@@ -311,7 +307,6 @@ public class Dao {
 			ContentValues cv = new ContentValues();
 			
 			// 現在日時取得
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			String currenttime = sdf.format(Calendar.getInstance().getTime());
 			
 			if (c.moveToFirst()){
@@ -335,6 +330,7 @@ public class Dao {
 	/**
 	 * ステージ選択時、スタンプフラグを確認するための処理
 	 * @param ステージID
+	 * @return true：スタンプフラグが1の場合 false：スタンプフラグが1以外の場合
 	 * 
 	 * */
 	public boolean StampFlgCheck(int stage_id) {
@@ -408,6 +404,7 @@ public class Dao {
 	/**
 	 * ノベルIDに対応する背景画像名を取得する
 	 * @param stage_id ステージID
+	 * @return locate_img_name 撮影画像名
 	 * 
 	 * */
 	public String GetLocateImgName(int stage_id) {
@@ -440,4 +437,112 @@ public class Dao {
 		
 	}
 	
+	
+	/**
+	 * カメラプレビュー起動時における更新された位置情報を登録する
+	 * @param longitude 更新された経度
+	 * @param latitude 更新された緯度
+	 * @return true：同じ経度・緯度がある場合/false：同じ経度・緯度がない場合
+	 * 
+	 * */
+	public boolean RegisteUpdateLocate(double longitude, double latitude) {
+		SQLiteDatabase db = helper.getWritableDatabase();
+		
+		/** 位置情報マスタに更新された位置情報を登録する */
+		try {
+			Cursor c = db.query(DbConstants.TABLE4,
+					new String[] { "count(regist_date)" },
+					"longitude=? AND latitude=?",
+					new String[] {String.valueOf(longitude), String.valueOf(latitude)},
+					null, null, null, null);
+			
+			// 現在日時取得
+			String currenttime = sdf.format(Calendar.getInstance().getTime());
+			
+			c.moveToFirst();
+			if(c.getInt(0) == 0) {
+				// 同じ経度・緯度がなければ登録する
+				ContentValues cv = new ContentValues();
+				cv.put(DbConstants.CLM_LONGITUDE, longitude);
+				cv.put(DbConstants.CLM_LATITUDE, latitude);
+				cv.put(DbConstants.CLM_REGIST_DATE, currenttime);
+				db.insert(DbConstants.TABLE4, null, cv);
+				return true;
+				
+			}
+		} catch (SQLiteException e) {
+			// 更新された位置情報の登録に失敗した場合
+			Log.e("ERROR", e.toString());
+			
+		} catch (RuntimeException e){
+			Log.d("DEBUG",e.toString());
+		} finally {
+			db.close();
+		}
+		
+		// 同じ経度・緯度がない場合
+		return false;
+	}
+	
+	/**
+	 * 位置情報判定処理でOKだった場合の最新の位置情報取得する
+	 * @return 経度・緯度情報の配列
+	 * */
+	public ArrayList<Double> GetNewestLocate() {
+		
+		SQLiteDatabase db = helper.getReadableDatabase();
+		
+		// 返却値格納用配列
+		ArrayList<Double> ret = new ArrayList<Double>();
+
+		/** 位置情報マスタに最新の更新された位置情報を登録する */
+		try {
+			Cursor c = db.rawQuery("SELECT longitude, latitude" +
+					" FROM " + DbConstants.TABLE4 + " WHERE regist_date = " +
+					"(SELECT MAX(regist_date) FROM " + DbConstants.TABLE4 + ")", 
+					new String[]{});
+			
+			if (c.moveToFirst()){
+				// 位置情報があれば格納
+				ret.add(c.getDouble(0)); // 経度 longitude
+				ret.add(c.getDouble(1)); // 緯度 latitude
+			} else {
+				// なければ
+				ret.add(0.0); // 経度 longitude
+				ret.add(0.0); // 緯度 latitude
+			}
+			
+		} catch (SQLiteException e) {
+			// 更新された位置情報の登録に失敗した場合
+			Log.e("ERROR", e.toString());
+			
+		} catch (RuntimeException e){
+			Log.d("DEBUG",e.toString());
+		} finally {
+			db.close();
+		}
+		
+		return ret;
+	}
+	
+	/**
+	 * 位置情報マスタのデータを初期化する
+	 * 
+	 * */
+	public void DeleteLocateMaster() {
+		SQLiteDatabase db = helper.getWritableDatabase();
+		
+		try {
+			db.delete(DbConstants.TABLE4, null, null);
+		} catch (SQLiteException e) {
+			// 位置情報マスタのデータを初期化に失敗した場合
+			Log.e("ERROR", e.toString());
+			
+		} catch (RuntimeException e){
+			Log.d("DEBUG",e.toString());
+		} finally {
+			db.close();
+		}
+
+	}
 }
