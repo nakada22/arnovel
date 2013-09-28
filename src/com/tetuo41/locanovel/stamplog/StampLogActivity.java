@@ -347,7 +347,7 @@ public class StampLogActivity extends Activity implements OnClickListener,
 			AlertDialogView("エラー", cmndef.STAMP_ERROR_MSG1);
 			// 処理を終了する
 			return;
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			// スタンプログ詳細画面へ遷移できなかった場合
 			Log.e("ERROR", e.toString());
 
@@ -479,7 +479,9 @@ public class StampLogActivity extends Activity implements OnClickListener,
 		super.onDestroy();
 
 		// 音をリリース
-		mSoundPool.release();
+		if (mSoundPool != null) {
+			mSoundPool.release();
+		}
 		if (mp != null) {
 			mp.release();
 			mp = null;

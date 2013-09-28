@@ -223,7 +223,9 @@ public class StampLogDetailActivity extends Activity implements
 		super.onDestroy();
 
 		// 音をリリース
-		mSoundPool.release();
+		if (mSoundPool != null) {
+			mSoundPool.release();
+		}
 		if (mp != null) {
 			mp.release();
 			mp = null;

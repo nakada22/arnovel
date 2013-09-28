@@ -333,7 +333,9 @@ public class NovelActivity extends Activity implements OnClickListener,
 		super.onDestroy();
 
 		// 音をリリース
-		mSoundPool.release();
+		if (mSoundPool != null) {
+			mSoundPool.release();
+		}
 		if (mp != null) {
 			mp.release();
 			mp = null;

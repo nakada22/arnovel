@@ -5,7 +5,6 @@
     android:gravity="left" >
 
     <!-- Record画像 -->
-	<!-- http://d.hatena.ne.jp/Korsakov/20110131/1296504108#a6 -->
     <ImageView
         android:id="@+id/record_title"
         android:layout_width="wrap_content"
@@ -26,7 +25,7 @@
             android:id="@+id/record_img1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_margin="15dp"
+			android:layout_margin="10dp"
 			android:gravity="center_vertical"
             android:scaleType="fitCenter" />
         
@@ -35,7 +34,7 @@
             android:id="@+id/record_img2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_margin="15dp"
+			android:layout_margin="10dp"
 			android:gravity="center_vertical"
 			android:scaleType="fitCenter" />
 		<!-- レコード画像３ -->
@@ -43,7 +42,7 @@
             android:id="@+id/record_img3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_margin="15dp"
+			android:layout_margin="10dp"
 			android:gravity="center_vertical"
             android:scaleType="fitCenter" />
     </TableRow>
@@ -55,34 +54,34 @@
 		<!-- レコードID(ステージID)・レコードタイトル1 -->
         <TextView
             android:id="@+id/record_id_title1"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
             android:background="#000000"
-            android:gravity="center"
             android:textColor="#FFFFFF"
+            android:gravity="top|center"
             android:textSize="12sp" />
 
         <!-- レコードID(ステージID)・レコードタイトル2 -->
         <TextView
             android:id="@+id/record_id_title2"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
             android:background="#000000"
-            android:gravity="center"
             android:textColor="#FFFFFF"
+            android:gravity="top|center"
             android:textSize="12sp" />
         
         <!-- レコードID(ステージID)・レコードタイトル3 -->
         <TextView
             android:id="@+id/record_id_title3"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="1dp"
             android:background="#000000"
-            android:gravity="center"
             android:textColor="#FFFFFF"
+            android:gravity="top|center"
             android:textSize="12sp" />
         
 	 </TableRow>   
@@ -96,7 +95,7 @@
             android:id="@+id/record_img4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_margin="15dp"
+			android:layout_margin="10dp"
             android:scaleType="fitCenter"
             android:gravity="center_vertical" />
         
@@ -105,7 +104,7 @@
             android:id="@+id/record_img5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_margin="15dp"
+			android:layout_margin="10dp"
 			android:gravity="center_vertical"
             android:scaleType="fitCenter" />
 		<!-- レコード画像6 -->
@@ -113,7 +112,7 @@
             android:id="@+id/record_img6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_margin="15dp"
+			android:layout_margin="10dp"
 			android:gravity="center_vertical" 
             android:scaleType="fitCenter" />
             
@@ -125,33 +124,33 @@
 		<!-- レコードID(ステージID)・レコードタイトル4 -->
         <TextView
             android:id="@+id/record_id_title4"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="#000000"
-            android:gravity="center"
+            android:gravity="top|center"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
 
         <!-- レコードID(ステージID)・レコードタイトル5 -->
         <TextView
             android:id="@+id/record_id_title5"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="#000000"
-            android:gravity="center"
+            android:gravity="top|center"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
         
         <!-- レコードID(ステージID)・レコードタイトル6 -->
         <TextView
             android:id="@+id/record_id_title6"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="#000000"
-            android:gravity="center"
+            android:gravity="top|center"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
         
@@ -166,7 +165,7 @@
             android:id="@+id/record_img7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_margin="15dp"
+			android:layout_margin="10dp"
             android:scaleType="fitCenter"
             android:gravity="center_vertical" />
         
@@ -175,7 +174,7 @@
             android:id="@+id/record_img8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_margin="15dp"
+			android:layout_margin="10dp"
 			android:gravity="center_vertical"
             android:scaleType="fitCenter" />
 		<!-- レコード画像9 -->
@@ -183,7 +182,7 @@
             android:id="@+id/record_img9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-			android:layout_margin="15dp"
+			android:layout_margin="10dp"
 			android:gravity="center_vertical" 
             android:scaleType="fitCenter" />
             
@@ -195,33 +194,33 @@
 		<!-- レコードID(ステージID)・レコードタイトル7 -->
         <TextView
             android:id="@+id/record_id_title7"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="#000000"
-            android:gravity="center"
+            android:gravity="top|center"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
 
         <!-- レコードID(ステージID)・レコードタイトル8 -->
         <TextView
             android:id="@+id/record_id_title8"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="#000000"
-            android:gravity="center"
+            android:gravity="top|center"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
         
         <!-- レコードID(ステージID)・レコードタイトル9 -->
         <TextView
             android:id="@+id/record_id_title9"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="#000000"
-            android:gravity="center"
+            android:gravity="top|center"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
         

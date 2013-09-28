@@ -231,7 +231,7 @@ public class NovelIntroActivity extends Activity implements
 			// 処理を終了する
 			return;
 
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			// 通常は通らないルート
 			Log.e("ERROR", e.toString());
 
@@ -274,7 +274,7 @@ public class NovelIntroActivity extends Activity implements
 
 			// 処理を終了する
 			return;
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			// 通常は通らないルート
 			Log.e("ERROR", e.toString());
 
@@ -356,7 +356,9 @@ public class NovelIntroActivity extends Activity implements
 		super.onDestroy();
 
 		// 音をリリース
-		mSoundPool.release();
+		if (mSoundPool != null) {
+			mSoundPool.release();
+		}
 		if (mp != null) {
 			mp.release();
 			mp = null;
