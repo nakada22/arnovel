@@ -8,6 +8,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.location.Criteria;
 import android.location.Location;
@@ -20,7 +21,10 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -30,6 +34,7 @@ import com.tetuo41.locanovel.common.CommonDef;
 import com.tetuo41.locanovel.db.Dao;
 import com.tetuo41.locanovel.stageselect.StageSelectActivity;
 import com.tetuo41.locanovel.stageselect.StageSelectState;
+import com.tetuo41.locanovel.stamplog.StampLogActivity;
 
 /**
  * カメラプレビュー起動クラス
@@ -38,7 +43,7 @@ import com.tetuo41.locanovel.stageselect.StageSelectState;
  * @version 1.0
  */
 public class CameraPreviewActivity extends Activity implements
-		LocationListener, OnCompletionListener {
+		LocationListener, OnCompletionListener, OnClickListener {
 
 	/** カメラインスタンス */
 	private Camera mCam = null;
@@ -76,6 +81,9 @@ public class CameraPreviewActivity extends Activity implements
 	/** ノーティフィケーションの識別子 */
 	private int identifier = 0;
 
+	/** クリックイベント実行可否フラグ */
+	private boolean ClickEventFlg;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -154,6 +162,44 @@ public class CameraPreviewActivity extends Activity implements
 	}
 
 	/**
+	 * ボタンクリック時の処理を記述する。
+	 * 
+	 * @param View ボタンオブジェクト
+	 */
+	@Override
+	public void onClick(View v) {
+		// クリックイベントが許可されていなければ実行しない
+	    if (!ClickEventFlg) return;
+	    
+	    // クリックイベントを禁止する
+		ClickEventFlg = false;
+		
+		switch (v.getId()) {
+		case 1:
+			try {
+				// 「撮影」ボタンクリック時処理
+				mCam.takePicture(mCamPreview.mShutterListener, 
+						null, mCamPreview.mPictureListener);
+				
+				// 1.5秒間待たせる
+				new CountDownTimer(1500, 100) {
+					@Override
+					public void onTick(long millisUntilFinished) {}
+					public void onFinish() {
+						// クリックイベントを許可する
+						ClickEventFlg = true;
+					}
+				}.start();
+				
+			} catch (Exception e) {
+				Log.d("DEBUG", e.toString());
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	/**
 	 * カメラオープン処理を行う
 	 */
 	private void CameraOpen() {
@@ -171,12 +217,28 @@ public class CameraPreviewActivity extends Activity implements
 			marker.setImageResource(R.drawable.marker);
 			marker.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			
+			// 「撮影する」ボタンを読み込み
+			Button photo_btn = new Button(this);
+			photo_btn.setId(1);
+			photo_btn.setTextColor(Color.WHITE);
+			photo_btn.setTextSize(16);
+			photo_btn.setBackgroundResource(R.drawable.read_comp);
+			photo_btn.setText(getString(R.string.photography));
+			FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(300, 100);
+			lp.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
+			lp.setMargins(0, 300, 0, 0);
+			photo_btn.setLayoutParams(lp);
+			
 			// カメラプレビュー起動(データもセット)
 			mCamPreview = new CameraPreview(getApplicationContext(), mCam, sss,
 					mTimer, mp);
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mCamPreview);
+			preview.addView(photo_btn, lp);
 			preview.addView(marker, createParam(150, 150));
+			
+			// 「撮影する」ボタンClickListener登録
+			preview.findViewById(1).setOnClickListener(this);
 			
 		} catch (Exception e) {
 			// エラー発生時
@@ -187,7 +249,6 @@ public class CameraPreviewActivity extends Activity implements
 			// アクティビティを終了する
 			this.finish();
 		}
-
 	}
 
 	private FrameLayout.LayoutParams createParam(int w, int h) {
@@ -380,13 +441,13 @@ public class CameraPreviewActivity extends Activity implements
 			mCam.release();
 			mCam = null;
 		}
-
+		
 		// リスナーの削除
 		if (locationManager != null) {
 			// 位置情報の更新の取得が不要になった場合
 			locationManager.removeUpdates(this);
 		}
-
+		
 		// タイマーキャンセル
 		mTimer.cancel();
 
@@ -413,6 +474,9 @@ public class CameraPreviewActivity extends Activity implements
 			locationManager.requestLocationUpdates(bestProvider, 0, 0,
 					locationListener);
 		}
+		// クリックイベントを許可する
+		ClickEventFlg = true;
+		
 	}
 
 	@Override

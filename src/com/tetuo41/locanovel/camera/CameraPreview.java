@@ -65,9 +65,6 @@ public class CameraPreview extends SurfaceView implements
 	/** Daoオブジェクト生成 */
 	private Dao dao;
 	
-	/** 画面タッチ二度押し禁止フラグ */
-	// private boolean notouch_flg = false;
-
 	/**
 	 * コンストラクタ
 	 */
@@ -142,7 +139,7 @@ public class CameraPreview extends SurfaceView implements
 	}
 
 	/** JPEGイメージ生成後に呼ばれるコールバック */
-	private PictureCallback mPictureListener = new PictureCallback() {
+	public PictureCallback mPictureListener = new PictureCallback() {
 
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
@@ -166,6 +163,7 @@ public class CameraPreview extends SurfaceView implements
 					camera.release();
 					camera = null;
 				}
+				
 				// 処理を終了する
 				return;
 			}
@@ -211,7 +209,6 @@ public class CameraPreview extends SurfaceView implements
 				if (camera != null) {
 					camera.startPreview();
 				}
-				return;
 
 			} else {
 
@@ -297,6 +294,7 @@ public class CameraPreview extends SurfaceView implements
 						if (camera != null) {
 							camera.startPreview();
 						}
+						
 					}
 				} else {
 					// 撮影画像がステージ選択した場所ではない場合
@@ -318,7 +316,7 @@ public class CameraPreview extends SurfaceView implements
 			}
 
 			// // 以下の処理はテスト用で、取得できていれば、どんな位置情報でもノベル導入画面に行けるようにしたものである
-			// // TODO 一時的にテスト用でコメントアウトを外している。
+			// // 一時的にテスト用でコメントアウトを外している。
 			// Intent i = new Intent(context, NovelIntroActivity.class);
 			// i.putExtra("StageSelectState", sss);
 			//
@@ -333,7 +331,7 @@ public class CameraPreview extends SurfaceView implements
 	};
 
 	/** シャッターが押されたときに呼ばれるコールバック */
-	private ShutterCallback mShutterListener = new ShutterCallback() {
+	public ShutterCallback mShutterListener = new ShutterCallback() {
 		public void onShutter() {
 			Log.d("DEBUG", "onShutter Start");
 		}
@@ -360,25 +358,18 @@ public class CameraPreview extends SurfaceView implements
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		Log.d("DEBUG", "onTouchEvent Start");
-		// 撮影中の2度押し禁止用フラグ設定
-		// if (notouch_flg) {
-		// return true;
-		// }
-
+		
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			/** タッチダウン時の処理 */
 			try {
 				Log.d("DEBUG", "タッチダウン開始");
-
-				// 撮影中の2度押し禁止用フラグ
-				// notouch_flg = true;
-
+				
 				// オートフォーカス(完了時にコールバックにて撮影処理実行)
 				// mCam.autoFocus(mAutoFocusListener);
 
 				// 撮影
-				mCam.takePicture(mShutterListener, null, mPictureListener);
+				// mCam.takePicture(mShutterListener, null, mPictureListener);
 
 				// 撮影完了したらフラグを戻す
 				// notouch_flg = false;

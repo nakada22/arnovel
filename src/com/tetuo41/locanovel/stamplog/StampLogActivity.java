@@ -47,6 +47,9 @@ public class StampLogActivity extends Activity implements OnClickListener,
 	private SoundPool mSoundPool;
 	private int[] mSounds = new int[1];
 	
+	/** クリックイベント実行可否フラグ */
+	private boolean ClickEventFlg;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,6 +88,12 @@ public class StampLogActivity extends Activity implements OnClickListener,
 	 *            ボタンオブジェクト
 	 */
 	public void onClick(View v) {
+		// クリックイベントが許可されていなければ実行しない
+	    if (!ClickEventFlg) return;
+	    
+	    // クリックイベントを禁止する
+		ClickEventFlg = false;
+		
 		// 詳細データ取得
 		ArrayList<StampLogState> dataOfState = StampListView();
 
@@ -453,6 +462,9 @@ public class StampLogActivity extends Activity implements OnClickListener,
 		mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 		mSounds[0] = mSoundPool.load(this, R.raw.buttom, 1);
 
+		// クリックイベントを許可する
+		ClickEventFlg = true;
+		
 		try {
 			if (!mp.isPlaying()) {
 				// 音声再生

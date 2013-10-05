@@ -73,7 +73,6 @@ public class NovelActivity extends Activity implements OnClickListener,
 		novel_layout = (TextView) scroll.findViewById(R.id.novel_data);
 		read_comp_view = getLayoutInflater().inflate(R.layout.novel2, null);
 
-		// 参考URL:http://qiita.com/haratchatta/items/86aa8517a91fea1e772f
 		// ノベル部分をリスト表示する
 		NovelDisp();
 
