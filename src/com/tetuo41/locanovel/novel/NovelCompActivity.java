@@ -49,6 +49,9 @@ public class NovelCompActivity extends Activity implements OnClickListener,
 	private SoundPool mSoundPool;
 	private int[] mSounds = new int[1];
 
+	/** クリックイベント実行可否フラグ */
+	private boolean ClickEventFlg;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -131,7 +134,12 @@ public class NovelCompActivity extends Activity implements OnClickListener,
 	 *            ボタンオブジェクト
 	 */
 	public void onClick(View v) {
-
+		// クリックイベントが許可されていなければ実行しない
+	    if (!ClickEventFlg) return;
+	    
+	    // クリックイベントを禁止する
+		ClickEventFlg = false;
+		
 		switch (v.getId()) {
 		case R.id.menu_back:
 			// 「メニューに戻る」クリック時
@@ -216,6 +224,27 @@ public class NovelCompActivity extends Activity implements OnClickListener,
 			mp.release();
 			mp = null;
 		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// クリックイベントを許可する
+		ClickEventFlg = true;
+		
+	}
+	
+	/**
+	 * アクティビティが「停止」の状態
+	 * */
+	@Override
+	protected void onPause() {
+		Log.d("DEBUG", "onPause() Start");
+		super.onPause();
+
+//		if (mp.isPlaying()) {
+//			mp.pause();
+//		}
 	}
 	
 	@Override

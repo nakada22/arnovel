@@ -38,12 +38,10 @@ public class NovelActivity extends Activity implements OnClickListener,
 		OnCompletionListener {
 
 	/** 共通クラスオブジェクト */
-	private CommonUtil cmnutil;
 	private CommonDef cmndef;
 
 	/** 背景画像用 */
 	private LinearLayout bg_layout;
-	private LinearLayout black_layout;
 	private String bg_pass;
 
 	/** スクロールビューで必要なオブジェクト */
@@ -59,6 +57,9 @@ public class NovelActivity extends Activity implements OnClickListener,
 	private SoundPool mSoundPool;
 	private int[] mSounds = new int[1];
 
+	/** クリックイベント実行可否フラグ */
+	private boolean ClickEventFlg;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,7 +83,6 @@ public class NovelActivity extends Activity implements OnClickListener,
 	 * コンストラクタ
 	 */
 	public NovelActivity() {
-		cmnutil = new CommonUtil();
 		cmndef = new CommonDef();
 	}
 
@@ -142,6 +142,12 @@ public class NovelActivity extends Activity implements OnClickListener,
 					new View.OnClickListener() {
 						@Override
 						public void onClick(View v) {
+							// クリックイベントが許可されていなければ実行しない
+						    if (!ClickEventFlg) return;
+						    
+						    // クリックイベントを禁止する
+							ClickEventFlg = false;
+							
 							// 「読了」クリック時
 							ReadFinishClick();
 						}
@@ -165,6 +171,12 @@ public class NovelActivity extends Activity implements OnClickListener,
 							new View.OnClickListener() {
 								@Override
 								public void onClick(View v) {
+									// クリックイベントが許可されていなければ実行しない
+								    if (!ClickEventFlg) return;
+								    
+								    // クリックイベントを禁止する
+									ClickEventFlg = false;
+									
 									// 「読了」クリック時
 									ReadFinishClick();
 								}
@@ -224,7 +236,12 @@ public class NovelActivity extends Activity implements OnClickListener,
 	 *            ボタンオブジェクト
 	 */
 	public void onClick(View v) {
-
+		// クリックイベントが許可されていなければ実行しない
+	    if (!ClickEventFlg) return;
+	    
+	    // クリックイベントを禁止する
+		ClickEventFlg = false;
+		
 		switch (v.getId()) {
 		case R.drawable.read_comp:
 			// 「読了」クリック時
@@ -295,6 +312,10 @@ public class NovelActivity extends Activity implements OnClickListener,
 		Log.d("DEBUG", "onPause() Start");
 		super.onPause();
 
+		if (mp.isPlaying()) {
+			mp.pause();
+		}
+		
 		// 読了ボタン押した時通る
 		disp_chg_flg = true;
 
@@ -325,6 +346,8 @@ public class NovelActivity extends Activity implements OnClickListener,
 		mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 		mSounds[0] = mSoundPool.load(getApplicationContext(), R.raw.finish_buttom, 1);
 
+		// クリックイベントを許可する
+		ClickEventFlg = true;
 	}
 
 	@Override

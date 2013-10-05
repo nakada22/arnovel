@@ -55,6 +55,9 @@ public class NovelIntroActivity extends Activity implements
 	private SoundPool mSoundPool;
 	private int[] mSounds = new int[2];
 
+	/** クリックイベント実行可否フラグ */
+	private boolean ClickEventFlg;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -157,6 +160,13 @@ public class NovelIntroActivity extends Activity implements
 						new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
+								// クリックイベントが許可されていなければ実行しない
+								if (!ClickEventFlg)
+									return;
+
+								// クリックイベントを禁止する
+								ClickEventFlg = false;
+
 								// 「ごめん、やめておく」ボタンクリック時
 								SorryStopClick();
 							}
@@ -165,6 +175,13 @@ public class NovelIntroActivity extends Activity implements
 						new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
+								// クリックイベントが許可されていなければ実行しない
+								if (!ClickEventFlg)
+									return;
+
+								// クリックイベントを禁止する
+								ClickEventFlg = false;
+
 								// 「聞かせて」クリック時
 								TellClick();
 							}
@@ -219,15 +236,18 @@ public class NovelIntroActivity extends Activity implements
 			// 1秒後にノベル表示画面へ遷移させる
 			new CountDownTimer(1000, 100) {
 				@Override
-				public void onTick(long millisUntilFinished) {}
+				public void onTick(long millisUntilFinished) {
+				}
+
 				public void onFinish() {
-					Intent i = new Intent(getApplicationContext(), NovelActivity.class);
+					Intent i = new Intent(getApplicationContext(),
+							NovelActivity.class);
 					i.putExtra("back_ground", bg_pass);
 					i.putExtra("StageSelectState", sss);
 					startActivity(i);
-				}	
+				}
 			}.start();
-			
+
 		} catch (ActivityNotFoundException e) {
 			// ノベル表示画面へ遷移できなかった場合
 			Log.e("ERROR", e.toString());
@@ -267,16 +287,18 @@ public class NovelIntroActivity extends Activity implements
 			// 音を0.5秒くらい再生させるため1秒くらい待つ
 			new CountDownTimer(500, 100) {
 				@Override
-				public void onTick(long millisUntilFinished) {}
+				public void onTick(long millisUntilFinished) {
+				}
+
 				public void onFinish() {
 					// ステージセレクト画面へ遷移
 					sss = null;
 					Intent i = new Intent(getApplicationContext(),
 							StageSelectActivity.class);
 					startActivity(i);
-				}	
+				}
 			}.start();
-			
+
 		} catch (ActivityNotFoundException e) {
 			// ステージセレクト画面へ遷移できなかった場合
 			Log.e("ERROR", e.toString());
@@ -361,7 +383,11 @@ public class NovelIntroActivity extends Activity implements
 		// 聞かせて用
 		mSounds[0] = mSoundPool.load(getApplicationContext(), R.raw.buttom, 1);
 		// ごめんやめておく用
-		mSounds[1] = mSoundPool.load(getApplicationContext(), R.raw.finish_buttom, 1);
+		mSounds[1] = mSoundPool.load(getApplicationContext(),
+				R.raw.finish_buttom, 1);
+
+		// クリックイベントを許可する
+		ClickEventFlg = true;
 
 	}
 

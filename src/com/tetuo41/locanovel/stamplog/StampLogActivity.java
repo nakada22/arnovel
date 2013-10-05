@@ -334,8 +334,8 @@ public class StampLogActivity extends Activity implements OnClickListener,
 		try {
 			// スタンプ画像クリック時、スタンプログ詳細画面へ遷移
 			final StampLogState data = sls.get(posion);
-			if (data.stamp_flg == 1) {
-				
+			if (data.getStampFlg() == 1) {
+				// お岩さん画像であれば
 				if (mp.isPlaying()) {
 					// 再生中であれば
 					mp.pause();
@@ -355,11 +355,17 @@ public class StampLogActivity extends Activity implements OnClickListener,
 								StampLogDetailActivity.class);
 						i.putExtra("StampLogState", data);
 						startActivity(i);
+						
+						// クリックイベントを許可する
+						ClickEventFlg = true;
 					}
 					
 				}.start();
+			} else {
+				// クリックイベントを許可する
+				ClickEventFlg = true;
 			}
-
+			
 		} catch (ActivityNotFoundException e) {
 			// スタンプログ詳細画面へ遷移できなかった場合
 			Log.e("ERROR", e.toString());
@@ -432,25 +438,34 @@ public class StampLogActivity extends Activity implements OnClickListener,
 		}
 	}
 
+
 	/**
-	 * アラートダイアログを表示する
-	 * 
-	 * @param タイトル
-	 * @param 表示するメッセージ
+	 * 画面が切り替わった場合(Backボタンが押された場合) などの処理を記述する
 	 * 
 	 * */
-	private void AlertDialogView(String title, String message) {
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.d("DEBUG", "StampLogAct onPause() Start");
+		if (mp.isPlaying()) {
+			mp.pause();
+		}
+		
+	}
 
-		// アラートダイアログで警告を表示
-		AlertDialog.Builder adb = new AlertDialog.Builder(this);
-		adb.setTitle(title);
-		adb.setMessage(message);
-		adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				// 処理なし
-			}
-		});
-		adb.show();
+	@Override
+	protected void onDestroy() {
+		Log.d("DEBUG", "StampLogAct onDestroy　START");
+		super.onDestroy();
+
+		// 音をリリース
+		if (mSoundPool != null) {
+			mSoundPool.release();
+		}
+		if (mp != null) {
+			mp.release();
+			mp = null;
+		}
 	}
 
 	@Override
@@ -479,37 +494,8 @@ public class StampLogActivity extends Activity implements OnClickListener,
 			// 音声の再生に失敗した場合
 			Toast.makeText(getBaseContext(), cmndef.CMN_ERROR_MSG2,
 					Toast.LENGTH_SHORT).show();
-
 		}
 
-	}
-
-	/**
-	 * 画面が切り替わった場合(Backボタンが押された場合) などの処理を記述する
-	 * 
-	 * */
-	@Override
-	protected void onPause() {
-		super.onPause();
-		Log.d("DEBUG", "StampLogAct onPause() Start");
-		if (mp.isPlaying()) {
-			mp.pause();
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		Log.d("DEBUG", "StampLogAct onDestroy　START");
-		super.onDestroy();
-
-		// 音をリリース
-		if (mSoundPool != null) {
-			mSoundPool.release();
-		}
-		if (mp != null) {
-			mp.release();
-			mp = null;
-		}
 	}
 
 	/**
@@ -524,6 +510,27 @@ public class StampLogActivity extends Activity implements OnClickListener,
 		mp.seekTo(0);
 		// 音声を再生させる
 		mp.start();
+	}
+
+	/**
+	 * アラートダイアログを表示する
+	 * 
+	 * @param タイトル
+	 * @param 表示するメッセージ
+	 * 
+	 * */
+	private void AlertDialogView(String title, String message) {
+
+		// アラートダイアログで警告を表示
+		AlertDialog.Builder adb = new AlertDialog.Builder(this);
+		adb.setTitle(title);
+		adb.setMessage(message);
+		adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// 処理なし
+			}
+		});
+		adb.show();
 	}
 
 }
