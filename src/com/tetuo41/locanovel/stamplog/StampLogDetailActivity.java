@@ -151,7 +151,7 @@ public class StampLogDetailActivity extends Activity implements
 		String novel_title = sls.getNovelTitle();
 		String novel_data = sls.getNovelData();
 
-		// ノベルデータを25文字づつ改行区切りでわける。
+		// ノベルデータを19文字づつ改行区切りでわける。
 		StringBuilder sb = new StringBuilder();
 
 		// 表示する行数(改行文字の数でもある)
