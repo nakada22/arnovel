@@ -14,6 +14,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +27,7 @@ import com.tetuo41.locanovel.R;
 import com.tetuo41.locanovel.common.CommonDef;
 import com.tetuo41.locanovel.common.CommonUtil;
 import com.tetuo41.locanovel.db.Dao;
+import com.tetuo41.locanovel.stageselect.StageSelectActivity;
 
 /**
  * スタンプログラリー画面を表示するクラスです。
@@ -322,21 +324,31 @@ public class StampLogActivity extends Activity implements OnClickListener,
 
 		try {
 			// スタンプ画像クリック時、スタンプログ詳細画面へ遷移
-			StampLogState data = sls.get(posion);
+			final StampLogState data = sls.get(posion);
 			if (data.stamp_flg == 1) {
 				
 				if (mp.isPlaying()) {
 					// 再生中であれば
 					mp.pause();
 				}
+
 				// ボタンクリック時の音再生
 				mSoundPool.play(mSounds[0], 1.0F, 1.0F, 0, 0, 1.0F);
 				
-				// スタンプフラグが1の時だけ詳細画面へ遷移
-				Intent i = new Intent(getApplicationContext(),
-						StampLogDetailActivity.class);
-				i.putExtra("StampLogState", data);
-				startActivity(i);
+				// 1秒後にスタンプ詳細画面へ遷移させる
+				new CountDownTimer(1000, 100) {
+					@Override
+					public void onTick(long millisUntilFinished) {}
+					
+					public void onFinish() {
+						// スタンプフラグが1の時だけ詳細画面へ遷移
+						Intent i = new Intent(getApplicationContext(),
+								StampLogDetailActivity.class);
+						i.putExtra("StampLogState", data);
+						startActivity(i);
+					}
+					
+				}.start();
 			}
 
 		} catch (ActivityNotFoundException e) {

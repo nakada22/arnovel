@@ -28,6 +28,7 @@ import com.tetuo41.locanovel.common.CommonDef;
 import com.tetuo41.locanovel.common.CommonUtil;
 import com.tetuo41.locanovel.stageselect.StageSelectActivity;
 import com.tetuo41.locanovel.stageselect.StageSelectState;
+import com.tetuo41.locanovel.stamplog.StampLogDetailActivity;
 
 /**
  * ノベル導入画面を表示するクラスです。
@@ -52,7 +53,7 @@ public class NovelIntroActivity extends Activity implements
 	/** 音声関連のインスタンス生成 */
 	private MediaPlayer mp;
 	private SoundPool mSoundPool;
-	private int[] mSounds = new int[1];
+	private int[] mSounds = new int[2];
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -210,18 +211,23 @@ public class NovelIntroActivity extends Activity implements
 				Log.d("DEBUG", "再生中であれば TellClick");
 				// 再生中であれば
 				mp.pause();
-
-				// ボタンクリック時の音再生
-				mSoundPool.play(mSounds[0], 1.0F, 1.0F, 0, 0, 1.0F);
-
 			}
 
-			// 「聞かせて」ボタンクリック時、ノベル表示画面へ遷移
-			Intent i = new Intent(getApplicationContext(), NovelActivity.class);
-			i.putExtra("back_ground", bg_pass);
-			i.putExtra("StageSelectState", sss);
-			startActivity(i);
+			// ボタンクリック時の音再生
+			mSoundPool.play(mSounds[0], 1.0F, 1.0F, 0, 0, 1.0F);
 
+			// 1秒後にノベル表示画面へ遷移させる
+			new CountDownTimer(1000, 100) {
+				@Override
+				public void onTick(long millisUntilFinished) {}
+				public void onFinish() {
+					Intent i = new Intent(getApplicationContext(), NovelActivity.class);
+					i.putExtra("back_ground", bg_pass);
+					i.putExtra("StageSelectState", sss);
+					startActivity(i);
+				}	
+			}.start();
+			
 		} catch (ActivityNotFoundException e) {
 			// ノベル表示画面へ遷移できなかった場合
 			Log.e("ERROR", e.toString());
@@ -256,15 +262,21 @@ public class NovelIntroActivity extends Activity implements
 			}
 
 			// ボタンクリック時の音再生
-			mSoundPool.play(mSounds[0], 1.0F, 1.0F, 0, 0, 1.0F);
+			mSoundPool.play(mSounds[1], 1.0F, 1.0F, 0, 0, 1.0F);
 
-			// アクティビティを終了させ、ステージセレクト画面へ遷移
-			sss = null;
-			this.finish();
-			Intent i = new Intent(getApplicationContext(),
-					StageSelectActivity.class);
-			startActivity(i);
-
+			// 音を0.5秒くらい再生させるため1秒くらい待つ
+			new CountDownTimer(500, 100) {
+				@Override
+				public void onTick(long millisUntilFinished) {}
+				public void onFinish() {
+					// ステージセレクト画面へ遷移
+					sss = null;
+					Intent i = new Intent(getApplicationContext(),
+							StageSelectActivity.class);
+					startActivity(i);
+				}	
+			}.start();
+			
 		} catch (ActivityNotFoundException e) {
 			// ステージセレクト画面へ遷移できなかった場合
 			Log.e("ERROR", e.toString());
@@ -346,7 +358,10 @@ public class NovelIntroActivity extends Activity implements
 
 		// ボタンクリック時に呼び出す音をロードしておく
 		mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+		// 聞かせて用
 		mSounds[0] = mSoundPool.load(getApplicationContext(), R.raw.buttom, 1);
+		// ごめんやめておく用
+		mSounds[1] = mSoundPool.load(getApplicationContext(), R.raw.finish_buttom, 1);
 
 	}
 

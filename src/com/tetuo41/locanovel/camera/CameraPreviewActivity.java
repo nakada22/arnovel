@@ -16,10 +16,13 @@ import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.tetuo41.locanovel.R;
@@ -44,7 +47,7 @@ public class CameraPreviewActivity extends Activity implements
 	private CommonDef cmndef;
 
 	/** GPS(ネットワーク)位置情報取得機能に必要なオブジェクト */
-	protected LocationManager locationManager;
+	private LocationManager locationManager;
 	private LocationListener locationListener;
 	private String bestProvider;
 	private double longitude;
@@ -65,14 +68,14 @@ public class CameraPreviewActivity extends Activity implements
 
 	/** Daoオブジェクト生成 */
 	private Dao dao;
-	
+
 	/** Notifiオブジェクト生成 */
 	private Notification notifi;
 	private NotificationManager nm;
-	
+
 	/** ノーティフィケーションの識別子 */
 	private int identifier = 0;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,14 +84,13 @@ public class CameraPreviewActivity extends Activity implements
 
 		// Daoインスタンス生成
 		dao = new Dao(getBaseContext());
-		
+
 		// Notificationインスタンス生成
-		notifi = new Notification(); 
-		
+		notifi = new Notification();
+
 		// NotificationManager取得
-		nm = (NotificationManager)getSystemService
-				(getBaseContext().NOTIFICATION_SERVICE);
-		
+		nm = (NotificationManager) getSystemService(getBaseContext().NOTIFICATION_SERVICE);
+
 		// ステージ選択画面からのデータ取得
 		Intent getintent = getIntent();
 		sss = (StageSelectState) getintent
@@ -100,13 +102,23 @@ public class CameraPreviewActivity extends Activity implements
 			mp = null;
 		}
 		mp = new MediaPlayer();
+		
 		try {
 			mp = MediaPlayer.create(getBaseContext(), R.raw.camera_preview);
 
 			// サウンド音量設定0.0から1.0で設定
 			mp.setVolume(0.7f, 0.7f);
-			mp.start();
-
+			
+			// 1.5秒後に音を再生させる
+			new CountDownTimer(1500, 100) {
+				@Override
+				public void onTick(long millisUntilFinished) {}
+				public void onFinish() {
+					// 音を再生させる
+					mp.start();
+				}
+			}.start();
+			
 			// 再生終了を検出する
 			mp.setOnCompletionListener(this);
 
@@ -154,12 +166,18 @@ public class CameraPreviewActivity extends Activity implements
 
 			}
 
+			// marker画像読み込み
+			ImageView marker = new ImageView(this);
+			marker.setImageResource(R.drawable.marker);
+			marker.setScaleType(ImageView.ScaleType.FIT_CENTER);
+			
 			// カメラプレビュー起動(データもセット)
 			mCamPreview = new CameraPreview(getApplicationContext(), mCam, sss,
 					mTimer, mp);
 			FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 			preview.addView(mCamPreview);
-
+			preview.addView(marker, createParam(150, 150));
+			
 		} catch (Exception e) {
 			// エラー発生時
 			Log.w("WARN", e.toString());
@@ -172,6 +190,13 @@ public class CameraPreviewActivity extends Activity implements
 
 	}
 
+	private FrameLayout.LayoutParams createParam(int w, int h) {
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(w, h);
+		params.gravity = Gravity.CENTER_VERTICAL | 
+				Gravity.CENTER_HORIZONTAL;
+		return params;
+	}
+
 	/**
 	 * 位置情報を取得するための初期処理
 	 * 
@@ -179,7 +204,6 @@ public class CameraPreviewActivity extends Activity implements
 	protected void initLocationService() {
 		Log.d("DEBUG", "initLocationService Start");
 
-		// 参考URL http://d.hatena.ne.jp/glass-_-onion/20101113/1289615195
 		// LocationManagerインスタンスを取得
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -216,7 +240,7 @@ public class CameraPreviewActivity extends Activity implements
 
 				// 位置情報が更新した時
 				Log.d("DEBUG", "位置情報が更新されました");
-				
+
 				// 更新された経度・緯度
 				longitude = location.getLongitude();
 				latitude = location.getLatitude();
@@ -229,7 +253,8 @@ public class CameraPreviewActivity extends Activity implements
 			}
 
 			@Override
-			public void onProviderDisabled(final String provider) {}
+			public void onProviderDisabled(final String provider) {
+			}
 
 			@Override
 			public void onProviderEnabled(final String provider) {
@@ -237,7 +262,8 @@ public class CameraPreviewActivity extends Activity implements
 
 			@Override
 			public void onStatusChanged(final String provider,
-					final int status, final Bundle extras) {}
+					final int status, final Bundle extras) {
+			}
 		};
 		locationManager.requestLocationUpdates(bestProvider, 1000, 1,
 				locationListener);
@@ -262,47 +288,50 @@ public class CameraPreviewActivity extends Activity implements
 
 	/**
 	 * ロケーションサービスをセットする場合の処理
-	 * @param longitude 更新された経度
-	 * @param latitude 更新された緯度
+	 * 
+	 * @param longitude
+	 *            更新された経度
+	 * @param latitude
+	 *            更新された緯度
 	 * */
 	private void setLocation(double longitude, double latitude) {
 		stopLocationService();
 
 		// ここに位置情報が取得できた場合の処理を記述
 		try {
-			
+
 			// 更新された位置情報を一時的にDB(位置情報マスタ)へ保存し
 			// 撮影時への位置情報のカメラプレビューへ受け渡す
 			if (dao.RegisteUpdateLocate(longitude, latitude)) {
-				
+
 				// 更新された位置情報をDBへ登録した場合、ステータスバーに更新を通知
 				// アイコン・メッセージ・現在時刻を設定
 				notifi.icon = R.drawable.ic_locanovel;
 				notifi.tickerText = cmndef.CAMERA_INFO_MSG3;
 				notifi.when = System.currentTimeMillis();
-				
+
 				// PendingIntentの生成(詳細クリック時、ステージセレクト画面遷移)
-				Intent i = new Intent(getApplicationContext(), 
+				Intent i = new Intent(getApplicationContext(),
 						StageSelectActivity.class);
 				PendingIntent pi = PendingIntent.getActivity(this, 0, i, 0);
-				
+
 				// 事前にノーティフィケーション通知削除しておく
 				if (nm != null) {
 					for (int j = 0; j <= identifier; j++) {
 						nm.cancel(j);
 					}
 				}
-				
+
 				// ノーティフィケーションの詳細設定
-				notifi.setLatestEventInfo(getApplicationContext(), 
+				notifi.setLatestEventInfo(getApplicationContext(),
 						cmndef.CAMERA_INFO_MSG2, cmndef.CAMERA_INFO_MSG3, pi);
-				
+
 				// Notificationの通知
 				nm.notify(identifier, notifi);
-				
+
 				// ノーティフィケーションの識別子をインクリメント
 				identifier++;
-				
+
 			}
 		} catch (Exception e) {
 			// エラー発生時
@@ -344,7 +373,7 @@ public class CameraPreviewActivity extends Activity implements
 				nm.cancel(i);
 			}
 		}
-		
+
 		// NovelIntroActivity起動時にもよばれる。
 		// シャッター押下時にも呼ばれる。
 		if (mCam != null) {
@@ -373,7 +402,7 @@ public class CameraPreviewActivity extends Activity implements
 
 		// 位置情報マスタを初期化
 		dao.DeleteLocateMaster();
-		
+
 		// カメラオープン
 		CameraOpen();
 
@@ -384,7 +413,6 @@ public class CameraPreviewActivity extends Activity implements
 			locationManager.requestLocationUpdates(bestProvider, 0, 0,
 					locationListener);
 		}
-
 	}
 
 	@Override
@@ -396,7 +424,7 @@ public class CameraPreviewActivity extends Activity implements
 			mp.release();
 			mp = null;
 		}
-		
+
 		// ノーティフィケーション通知削除
 		if (nm != null) {
 			for (int i = 0; i <= identifier; i++) {

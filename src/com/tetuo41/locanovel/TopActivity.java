@@ -27,6 +27,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -70,6 +71,9 @@ public class TopActivity extends Activity implements OnClickListener,
 	private SoundPool mSoundPool;
 	private int mSounds;
 
+	/** クリックイベント実行可否フラグ */
+	private boolean ClickEventFlg;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -127,7 +131,12 @@ public class TopActivity extends Activity implements OnClickListener,
 	 *            ボタンオブジェクト
 	 */
 	public void onClick(View v) {
-
+		// クリックイベントが許可されていなければ実行しない
+	    if (!ClickEventFlg) return;
+	    
+	    // クリックイベントを禁止する
+		ClickEventFlg = false;
+		
 		switch (v.getId()) {
 		case R.id.start:
 			// STARTボタンクリック時
@@ -158,11 +167,20 @@ public class TopActivity extends Activity implements OnClickListener,
 			}
 
 			// ボタンクリック時の音再生
-			mSoundPool.play(mSounds, 1.0F, 1.0F, 1, 0, 1.0F);
-
-			// STARTボタンクリック時、スタンプログ画面へ遷移
-			Intent i = new Intent(this, StageSelectActivity.class);
-			startActivity(i);
+			mSoundPool.play(mSounds, 0.7F, 0.7F, 1, 0, 1.0F);
+			
+			// 2秒後にステージセレクト画面へ遷移させる
+			new CountDownTimer(1000, 500) {
+				@Override
+				public void onTick(long millisUntilFinished) {}
+				
+				public void onFinish() {
+					Intent i = new Intent(getApplicationContext(), 
+							StageSelectActivity.class);
+					startActivity(i);
+				}
+				
+			}.start();
 
 		} catch (ActivityNotFoundException e) {
 			// ステージセレクト画面へ遷移できなかった場合
@@ -196,14 +214,22 @@ public class TopActivity extends Activity implements OnClickListener,
 				// 再生中であれば
 				mp.pause();
 			}
+
 			// ボタンクリック時の音再生
-			mSoundPool.play(mSounds, 1.0F, 1.0F, 1, 0, 1.0F);
-
-			// RECORDボタンクリック時、スタンプログ画面へ遷移
-			Intent i = new Intent(getApplicationContext(),
-					StampLogActivity.class);
-			startActivity(i);
-
+			mSoundPool.play(mSounds, 0.7F, 0.7F, 1, 0, 1.0F);
+						
+			// 2秒後にスタンプログ画面へ遷移させる
+			new CountDownTimer(1000, 500) {
+				@Override
+				public void onTick(long millisUntilFinished) {}
+				public void onFinish() {
+					Intent i = new Intent(getApplicationContext(),
+							StampLogActivity.class);
+					startActivity(i);
+				}
+				
+			}.start();
+			
 		} catch (ActivityNotFoundException e) {
 			// スタンプログ画面へ遷移できなかった場合
 			Log.e("ERROR", e.toString());
@@ -249,8 +275,11 @@ public class TopActivity extends Activity implements OnClickListener,
 		}
 
 		// ボタンクリック時に呼び出す音をロードしておく
-		mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-		mSounds = mSoundPool.load(getApplicationContext(), R.raw.buttom, 1);
+		mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+		mSounds = mSoundPool.load(getApplicationContext(), R.raw.top_buttom, 1);
+		
+		// クリックイベントを許可する
+		ClickEventFlg = true;
 	}
 
 	@Override
@@ -287,11 +316,11 @@ public class TopActivity extends Activity implements OnClickListener,
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		Log.d("DEBUG", "onCompletion　START");
+		
 		// 再生箇所を最初に戻す
 		mp.seekTo(0);
 		// 音声を再生させる
 		mp.start();
-
 	}
 
 	/**
@@ -316,8 +345,8 @@ public class TopActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * 内部初期処理クラス 外部サーバーよりCSVファイル読込、DBへ初期データ登録、画像ファイル保存
-	 * 
+	 * 内部初期処理クラス 
+	 * 外部サーバーよりCSVファイル読込、DBへ初期データ登録、画像ファイル保存
 	 * */
 	class Init extends AsyncTask<String, Void, Boolean> {
 
@@ -333,7 +362,7 @@ public class TopActivity extends Activity implements OnClickListener,
 			pd = new ProgressDialog(context);
 			pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-			// ダイアログで画面外を触った場合に閉じないようにする
+			// ダイアログを画面上で触った場合に閉じないようにする
 			pd.setCanceledOnTouchOutside(false);
 			pd.setCancelable(true);
 			pd.setMessage(cmndef.TOP_LOADING_MSG);
@@ -352,7 +381,7 @@ public class TopActivity extends Activity implements OnClickListener,
 					Map<String, List<String>> novel_data = cmnutil.ReadCsvFile(
 							novel_url, getApplicationContext());
 					Log.d("DEBUG", "ノベルファイル読込・取得完了");
-					Log.d("DEBUG", novel_data.toString());
+					// Log.d("DEBUG", novel_data.toString());
 
 					Set novel_keySet = novel_data.keySet();
 					Iterator novel_keyIte = novel_keySet.iterator();
@@ -374,7 +403,7 @@ public class TopActivity extends Activity implements OnClickListener,
 					Map<String, List<String>> stage_data = cmnutil.ReadCsvFile(
 							stage_url, getApplicationContext());
 					Log.d("DEBUG", "ステージデータファイル読込・取得完了");
-					Log.d("DEBUG", stage_data.toString());
+					// Log.d("DEBUG", stage_data.toString());
 
 					Set stage_keySet = stage_data.keySet();
 					Iterator stage_keyIte = stage_keySet.iterator();
@@ -443,10 +472,9 @@ public class TopActivity extends Activity implements OnClickListener,
 					// ダイアログを終了させる
 					pd.dismiss();
 					return false;
-
+					
 				}
 			}
-
 		}
 
 		// サーバー通信終了処理(メインスレッドで実行する処理)
@@ -468,10 +496,7 @@ public class TopActivity extends Activity implements OnClickListener,
 				// 音声の再生に失敗した場合
 				Toast.makeText(getBaseContext(), cmndef.CMN_ERROR_MSG2,
 						Toast.LENGTH_SHORT).show();
-
 			}
 		}
-
 	}
-
 }

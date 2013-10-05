@@ -75,10 +75,10 @@
            android:textSize="15sp" />
 	</TableRow>
 
+	<!-- スタンプ投稿テキスト
 	<TableRow
 		android:background="#000000">
 
-		<!-- スタンプ投稿テキスト -->
 	    <TextView
 		    android:id="@+id/stamp_contrib"
 		    android:layout_width="fill_parent"
@@ -91,12 +91,12 @@
 		    android:textSize="17sp" />
 	</TableRow>
 	
+	Twitter画像及びfacebook画像は不要になったのでコメントアウトしておく
 	<LinearLayout
 	    android:orientation="horizontal"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:background="#000000">
-		<!-- Twitter画像 -->
 
 		<ImageView
 		    android:id="@+id/twitter_btn"
@@ -107,7 +107,6 @@
             android:scaleType="fitCenter"
 		    android:src="@drawable/twitter_btn" />
 
-	    <!-- facebook画像 -->
 		<ImageView
 		    android:id="@+id/facebook_btn"
 		    android:layout_width="140dp"
@@ -117,6 +116,6 @@
 		    android:layout_marginLeft="20dp"
 		    android:src="@drawable/facebook_btn" >
 	    	</ImageView>
-		
 	  </LinearLayout>
+	 -->
 </TableLayout>

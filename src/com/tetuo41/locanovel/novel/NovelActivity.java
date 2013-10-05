@@ -324,7 +324,7 @@ public class NovelActivity extends Activity implements OnClickListener,
 
 		// ボタンクリック時に呼び出す音をロードしておく
 		mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-		mSounds[0] = mSoundPool.load(getApplicationContext(), R.raw.buttom, 1);
+		mSounds[0] = mSoundPool.load(getApplicationContext(), R.raw.finish_buttom, 1);
 
 	}
 

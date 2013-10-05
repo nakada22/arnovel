@@ -44,8 +44,8 @@ public class StampLogDetailActivity extends Activity implements
 		setContentView(R.layout.stamp_log_detail);
 
 		// ClickListener登録
-		findViewById(R.id.facebook_btn).setOnClickListener(this);
-		findViewById(R.id.twitter_btn).setOnClickListener(this);
+		// findViewById(R.id.facebook_btn).setOnClickListener(this);
+		// findViewById(R.id.twitter_btn).setOnClickListener(this);
 
 		// ノベル読了したステージのスタンプログ詳細画面を表示
 		StampDetailDisp();
@@ -68,47 +68,47 @@ public class StampLogDetailActivity extends Activity implements
 	 */
 	public void onClick(View v) {
 
-		switch (v.getId()) {
-		case R.id.facebook_btn:
-			// 「FaceBook」ボタンクリック時
-			FaceBookClick();
-
-			break;
-		case R.id.twitter_btn:
-			// 「Twitter」ボタンクリック時
-			TwitterClick();
-
-			break;
-		default:
-			break;
-		}
+//		switch (v.getId()) {
+//		case R.id.facebook_btn:
+//			// 「FaceBook」ボタンクリック時
+//			FaceBookClick();
+//
+//			break;
+//		case R.id.twitter_btn:
+//			// 「Twitter」ボタンクリック時
+//			TwitterClick();
+//
+//			break;
+//		default:
+//			break;
+//		}
 	}
 
 	/**
 	 * FaceBookボタンクリック時の処理を記述する。
 	 */
-	private void FaceBookClick() {
-		if (mp.isPlaying()) {
-			// 再生中であれば
-			mp.pause();
-		}
-
-		// ボタンクリック時の音再生
-		mSoundPool.play(mSounds[0], 1.0F, 1.0F, 0, 0, 1.0F);
-	}
+//	private void FaceBookClick() {
+//		if (mp.isPlaying()) {
+//			// 再生中であれば
+//			mp.pause();
+//		}
+//
+//		// ボタンクリック時の音再生
+//		mSoundPool.play(mSounds[0], 1.0F, 1.0F, 0, 0, 1.0F);
+//	}
 
 	/**
 	 * Twitterボタンクリック時の処理を記述する。
 	 */
-	private void TwitterClick() {
-		if (mp.isPlaying()) {
-			// 再生中であれば
-			mp.pause();
-		}
-
-		// ボタンクリック時の音再生
-		mSoundPool.play(mSounds[0], 1.0F, 1.0F, 0, 0, 1.0F);
-	}
+//	private void TwitterClick() {
+//		if (mp.isPlaying()) {
+//			// 再生中であれば
+//			mp.pause();
+//		}
+//
+//		// ボタンクリック時の音再生
+//		mSoundPool.play(mSounds[0], 1.0F, 1.0F, 0, 0, 1.0F);
+//	}
 
 	/**
 	 * ノベル読了したステージのスタンプ詳細を表示する
