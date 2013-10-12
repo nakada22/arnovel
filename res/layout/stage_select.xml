@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:scaleType="fitCenter"
     tools:context=".StageSelectActivity" >
  
@@ -9,8 +10,8 @@
 	<ImageView
 	  android:id="@+id/stage_select"
 	  android:scaleType="fitCenter"	
+	  android:gravity="center"
 	  android:layout_marginTop="30dp"
-	  android:layout_marginLeft="10dp"
 	  android:layout_marginBottom="20dp"
 	  android:layout_width="wrap_content"   
 	  android:layout_height="wrap_content" 

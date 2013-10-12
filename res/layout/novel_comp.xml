@@ -18,7 +18,7 @@
         android:layout_width="450dp"
         android:layout_height="75dp"
         android:layout_marginTop="200dp"
-        android:gravity="center"
+        android:gravity="center_vertical|center_horizontal"
         android:scaleType="fitCenter"
         android:src="@drawable/mission_complete" >
     </ImageView>
@@ -26,12 +26,10 @@
     <!-- スタンプ保存完了文字列 -->
     <TextView
         android:id="@+id/stamp_save"
-        android:layout_width="fill_parent"
+        android:layout_width="430dp"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
         android:layout_marginTop="255dp"
-        android:gravity="center"
-        android:layout_marginLeft="35dp"
-        android:layout_gravity="center"
         android:padding="5dp"
         android:textColor="#FFFFFF"
         android:textSize="14sp" >
@@ -43,7 +41,7 @@
         android:layout_width="170dp"
         android:layout_height="65dp"
         android:layout_marginTop="300dp"
-        android:layout_marginLeft="75dp"
+        android:layout_marginLeft="90dp"
         android:background="@drawable/read_comp"
         android:gravity="center_vertical|center_horizontal"
         android:scaleType="fitCenter"
