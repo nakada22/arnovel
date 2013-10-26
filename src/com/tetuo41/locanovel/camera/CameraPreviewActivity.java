@@ -34,7 +34,6 @@ import com.tetuo41.locanovel.common.CommonDef;
 import com.tetuo41.locanovel.db.Dao;
 import com.tetuo41.locanovel.stageselect.StageSelectActivity;
 import com.tetuo41.locanovel.stageselect.StageSelectState;
-import com.tetuo41.locanovel.stamplog.StampLogActivity;
 
 /**
  * カメラプレビュー起動クラス
@@ -115,7 +114,7 @@ public class CameraPreviewActivity extends Activity implements
 			mp = MediaPlayer.create(getBaseContext(), R.raw.camera_preview);
 
 			// サウンド音量設定0.0から1.0で設定
-			mp.setVolume(0.7f, 0.7f);
+			mp.setVolume(1.0f, 1.0f);
 			
 			// 1.5秒後に音を再生させる
 			new CountDownTimer(1500, 100) {
@@ -199,6 +198,7 @@ public class CameraPreviewActivity extends Activity implements
 			break;
 		}
 	}
+	
 	/**
 	 * カメラオープン処理を行う
 	 */
@@ -251,6 +251,9 @@ public class CameraPreviewActivity extends Activity implements
 		}
 	}
 
+	/**
+	 * Layoutの幅・高さ作成処理を行う
+	 */
 	private FrameLayout.LayoutParams createParam(int w, int h) {
 		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(w, h);
 		params.gravity = Gravity.CENTER_VERTICAL | 
@@ -378,20 +381,20 @@ public class CameraPreviewActivity extends Activity implements
 
 				// 事前にノーティフィケーション通知削除しておく
 				if (nm != null) {
-					for (int j = 0; j <= identifier; j++) {
-						nm.cancel(j);
-					}
+					// for (int j = 0; j <= identifier; j++) {
+						nm.cancel(0);
+					// }
 				}
 
 				// ノーティフィケーションの詳細設定
 				notifi.setLatestEventInfo(getApplicationContext(),
 						cmndef.CAMERA_INFO_MSG2, cmndef.CAMERA_INFO_MSG3, pi);
 
-				// Notificationの通知
+				// Notificationの通知は最初の一回だけ
 				nm.notify(identifier, notifi);
 
 				// ノーティフィケーションの識別子をインクリメント
-				identifier++;
+				// identifier++;
 
 			}
 		} catch (Exception e) {
@@ -430,9 +433,9 @@ public class CameraPreviewActivity extends Activity implements
 
 		// ノーティフィケーション通知削除
 		if (nm != null) {
-			for (int i = 0; i <= identifier; i++) {
-				nm.cancel(i);
-			}
+			// for (int i = 0; i <= identifier; i++) {
+				nm.cancel(0);
+			// }
 		}
 
 		// NovelIntroActivity起動時にもよばれる。
@@ -491,9 +494,9 @@ public class CameraPreviewActivity extends Activity implements
 
 		// ノーティフィケーション通知削除
 		if (nm != null) {
-			for (int i = 0; i <= identifier; i++) {
-				nm.cancel(i);
-			}
+			// for (int i = 0; i <= identifier; i++) {
+				nm.cancel(0);
+			// }
 			nm = null;
 		}
 	}

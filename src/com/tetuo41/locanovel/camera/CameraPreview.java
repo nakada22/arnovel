@@ -18,7 +18,6 @@ import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.hardware.Camera.Size;
 import android.media.MediaPlayer;
-import android.os.Environment;
 import android.provider.MediaStore.Images;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -183,14 +182,14 @@ public class CameraPreview extends SurfaceView implements
 			Log.d("DEBUG", "経度(撮影画像の位置情報)=" + p_longitude);
 			Log.d("DEBUG", "緯度(撮影画像の位置情報)=" + p_latitude);
 
-			Toast.makeText(context, "経度(ノベル位置情報)=" + n_longitude,
-					Toast.LENGTH_SHORT).show();
-			Toast.makeText(context, "緯度(ノベル位置情報)=" + n_latitude,
-					Toast.LENGTH_SHORT).show();
-			Toast.makeText(context, "経度(撮影画像の位置情報)=" + p_longitude,
-					Toast.LENGTH_SHORT).show();
-			Toast.makeText(context, "緯度(撮影画像の位置情報)=" + p_latitude,
-					Toast.LENGTH_SHORT).show();
+			// Toast.makeText(context, "経度(ノベル位置情報)=" + n_longitude,
+			// 		Toast.LENGTH_SHORT).show();
+			// Toast.makeText(context, "緯度(ノベル位置情報)=" + n_latitude,
+			// 		Toast.LENGTH_SHORT).show();
+			// Toast.makeText(context, "経度(撮影画像の位置情報)=" + p_longitude,
+			// 		Toast.LENGTH_SHORT).show();
+			// Toast.makeText(context, "緯度(撮影画像の位置情報)=" + p_latitude,
+			// 		Toast.LENGTH_SHORT).show();
 
 			if (p_longitude == 0.0 || p_latitude == 0.0) {
 
@@ -213,9 +212,7 @@ public class CameraPreview extends SurfaceView implements
 			} else {
 
 				/** 位置情報取得でOKだった場合 */
-				// 例:139.752170 < 139.752185 < 139.7522
-				// 参考URL
-				// http://java-reference.sakuraweb.com/java_number_bigdecimal.html
+				// 例:139.7521 < 139.7536 < 139.7551
 				// 比較対象の絶対値に対して十分に大きな差による大小比較を行う
 				// 誤差範囲の基準(BigDecimalで誤差が出ない演算を行う)
 				BigDecimal big_base = new BigDecimal("0.0015");
@@ -315,18 +312,30 @@ public class CameraPreview extends SurfaceView implements
 				}
 			}
 
-			// // 以下の処理はテスト用で、取得できていれば、どんな位置情報でもノベル導入画面に行けるようにしたものである
-			// // 一時的にテスト用でコメントアウトを外している。
-			// Intent i = new Intent(context, NovelIntroActivity.class);
-			// i.putExtra("StageSelectState", sss);
-			//
-			// // 背景画像用のパスをセット
-			// i.putExtra("back_ground", SDCARD_FOLDER + datName);
-			//
-			// // 外部Activityを自分のActivityスタックとは別に立てる
-			// i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			// getContext().startActivity(i);
-
+			// 以下の処理はテスト用で、取得できていれば、どんな位置情報でもノベル導入画面に行けるようにしたものである
+			// テスト用にコメントアウトをしている。
+//			try {
+//				if (mp.isPlaying()) {
+//					// 再生中であれば
+//					mp.pause();
+//				}
+//			} catch (IllegalStateException e) {e.printStackTrace();}
+//			mTimer.cancel();
+//			
+//			Intent i = new Intent(context, NovelIntroActivity.class);
+//			i.putExtra("StageSelectState", sss);
+//			
+//			// 背景画像名をノベルマスタに登録
+//			Dao dao = new Dao(getContext());
+//			dao.RegisteLocateImg(sss.getStageId(), datName);
+//			
+//			// 背景画像用のパスをセット
+//			i.putExtra("back_ground", cmndef.SDCARD_FOLDER + datName);
+//			
+//			// 外部Activityを自分のActivityスタックとは別に立てる
+//			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//			getContext().startActivity(i);
+			
 		}
 	};
 

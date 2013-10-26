@@ -361,6 +361,11 @@ public class NovelIntroActivity extends Activity implements
 		Log.d("DEBUG", "NovelIntroAct onResume　START");
 		super.onResume();
 
+		// 背景画像のデータやステージデータがない場合を考慮し、最初にデータ取りこむ
+		Intent i = getIntent();
+		bg_pass = (String) i.getSerializableExtra("back_ground");
+		sss = (StageSelectState) i.getSerializableExtra("StageSelectState");
+		
 		try {
 			if (!mp.isPlaying()) {
 				// 音声再生
